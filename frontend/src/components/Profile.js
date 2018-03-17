@@ -2,7 +2,11 @@ import React from 'react';
 
 class Profile extends React.Component { 
     constructor() {
-        super() 
+        super()
+        this.setState={
+            userName: "",
+            userBio: ""
+        }
     }
 
     render () {
