@@ -4,8 +4,7 @@ class Profile extends React.Component {
     constructor() {
         super()
         this.setState={
-            userName: "",
-            userBio: ""
+
         }
     }
 
