@@ -1,24 +1,13 @@
 import React from 'react';
 import {Route, Switch, Link} from 'react-router-dom';
-
-import DataRouting from './components/DataRouting';
+import Auth from './components/Auth';
+import DataRouter from './components/Site/DataRouter';
 
 const App = () => (
   <div>
-    <nav>
-      <Link to='/issues'>Home</Link>
-      {" "}
-      <Link to='/profile'>Profile</Link>
-      {" "}
-      <Link to='/help'>Help</Link>
-      {" "}
-    </nav>
-
     <Switch>
-      <Route exact path='/' component={DataRouting}/>
-      <Route exact path='/issues' component={DataRouting}/>
-      <Route exact path='/profile ' component={DataRouting}/>
-      <Route exact path='/help' component={DataRouting}/>
+      <Route path='/auth' component={Auth} />
+      <Route path='/' component={DataRouter} />
     </Switch>
   </div>
 )
