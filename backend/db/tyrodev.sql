@@ -62,7 +62,7 @@ INSERT INTO problem (description, problemPoster, problemSnippet, githubRepo)
     VALUES ("Problem with for loop", 2, `for(var i = 0; i < arr.length; i++){ fail }`, "https://github.com/mon33k"),
            ("I can't import this font", 3, `@import comic sans ERR`, "https://github.com/mon33k"),
            ("Whenever I rerender my routes don't work", 4, `<Link exact path="" />`, "https://github.com/mon33k" ),
-           ("I just want to talk to my toaster", 1, `0101010101010101010101000011110101010100101010`, "https://github.com/mon33k");
+           ("I just want to talk to my toaster", 1, `01010101010101010101010000111101010101001010100`, "https://github.com/mon33k");
 
 INSERT INTO solution (problemSolverID, problemID, solutionSnippet)
     VALUES (5, 2, `@import comic-sans`),
