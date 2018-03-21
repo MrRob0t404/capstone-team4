@@ -4,6 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const db = require("../db/index");
 const init = require("./passport");
 const authHelpers = require("./helpers");
+const debug = require("debug")("auth:local");
 
 const options = {};
 
@@ -12,12 +13,12 @@ init();
 passport.use(
     // getting username and password from req.body
     new LocalStrategy(options, (username, password, done) => {
-        console.log("trying to authenticate");
+        debug("trying to authenticate");
         db
         .any("SELECT * FROM users WHERE username=$1", [username])
         .then(rows => {
             const user = rows[0];
-            console.log("user:", user);
+            debug("user:", user);
             if(!user) {
                 return done(null, false);
             }
@@ -28,7 +29,7 @@ passport.use(
             }
         })
         .catch(err => {
-            console.log("error:", err);
+            debug("error:", err);
             return done(err)
         })
     })
