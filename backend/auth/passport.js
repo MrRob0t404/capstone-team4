@@ -1,5 +1,6 @@
 const passport = require("passport");
 const db = require("../db/index");
+const debug = require("debug")("auth:passport");
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
@@ -8,7 +9,7 @@ module.exports = () => {
 }
 
 passport.deserializeUser((username, done) => {
-    console.log("deserialize")
+    debug("deserializeUser")
     db
     .one("SELECT * FROM users WHERE username=$1", [username])
     .then(user => {
