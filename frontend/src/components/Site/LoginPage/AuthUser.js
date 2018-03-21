@@ -10,10 +10,6 @@ class Auth extends Component {
     }
   }
 
-
-
-
-
   render(){
     return(
       <div id="auth">
