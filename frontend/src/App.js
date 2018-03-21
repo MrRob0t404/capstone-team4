@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Switch, Link} from 'react-router-dom';
-import Auth from './components/Auth';
+import Auth from './components/Site/LoginPage/AuthUser';
 import DataRouter from './components/Site/DataRouter';
 
 const App = () => (
