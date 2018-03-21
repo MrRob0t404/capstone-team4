@@ -1,4 +1,5 @@
 import React from 'react';
+import '../.././CSS/Issues.css';
 
 class Issues extends React.Component {
   constructor() {

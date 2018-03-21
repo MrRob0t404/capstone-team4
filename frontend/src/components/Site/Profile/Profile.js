@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import Me from './Me';
-import Issues from './Issues';
-import Solutions from './Solutions';
+import Issues from './ProfileIssues';
+import Solutions from './ProfileSolutions';
+import '../../.././CSS/Profile.css';
 
 class Profile extends React.Component {
   constructor() {
@@ -11,7 +12,7 @@ class Profile extends React.Component {
 
   render () {
     return (
-      <div>
+      <div id="profile">
         <nav id="profile-nav">
           <Link to="/profile">Me</Link>
           <Link to="/profile/issues">Issues</Link>
