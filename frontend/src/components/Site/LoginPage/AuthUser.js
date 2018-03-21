@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
-import '.././CSS/Auth.css';
+import '../../CSS/Auth.css';
 
 class Auth extends Component {
   constructor(){
     super();
+    this.state = {
+
+    }
   }
+
+
+
+
 
   render(){
     return(
@@ -13,7 +20,7 @@ class Auth extends Component {
         <div id="auth-container">
           <h2><i class="fas fa-code"></i></h2>
           <h2>TyroDev</h2>
-          <input placeholder="email"/>
+          <input placeholder="email" />
           <input placeholder="password"/>
           <button id="login">Login</button>
           <div className="divider"></div>
