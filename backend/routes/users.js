@@ -4,14 +4,7 @@ const { loginRequired } = require("../auth/helpers");
 const passport = require("../auth/local");
 const db = require("../db/queries");
 
-<<<<<<< HEAD
 router.post("/new", db.checkUser, db.createUser);
-=======
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.end('respond with a resource');
-});
->>>>>>> 9a0a10dae31f1bdff2a7b0be258cd1b8284bd27a
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
   console.log('this is what the DB returned', req.user);
