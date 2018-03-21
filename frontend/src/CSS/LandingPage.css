@@ -1,0 +1,170 @@
+.blue-focus {
+  box-shadow: 0 0 10px #00C1AB;
+}
+
+.circle {
+  border-radius: 100em;
+}
+
+.green-focus {
+  box-shadow: 0 0 10px #8AD42C;
+}
+
+.interaction {
+  width: 58vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interaction > input {
+  background-color: #f8f8f8;
+  font-size: 1.5em;
+  margin-right: 3%;
+}
+
+.interaction > input, .selected {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+}
+
+.laptop {
+  width: 600px;
+  height: 400px;
+  border: 5px solid #444352;
+  border-radius: 1em;
+  background-color: white;
+}
+
+.screen {
+  width: 500px;
+  height: 300px;
+  border: 5px solid #B4E378;
+}
+
+.selected {
+  text-shadow: 0 0 10px #00C1AB;
+}
+
+.text {
+    font-size: 1.5em;
+    width: 30vw;
+}
+
+#background, #header {
+  height: 70vh;
+}
+
+#background, #choose, #dual, #edit, #header{
+  padding: 4% 6%;
+  display: flex;
+}
+
+#background {
+  position: absolute;
+  width: 100%;
+}
+
+#choose, #dual, #edit {
+  width: 88vw;
+  height: 60vh;
+}
+
+#choose {
+  background-color: #f8f8f8;
+  align-items: center;
+}
+
+#choose > .interaction {
+  width: 30vw;
+  flex-direction: column;
+}
+
+#choose > .interaction > p {
+  font-size: 1.5em;
+  color: #8AD42C;
+}
+
+#dual {
+  background-color: #8AD42C;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#dual > h1 {
+  margin: 0;
+}
+
+#dual > .interaction {
+  width: 100%;
+}
+
+#edit {
+  align-items: center;
+}
+
+#edit > h1 {
+  color: #00C1AB;
+}
+
+#edit > .interaction > p {
+  width: 100%;
+  font-size: 2em;
+  margin-top: 3em;
+  text-align: center;
+  color: #8FCCB8;
+}
+
+#edit > .interaction{
+  flex-wrap: wrap;
+}
+
+#embed{
+  width: 10vw;
+  height: 20vh;
+  background-color: #eee;
+  text-align: center;
+  margin: 0 3%;
+  padding: 1%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+}
+
+#embed > p{
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+  padding: 10px 0;
+}
+
+#embed > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+#embed > ul > li {
+  padding: 1vh;
+}
+
+#header {
+  background: #272633;
+  color: white;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#header > img {
+  width: 40vw;
+  margin-top: 15vh;
+}
+
+#header > .text {
+  float: right;
+}
+
+#header-text > p {
+  opacity: .5;
+  font-size: 1em;
+}

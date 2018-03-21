@@ -13,7 +13,7 @@ class DataRouter extends Component {
     return(
       <div id="data">
         <nav id="global-nav">
-          <i class="fas fa-code"></i>
+          <Link to="/home"><i class="fas fa-code"></i></Link>
           <div id="search">
             <input id="search-bar" placeholder="Search" />
             <button id="search-button"><i class="fas fa-search"></i></button>
@@ -27,6 +27,10 @@ class DataRouter extends Component {
           <Route path="/issues" component={Issues} />
           <Route path="/profile" component={Profile} />
           </Switch>
+          <div id="footer">
+            <i class="fa fa-github" aria-hidden="true"></i>
+            <p>Monique Simon Newton Elon Carlo</p>
+          </div>
       </div>
     )
   }

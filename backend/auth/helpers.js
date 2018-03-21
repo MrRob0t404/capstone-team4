@@ -1,14 +1,14 @@
-const bcrypt = require("bcryptjs")
-const db = require("../db/index")
+const bcrypt = require("bcryptjs");
+const db = require("../db/index");
 
 function comparePass(userPassword, databasePassword) {
-    return bcrypt.compareSync(userPassword, databasePassword)
+    return bcrypt.compareSync(userPassword, databasePassword);
 }
 
 function createHash(password) {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(password, salt);
-    return hash
+    return hash;
 }
 
 function loginRequired(req, res, next) {
@@ -19,7 +19,7 @@ function loginRequired(req, res, next) {
         });
         return;
     }
-    next()
+    next();
 }
 
 module.exports = {

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "debug": "LOGFILE=`date +%m-%e-%Y-%H%M%S%Z`.txt; mkdir -p logs/ && ln -sf $LOGFILE logs/current.txt && DEBUG='*' nodemon ./bin/www 2>&1 | tee logs/$LOGFILE"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -12,8 +13,8 @@
     "debug": "~2.6.9",
     "express": "^4.15.5",
     "express-session": "^1.15.6",
-    "jade": "~1.11.0",
     "morgan": "~1.9.0",
+    "nodemon": "^1.17.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg-promise": "^8.2.2",
