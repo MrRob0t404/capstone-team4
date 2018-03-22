@@ -16,12 +16,12 @@ a:hover {
 
 button, input {
   outline: none;
-}
-
-input {
   font-family: inherit;
   font-size: inherit;
   border: none;
+}
+
+input {
   padding: 10px 20px;
 }
 
@@ -41,6 +41,12 @@ ul {
 .fa-code {
   font-size: 2em;
   color: #00C1AB;
+}
+
+.fullWidth {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 #footer {

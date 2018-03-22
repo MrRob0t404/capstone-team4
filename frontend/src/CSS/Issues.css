@@ -7,8 +7,12 @@
   border-bottom: none;
 }
 
-.issue > h3 {
-  padding-left: 2%;
+.issue > a > h3 {
+  padding: 0 2%;
+}
+
+.issue > a > h3:hover {
+  opacity: .5;
 }
 
 .issue > img {
@@ -48,12 +52,28 @@
   display: flex;
   margin-bottom: 2%;
   padding-top: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #issues-filter > button {
-  background-color: white;
   border: none;
   font-family: inherit;
   font-size: 1.25em;
   z-index: -1;
+}
+
+#issues-filter > a {
+  height: 5vh;
+  padding: 0 2%;
+  color: white;
+  background-color: #00C1AB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+issues-filter > a:hover {
+  opacity: .5;
 }
