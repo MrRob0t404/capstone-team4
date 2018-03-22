@@ -1,5 +1,6 @@
 import React from 'react';
-import '../.././CSS/Issues.css';
+import {Link, Route} from 'react-router-dom';
+import '../../.././CSS/Issues.css';
 
 class Issues extends React.Component {
   constructor() {
@@ -10,16 +11,19 @@ class Issues extends React.Component {
       return (
         <div id="issues">
           <nav id="issues-filter">
-            <button>Open</button>
-            <button>Solved</button>
-            <button>All</button>
+            <div>
+              <button>Open</button>
+              <button>Solved</button>
+              <button>All</button>
+            </div>
+            <Link to="issues/issue">New</Link>
           </nav>
           <div id="issues-container">
             <div class="issue">
               <img src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`} />
               <p>{`name`}</p>
               <p>{`date`}</p>
-              <h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3>
+              <Link to="/issues/solution"><h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3></Link>
               <p>{`# Responses`}</p>
               <p>{`Open`}</p>
             </div>
@@ -27,7 +31,7 @@ class Issues extends React.Component {
               <img src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`} />
               <p>{`name`}</p>
               <p>{`date`}</p>
-              <h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3>
+              <Link to="/issues/solution"><h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3></Link>
               <p>{`# Responses`}</p>
               <p>{`Open`}</p>
             </div>
@@ -35,7 +39,7 @@ class Issues extends React.Component {
               <img src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`} />
               <p>{`name`}</p>
               <p>{`date`}</p>
-              <h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3>
+              <Link to="/issues/solution"><h3>{`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos numquam modi aliquam!`}</h3></Link>
               <p>{`# Responses`}</p>
               <p>{`Open`}</p>
             </div>

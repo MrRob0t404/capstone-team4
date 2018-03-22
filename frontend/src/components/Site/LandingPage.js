@@ -59,7 +59,7 @@ class Landing extends Component {
           <div className="interaction">
             <p className="selected" onClick={this.select}>index.html</p>
             <p onClick={this.select}>style.css</p>
-            <p onClick={this.select}>settings.js</p>
+            <p onClick={this.select}>app.js</p>
           </div>
           <div id="embed">
             <p>Emedding files</p>
