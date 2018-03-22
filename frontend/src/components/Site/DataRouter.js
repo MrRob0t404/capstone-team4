@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import Issues from './Issues';
+import IssueRouter from './Issues/IssueRouter';
 import Profile from './Profile/Profile';
 
 class DataRouter extends Component {
@@ -24,12 +24,12 @@ class DataRouter extends Component {
           <Redirect to="/home"/>
           <Switch>
           <Route path="/home" component={LandingPage} />
-          <Route path="/issues" component={Issues} />
+          <Route path="/issues" component={IssueRouter} />
           <Route path="/profile" component={Profile} />
           </Switch>
           <div id="footer">
             <i class="fa fa-github" aria-hidden="true"></i>
-            <p>Monique Simon Newton Elon Carlo</p>
+            <p>Monique - Simon - Newton - Elon - Carlo</p>
           </div>
       </div>
     )

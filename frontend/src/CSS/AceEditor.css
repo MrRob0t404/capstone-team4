@@ -1,73 +1,133 @@
+.tab {
+  width: 16vh;
+  height: 4vh;
+  background-color: #eee;
+  text-align: center;
+  margin-left: -6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #555;
+  border-width: 1px 1px 0 1px;
+  transform: rotate(90deg);
+}
+
+.pane-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.pane-section {
+  padding: 0 5%;
+}
+
+#editor-container {
+  height: 100%;
+}
+
+#editor-container > h2 {
+  padding: .5em 0;
+}
+
+#file-tabs {
+  width: 1vw;
+  height: 100%;
+  padding-top: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#right-pane {
+  width: 20vw;
+  height: 100%;
+  background-color: #eee;
+  border-left: 1px solid #ddd;
+}
+
+#solution {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ACE EDITOR */
+
 .acediff {
-    height: 100em
-  }
-  
-  .acediff__wrap {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    bottom: 0;
-    top: 0px;
-    left: 0px;
-    height: 50%;
-    width: 80%;
-    overflow: auto;
-  }
-  
-  .acediff__gutter {
-    flex: 0 0 60px;
-    border-left: 1px solid #999;
-    border-right: 1px solid #999;
-    background-color: #efefef;
-    overflow: hidden;
-  }
-  .acediff__gutter svg {
-    background-color: #efefef;
-  }
-  .acediff__left,
-  .acediff__right {
-    height: 100%;
-    flex: 1;
-  }
-  .acediff__diffLine {
-    background-color: #d8f2ff;
-    border-top: 1px solid #a2d7f2;
-    border-bottom: 1px solid #a2d7f2;
-    position: absolute;
-    z-index: 4;
-  }
-  .acediff__diffLine.targetOnly {
-    height: 0px !important;
-    border-top: 1px solid #a2d7f2;
-    border-bottom: 0px;
-    position: absolute;
-  }
-  .acediff__connector {
-    fill: #d8f2ff;
-    stroke: #a2d7f2;
-  }
-  .acediff__copy--right,
-  .acediff__copy--left {
-    position: relative;
-  }
-  .acediff__copy--right div,
-  .acediff__copy--left div {
-    color: #000;
-    text-shadow: 1px 1px #fff;
-    position: absolute;
-    margin: 2px 3px;
-    cursor: pointer;
-  }
-  .acediff__copy--right div:hover {
-    color: #004ea0;
-  }
-  .acediff__copy--left {
-    float: right;
-  }
-  .acediff__copy--left div {
-    right: 0px;
-  }
-  .acediff__copy--left div:hover {
-    color: #c98100;
-  }
-  
+  width: 65vw;
+  height: 80%;
+  border: 1px solid #aaa;
+}
+
+.acediff__wrap {
+  /* width: 80%; */
+  height: 100%;
+  left: 0px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  bottom: 0;
+  top: 0px;
+  overflow: auto;
+}
+
+.acediff__gutter {
+  flex: 0 0 60px;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  background-color: #efefef;
+  overflow: hidden;
+}
+.acediff__gutter svg {
+  background-color: #efefef;
+}
+.acediff__left,
+.acediff__right {
+  height: 100%;
+  flex: 1;
+}
+.acediff__diffLine {
+  background-color: #EAF5F2;
+  border-top: 1px solid #8FCCB8;
+  border-bottom: 1px solid #8FCCB8;
+  position: absolute;
+  z-index: 4;
+}
+.acediff__diffLine.targetOnly {
+  height: 0px !important;
+  border-top: 1px solid #8FCCB8;
+  border-bottom: 0px;
+  position: absolute;
+}
+.acediff__connector {
+  fill: #EAF5F2;
+  stroke: #8FCCB8;
+}
+.acediff__copy--right,
+.acediff__copy--left {
+  position: relative;
+}
+.acediff__copy--right div,
+.acediff__copy--left div {
+  color: #000;
+  text-shadow: 1px 1px #fff;
+  position: absolute;
+  margin: 2px 3px;
+  cursor: pointer;
+}
+.acediff__copy--right div:hover {
+  color: #004ea0;
+}
+.acediff__copy--left {
+  float: right;
+}
+.acediff__copy--left div {
+  right: 0px;
+}
+.acediff__copy--left div:hover {
+  color: #c98100;
+}
