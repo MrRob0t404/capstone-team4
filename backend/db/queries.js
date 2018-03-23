@@ -73,9 +73,9 @@ function getSingleUser(req, res, next) {
         });
 }
 
-function getSolutionByProblemID(req, res, next) {
+function getSolutionByFileID(req, res, next) {
     db
-        .any("SELECT * FROM solution JOIN problem ON problem.id = solution.problemID WHERE solution.problemID = ${problemID}", { problemID: req })
+        .any("SELECT * FROM solution JOIN files ON solution.fileID = files.ID WHERE files.ID = ${fileID}", { fileID: req.body.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
