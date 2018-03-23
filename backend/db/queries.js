@@ -55,7 +55,7 @@ function logoutUser(req, res, next) {
     req.logout();
     res.status(200).send("log out success");
 };
-
+ 
 function getUser(req, res, next) {
   db
     .one("SELECT * FROM users WHERE username=${username}", {
@@ -63,8 +63,8 @@ function getUser(req, res, next) {
     })
     .then(data => {
       res.status(200).json({ user: data });
-    });
-}
+    })
+};
 
 function getSingleUser(req, res, next) {
     console.log("req", req)
