@@ -6,6 +6,7 @@ class ChooseFiles extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      placeholder: '',
       allData: [],
       allFiles: [],
       allDir: [],
@@ -16,7 +17,7 @@ class ChooseFiles extends Component {
   componentWillMount = (props) => {
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(response => {
       this.setState({
-        githubLink: `https://api.github.com/repos/simongaviria1/${this.props.repositoryName}/contents/`,
+        githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`,
         allFiles: response
           .data
           .filter(ele => {
@@ -47,38 +48,46 @@ class ChooseFiles extends Component {
     }
   }
 
-  navUrl = () => {}
+  goBackHelper = () => {
+    const {placeholder} = this.state
+    this.setState({
+      copyPlaceholder: placeholder.split('/')
+    })
+    this.setState(prevState => {
+      const copyPlaceholder2 = placeholder.splice((placeholder.indexOf('src') + 1), (placeholder.length) - placeholder.indexOf('src'))
+      return copyPlaceholder2;
+    })
+    this.setState({placeholder: placeholder})
+  }
 
   selectDir = (e, props) => {
-    const {allDir, repositoryLink} = this.state
-    let target = e.target.innerText
-
-    console.log('target', target)
-    axios(`${repositoryLink}` + `/contents` + `${target}`).then(response => {
-      this.setState({
-        repositoryLink: repositoryLink + target,
-        allFiles: response
-          .data
-          .filter(ele => {
-            if (ele.type === 'file') {
-              return ele
-            }
-          }),
-        allDir: response
-          .data
-          .filter(ele => {
+    const {allDir, githubLink, placeholder} = this.state
+    let selectedDir = e.target.innerText
+    console.log('target', selectedDir)
+    placeholder.includes(selectedDir)
+      ? this.goBackHelper()
+      : axios(`${githubLink}` + `${selectedDir}`).then(response => {
+        this.setState({
+          placeholder: placeholder + `${selectedDir}/`,
+          githubLink: githubLink + `${selectedDir}/`,
+          allFiles: response
+            .data
+            .filter(ele => {
+              if (ele.type === 'file') {
+                return ele
+              }
+            }),
+          allDir: allDir.concat(response.data.filter(ele => {
             if (ele.type === 'dir' && this.state.allDir.indexOf(ele) === -1) {
               return ele
             }
-          })
+          }))
+        })
       })
-    })
-    this.navUrl();
   }
 
   render() {
-    console.log('props:', this.props.repositoryName)
-    console.log('Choose Files state:', this.state)
+    console.log('Choose Files state:', this.state.placeholder)
 
     return (
       <div id="choose-dir">
@@ -111,6 +120,7 @@ class ChooseFiles extends Component {
           </div>
         </div>
         <div className="fullWidth">
+          <button onClick={this.handleBackButton}>Back</button>
           <button>Done</button>
         </div>
       </div>
