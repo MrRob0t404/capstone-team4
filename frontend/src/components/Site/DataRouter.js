@@ -21,8 +21,8 @@ class DataRouter extends Component {
           <Link to="/issues">Issues</Link>
           <Link to="/profile"><i class="fas fa-user"></i></Link>
         </nav>
-          <Redirect to="/home"/>
           <Switch>
+          <Route exact path="/" render={() => <Redirect to="/home" />} />
           <Route path="/home" component={LandingPage} />
           <Route path="/issues" component={IssueRouter} />
           <Route path="/profile" component={Profile} />

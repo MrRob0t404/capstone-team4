@@ -1,3 +1,7 @@
+.closed {
+  color: #00C1AB;
+}
+
 .issue {
   padding: 2%;
   border-bottom: 1px solid #00C1AB;
@@ -33,7 +37,7 @@
   float: right;
 }
 
-.issue > p:last-of-type {
+.open {
   color: #8AD42C;
 }
 
