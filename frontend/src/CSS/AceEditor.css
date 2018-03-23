@@ -12,14 +12,12 @@
   transform: rotate(90deg);
 }
 
-.pane-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .pane-section {
   padding: 0 5%;
+}
+
+.selected-cell {
+  background-color: #8FCCB8;
 }
 
 #editor-container {
@@ -39,11 +37,18 @@
   justify-content: space-evenly;
 }
 
+#pane-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 #right-pane {
   width: 20vw;
   height: 100%;
   background-color: #eee;
   border-left: 1px solid #ddd;
+  overflow: scroll;
 }
 
 #solution {
