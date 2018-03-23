@@ -30,6 +30,7 @@ const checkUser = (req, res, next) => {
       console.log("err:", err);
       res.status(500).json({message: "error creating user"});
     });
+    next();
 };
 
 function createUser(req, res, next) {
@@ -37,9 +38,9 @@ function createUser(req, res, next) {
   console.log("create user hash:", hash);
   db
     .none(
-      `INSERT INTO users (username, password_digest, email, profilePic, stack, Bio) 
-      VALUES ($1, $2, $3, $4)`,
-      [ req.body.username, hash, req.body.email, req.body.profilePic, req.body.stack, req.body.Bio ]
+      `INSERT INTO users (username, password_digest, email) 
+      VALUES ($1, $2, $3)`,
+      [req.body.username, hash, req.body.email]
     )
     .then(() => {
         console.log("req.body.username", req.body.username)
@@ -55,6 +56,16 @@ function logoutUser(req, res, next) {
   req.logout();
   res.status(200).send("log out success");
 };
+
+function getUser(req, res, next) {
+  db
+    .one("SELECT * FROM users WHERE username=${username}", {
+      username: req.user.username
+    })
+    .then(data => {
+      res.status(200).json({ user: data });
+    });
+}
 
 function getSingleUser(req, res, next) {
     console.log("req", req)
@@ -72,6 +83,8 @@ function getSingleUser(req, res, next) {
       return (err);
     });
 }
+
+
 
 function getSolution(req, res, next) {
     db
@@ -92,6 +105,10 @@ module.exports = {
     logoutUser,
     getSingleUser,
     getAllUsers,
+    getUser
     
   };
   
+
+  // , profilePic, stack, Bio
+  // , req.body.profilePic, req.body.stack, req.body.Bio 
