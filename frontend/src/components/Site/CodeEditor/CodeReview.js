@@ -7,9 +7,12 @@ class AceEditor extends React.Component {
     super();
     this.state = {
       rightEditor: this.githubCode,
-      files: ['index.html', 'style.css', 'app.js']
+      files: ['index.html', 'style.css', 'app.js'],
+      renderDescription: true,
+      originalCode: `{import githubCode}`,
+      editedCode: `{import githubCode}`,
+      lines: []
     }
-    this.githubCode = `{import githubCode}`
   }
 
   componentDidMount() {
@@ -27,14 +30,14 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.githubCode,
-        mode: null,
+        content: this.state.originalCode,
+        mode: 'null',
         theme: null,
         editable: false,
         copyLinkEnabled: true
       },
       right: {
-        content: this.githubCode,
+        content: this.state.editedCode,
         mode: null,
         theme: null,
         editable: true,
@@ -56,8 +59,60 @@ class AceEditor extends React.Component {
     })
   }
 
-render() {
+  renderDescription = () => (
+    <div id="description">
+      <h3>Description</h3>
+      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+      paleo bitters beard. Knausgaard bitters try-hard leggings,
+      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+      Intelligentsia godard williamsburg quinoa.</p>
+    </div>
+  )
+
+  renderComments = () => (
+    <div id="comments">
+      <h3>Comments</h3>
+      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+      paleo bitters beard. Knausgaard bitters try-hard leggings,
+      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+      Intelligentsia godard williamsburg quinoa.</p>
+      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+      paleo bitters beard. Knausgaard bitters try-hard leggings,
+      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+      Intelligentsia godard williamsburg quinoa.</p>
+      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+      paleo bitters beard. Knausgaard bitters try-hard leggings,
+      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+      Intelligentsia godard williamsburg quinoa.</p>
+    </div>
+  )
+
+  togglePane = e => {
+    e.target.innerText === "Description" ?
+      this.setState({renderDescription: true}):
+      this.setState({renderDescription: false})
+  }
+
+  changeBackground = e => e.target.style.background = 'red';
+
+  addOnClickToCells = () => {
+    // const cells = document.querySelectorAll('.acediff__left < .ace_gutter < .ace_gutter-layer < .ace_gutter-cell')
+    // cells.forEach(v => v.addEventListener('click', function(){
+    //   if(this.className.includes('selected-cell')) {
+    //     this.className = this.className.replace('selected-cell', '')
+    //   }else{
+    //       this.className = this.className + 'selected-cell'
+    //   }
+    // }))
+  }
+
+  render() {
     const {rightEditor} = this.state
+    // this.addOnClickToCells()
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -69,16 +124,14 @@ render() {
         </div>
         <div id="right-pane">
           <div id="pane-nav">
-            <p>Description</p>
-            <p>Comments</p>
+            <p onClick={this.togglePane}>Description</p>
+            <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            <h3>Description</h3>
-            <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-            paleo bitters beard. Knausgaard bitters try-hard leggings,
-            lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-            Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-            Intelligentsia godard williamsburg quinoa.</p>
+            {this.state.renderDescription?
+              this.renderDescription():
+              this.renderComments()
+            }
           </div>
         </div>
       </div>

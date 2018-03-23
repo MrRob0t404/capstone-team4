@@ -51,8 +51,8 @@ class IssueRouter extends Component {
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={AllIssues}/>
-          <Route path="/issues/solution" component={CodeEditor}/>
-          <Route path="/issues/issue" render={this.openIssue}/>
+          <Route path="/issues/new" render={this.openIssue}/>
+          <Route path="/issues/:issuesID" component={CodeEditor}/>
         </Switch>
       </div>
     )
