@@ -1,6 +1,7 @@
 import React from "react";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
+import code from './SeedCode'
 
 class AceEditor extends React.Component {
   constructor() {
@@ -9,8 +10,8 @@ class AceEditor extends React.Component {
       rightEditor: this.githubCode,
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
-      originalCode: `{import githubCode}`,
-      editedCode: `{import githubCode}`,
+      originalCode: code,
+      editedCode: code,
       lines: []
     }
   }
@@ -34,7 +35,7 @@ class AceEditor extends React.Component {
         mode: 'null',
         theme: null,
         editable: false,
-        copyLinkEnabled: true
+        copyLinkEnabled: true,
       },
       right: {
         content: this.state.editedCode,
@@ -51,13 +52,18 @@ class AceEditor extends React.Component {
       },
     });
 
-    // This function tracks the changes made to the right side of the editor and updates the state
-    aceDiffer.getEditors().right.on("change", () => {
-      this.setState({
-        rightEditor: aceDiffer.getEditors().right.getValue()
+      // This function tracks the changes made to the right side of the editor and updates the state
+      aceDiffer.getEditors().right.on("change", () => {
+        this.setState({
+          rightEditor: aceDiffer.getEditors().right.getValue()
+        })
       })
-    })
-  }
+
+      let cells = aceDiffer.getEditors().left.container.children[1].children[0].children
+
+      this.addOnClick(cells)
+
+    }
 
   renderDescription = () => (
     <div id="description">
@@ -97,22 +103,22 @@ class AceEditor extends React.Component {
       this.setState({renderDescription: false})
   }
 
-  changeBackground = e => e.target.style.background = 'red';
-
-  addOnClickToCells = () => {
-    // const cells = document.querySelectorAll('.acediff__left < .ace_gutter < .ace_gutter-layer < .ace_gutter-cell')
-    // cells.forEach(v => v.addEventListener('click', function(){
-    //   if(this.className.includes('selected-cell')) {
-    //     this.className = this.className.replace('selected-cell', '')
-    //   }else{
-    //       this.className = this.className + 'selected-cell'
-    //   }
-    // }))
+  addOnClick = cells => {
+    for(var i=0; i<cells.length; i++){
+      console.log('!!!!!!!', cells)
+      console.log(cells[i].className)
+      cells[i].addEventListener('click', function(e){
+        if(e.target.className.includes('selected-cell')) {
+          e.target.className = e.target.className.replace('selected-cell', '')
+        }else{
+          e.target.className = e.target.className + 'selected-cell'
+        }
+      })
+    }
   }
 
   render() {
     const {rightEditor} = this.state
-    // this.addOnClickToCells()
     return (
       <div id="solution">
         <div id="file-tabs">
