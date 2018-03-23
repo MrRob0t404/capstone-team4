@@ -22,5 +22,8 @@ Our application is investigating ways to influence inter-personal barriers of en
 ## 4. (Hand off to Tech-lead)
 _[Tech lead talks about how exciting/innovative/bleeding-edge/etc the way we use Web technologies and APIs (React, very nice very modern, ooh, Websockets for chat [when implemented], etc...)._
 
-## 5. (Hand off to other members?)
+## 5. (Hand off to Design-lead) 
+_[Design lead talks about user stories (Beginner vs seasoned engineers)]
+
+## 6. (Hand off to other members?)
 _[Talk about what?]_
