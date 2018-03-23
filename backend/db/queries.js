@@ -56,6 +56,16 @@ function logoutUser(req, res, next) {
     res.status(200).send("log out success");
 };
 
+function getUser(req, res, next) {
+  db
+    .one("SELECT * FROM users WHERE username=${username}", {
+      username: req.user.username
+    })
+    .then(data => {
+      res.status(200).json({ user: data });
+    });
+}
+
 function getSingleUser(req, res, next) {
     console.log("req", req)
     db
@@ -181,5 +191,6 @@ module.exports = {
     getProblemByProblemID,
     getProblemByUserID,
     getTicketsByProblemID,
-    getCommentsByProblemID
+    getCommentsByProblemID,
+    getUser
 };

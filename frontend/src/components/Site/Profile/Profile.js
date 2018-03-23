@@ -7,8 +7,17 @@ import '../../.././CSS/Profile.css';
 
 class Profile extends React.Component {
   constructor() {
-    super()
+    super();
   }
+
+
+  renderMyProfile = () => {
+    const { logOutButton, user } = this.props
+    return <Me user={user} logOut={logOutButton}/>
+  }
+ 
+
+
 
   render () {
     return (
@@ -19,7 +28,7 @@ class Profile extends React.Component {
           <Link to="/profile/solutions">Solutions</Link>
         </nav>
         <Switch>
-          <Route exact path='/profile' component={Me} />
+          <Route exact path='/profile' component={this.renderMyProfile} />
           <Route path='/profile/issues' component={Issues} />
           <Route path='/profile/solutions' component={Solutions} />
         </Switch>
