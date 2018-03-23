@@ -4,13 +4,17 @@ import { Link, Route } from 'react-router-dom';
 class Me extends React.Component {
   constructor() {
     super();
+    this.state = {
+      user: null
+    }
   }
 
-
+ 
 
   render(){
     const { user, logOut } = this.props
-    console.log(`profile`, user)
+    console.log(`me`, user)
+
     return(
       <div id="profile">
         <div id="profile-info">
@@ -31,7 +35,7 @@ class Me extends React.Component {
           <Link to={`link`}>{`link`}</Link>
           <Link to={`link`}>{`link`}</Link>
         </div>
-        <button onClick={this.logOutButton}>LOG OUT</button>
+        <button onClick={logOut}>LOG OUT</button>
       </div>
     )
   }
