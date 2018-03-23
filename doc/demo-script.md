@@ -10,7 +10,7 @@
 _Team members present their basic info, etc. [In what order?]_
 
 ## 2. (Demo lead talks about the problem):
-When seeking help to solve a coding problem or learning a new technology, you soon realize that code snippets often don't exist in isolation, this is especially relevant for incoming developers who have difficulty in gathering all the bits and pieces of information scattered across the web. Even experts offering insight can will often give generic or incomplete solutions for lack of detail.
+When seeking help to solve a coding problem or learning a new technology, you soon realize that code snippets often don't exist in isolation, this is especially relevant for incoming developers who have difficulty in gathering all the bits and pieces of information scattered across the web. Even experts will often come up with generic or incomplete solutions when lacking adequate details and proper context.
 
 There are also issues of beginners' fear of being the subject of hostile/destructive criticism.
 
