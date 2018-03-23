@@ -59,15 +59,20 @@
   text-align: center;
 }
 
-#files {
+.column {
   width: 70%;
   padding: 2% 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  border-left: 1px solid #ddd;
 }
 
-#files > p {
+.column:last-of-type {
+  border: none;
+}
+
+.column > p {
   width: 15vw;
   height: 5vh;
   text-align: center;
