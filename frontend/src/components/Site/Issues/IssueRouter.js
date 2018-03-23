@@ -6,6 +6,25 @@ import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import '../../.././CSS/OpenIssue.css';
 
+
+const URL_COMPONENT_USER = Symbol("name");
+const URL_COMPONENT_REPO = Symbol("repo");
+
+function urlSplitHelper(url, component) {
+	const [, , user, repo] = /^(https:\/\/)?github.com\/([A-Za-z_\-][A-Za-z_\-0-9]+)\/([A-Za-z_\-][A-Za-z_\-0-9]+)/.exec(url);
+	console.log(user, repo);
+	switch (component) {
+	case URL_COMPONENT_USER:
+		return user;
+		break;
+	case URL_COMPONENT_REPO:
+		return repo;
+		break;
+	default:
+		throw new Error("Unreacheable");
+	}
+}
+
 class IssueRouter extends Component {
   constructor() {
     super();
@@ -23,6 +42,7 @@ class IssueRouter extends Component {
     [e.target.name]: e.target.value
   })
 
+
   renderNextPage = e => {
     let {title, repositoryLink, language} = this.state
     if (!title || !repositoryLink) {
@@ -31,18 +51,16 @@ class IssueRouter extends Component {
     }
     this.setState({
       formComplete: true,
-      repositoryName: this
-        .state
-        .repositoryLink
-        .split('/')[4],
+      repositoryName: urlSplitHelper(this.state.repositoryLink, URL_COMPONENT_REPO),
+      repoOwner: urlSplitHelper(this.state.repositoryLink, URL_COMPONENT_USER),
     })
   }
 
   openIssue = () => {
     if (this.state.formComplete) {
       return (<ChooseFiles
-        repositoryLink={this.state.repositoryLink}
-        repositoryName={this.state.repositoryName}/>)
+        repositoryName={this.state.repositoryName}
+	repoOwner={this.state.repoOwner}/>)
     } else {
       return (<NewIssue
         inputHandler={this.inputHandler}

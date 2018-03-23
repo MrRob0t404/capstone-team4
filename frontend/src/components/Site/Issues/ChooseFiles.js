@@ -14,7 +14,7 @@ class ChooseFiles extends Component {
   }
 
   componentWillMount = (props) => {
-    axios(`https://api.github.com/repos/simongaviria1/${this.props.repositoryName}/contents/`).then(response => {
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(response => {
       this.setState({
         githubLink: `https://api.github.com/repos/simongaviria1/${this.props.repositoryName}/contents/`,
         allFiles: response
