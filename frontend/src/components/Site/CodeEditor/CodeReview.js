@@ -65,7 +65,7 @@ render() {
         </div>
         <div id="editor-container">
           <h2>Whenever I rerender my routes dont work.</h2>
-          <div className = "acediff">< /div>
+          <div className = "acediff"></div>
         </div>
         <div id="right-pane">
           <div id="pane-nav">
