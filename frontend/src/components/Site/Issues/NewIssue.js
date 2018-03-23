@@ -22,7 +22,7 @@ class NewIssue extends Component {
             <h3>Repository</h3>
             <p>ex. https://github.com/username/project</p>
           </div>
-          <input name="repository" onChange={inputHandler}/>
+          <input name="repositoryLink" onChange={inputHandler}/>
         </div>
         <div className="input-container">
           <div className="helper">
