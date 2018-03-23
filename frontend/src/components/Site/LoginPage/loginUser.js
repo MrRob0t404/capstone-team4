@@ -10,7 +10,7 @@ class LoginUser extends Component {
     this.state = {
       username: '',
       password: '',
-      message: ''
+      message: ' '
     }
   }
 
@@ -52,18 +52,15 @@ class LoginUser extends Component {
   render() {
     const { message, username, password } = this.state
     return (
-      <div id="auth">
-        <div id="auth-container">
+      <div className="auth" id="login">
+        <div className="auth-container" id="login-container">
           <h2><Link to="/home"><i class="fas fa-code"></i></Link></h2>
           <h2>TyroDev</h2>
           <input name="username" placeholder="username" type="text" onChange={this.handleInput} value={username}/>
           <input name="password" placeholder="password" type="password" onChange={this.handleInput} value={password}/>
           <button id="login" onClick={this.handleLoginButton}>Login</button>
-          <p>{message}</p>
           <p>{" "} Not a TyroDev member? <Link to='/register'> Sign up </Link></p>
-          <div className="divider"></div>
-          <p className="divider-label">or</p>
-          <button id="Oauth"><i class="fa fa-github" aria-hidden="true"></i><p>Login with Github</p></button>
+          <p>{message}</p>
         </div>
       </div>
     )
@@ -71,4 +68,3 @@ class LoginUser extends Component {
 }
 
 export default LoginUser;
-

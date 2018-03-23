@@ -35,12 +35,13 @@
   height: 400px;
   border: 5px solid #444352;
   border-radius: 1em;
-  background-color: white;
+  background-color: #272633;
 }
 
 .screen {
   width: 500px;
   height: 300px;
+  background: #272633;
   border: 5px solid #B4E378;
 }
 
@@ -149,7 +150,7 @@
 }
 
 #header {
-  background: #272633;
+  background: linear-gradient(#272633, #262E39);
   color: white;
   align-items: center;
   justify-content: space-around;
