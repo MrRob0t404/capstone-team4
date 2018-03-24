@@ -22,15 +22,15 @@ class NewIssue extends Component {
             <h3>Repository</h3>
             <p>ex. https://github.com/username/project</p>
           </div>
-          <input name="repository" onChange={inputHandler}/>
+          <input name="repositoryLink" onChange={inputHandler}/>
         </div>
-        <div className="input-container">
+        {/* <div className="input-container">
           <div className="helper">
             <h3>Lanuage</h3>
             <p>ex. JavaScript</p>
           </div>
           <input name="language" onChange={inputHandler}/>
-        </div>
+        </div> */}
         <div className="fullWidth">
           <p className="message">{message}</p>
           <button onClick={clickHandler}>Next</button>

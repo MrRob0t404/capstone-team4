@@ -1,66 +1,23 @@
 import React from "react";
-import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
+import code from './SeedCode'
 
-class AceEditor extends React.Component {
+class SoloEditor extends React.Component {
   constructor() {
     super();
     this.state = {
       rightEditor: this.githubCode,
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
-      originalCode: `for (var i = 0; i < 10 ; i--){ 
-        console.log(i)
-      }`,
-      editedCode: `for (var i = 0; i < 10 ; i--){ 
-        console.log(i)
-      }`,
+      originalCode: code,
+      editedCode: code,
       lines: []
     }
+    this.cells = [];
   }
 
   componentDidMount() {
-    const {
-      rightEditor
-    } = this.state
 
-    // This object creates the split editor and imports it in the element with className ".acediff"
-    var aceDiffer = new AceDiff({
-      mode: null,
-      theme: null,
-      element: ".acediff",
-      diffGranularity: 'broad',
-      showDiffs: true,
-      showConnectors: true,
-      maxDiffs: 5000,
-      left: {
-        content: this.state.originalCode,
-        mode: 'null',
-        theme: null,
-        editable: false,
-        copyLinkEnabled: true
-      },
-      right: {
-        content: this.state.editedCode,
-        mode: null,
-        theme: null,
-        editable: true,
-        copyLinkEnabled: true,
-      },
-      classes: {
-        diff: 'acediff__diffLine',
-        connector: 'acediff__connector',
-        newCodeConnectorLinkContent: '&#8594;',
-        deletedCodeConnectorLinkContent: '&#8592;',
-      },
-    });
-
-    // This function tracks the changes made to the right side of the editor and updates the state
-    aceDiffer.getEditors().right.on("change", () => {
-      this.setState({
-        rightEditor: aceDiffer.getEditors().right.getValue()
-      })
-    })
   }
 
   renderDescription = () => (
@@ -101,29 +58,39 @@ class AceEditor extends React.Component {
       this.setState({renderDescription: false})
   }
 
-  changeBackground = e => e.target.style.background = 'red';
-
-  addOnClickToCells = () => {
-    // const cells = document.querySelectorAll('.acediff__left < .ace_gutter < .ace_gutter-layer < .ace_gutter-cell')
-    // cells.forEach(v => v.addEventListener('click', function(){
-    //   if(this.className.includes('selected-cell')) {
-    //     this.className = this.className.replace('selected-cell', '')
-    //   }else{
-    //       this.className = this.className + 'selected-cell'
-    //   }
-    // }))
+  addOnClick = () => {
+    let lines = this.state.lines
+    for(var i=0; i<this.cells.length; i++){
+      this.cells[i].addEventListener('click', function(e){
+        if(e.target.className.includes('selected-cell')) {
+          lines.splice(lines.indexOf(e.target.innerText), 1)
+          e.target.className = e.target.className.replace('selected-cell', '')
+          console.log(lines)
+          this.setState({lines: lines})
+        }else{
+          e.target.className = e.target.className + 'selected-cell'
+          lines.push(e.target.innerText)
+          console.log(lines)
+          this.setState({lines: lines})
+        }
+      })
+    }
   }
 
   render() {
     const {rightEditor} = this.state
-    // this.addOnClickToCells()
+    if(this.cells[0]){
+      console.log(`!!!!!`)
+      this.addOnClick()
+    }
+    console.log(this.state)
     return (
       <div id="solution">
         <div id="file-tabs">
           {this.state.files.map(v => <div className="tab">{v}</div>)}
         </div>
         <div id="editor-container">
-          <h2>Why doesn't my for loop work?</h2>
+          <h2>Whenever I rerender my routes dont work.</h2>
           <div className = "acediff"></div>
         </div>
         <div id="right-pane">
@@ -143,4 +110,4 @@ class AceEditor extends React.Component {
   }
 }
 
-export default AceEditor;
+export default SoloEditor;
