@@ -54,7 +54,7 @@ class ChooseFiles extends Component {
       copyPlaceholder: placeholder.split('/')
     })
     this.setState(prevState => {
-      const copyPlaceholder2 = placeholder.splice((placeholder.indexOf('src') + 1), (placeholder.length) - placeholder.indexOf('src'))
+      const copyPlaceholder2 = prevState.placeholder.splice((placeholder.indexOf('src') + 1), (placeholder.length) - placeholder.indexOf('src'))
       return copyPlaceholder2;
     })
     this.setState({placeholder: placeholder})
