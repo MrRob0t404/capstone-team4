@@ -6,6 +6,14 @@
   border-radius: 100em;
 }
 
+.comment {
+  color: #555;
+}
+
+.function {
+  color: #4E4D58;
+}
+
 .green-focus {
   box-shadow: 0 0 10px #8AD42C;
 }
@@ -31,31 +39,40 @@
 }
 
 .keyword {
-  color: #00C1AB;
+  color: #7FD017;
 }
 
-.laptop {
-  width: 500px;
-  height: 300px;
-  font-size: 1.2em;
-  padding: 5%;
+.laptop, .screen {
+  background: #272633;
   display: flex;
   flex-direction: column;
-  border: 5px solid #444352;
-  border-radius: .8em;
-  background-color: #272633;
   font-family: monospace;
   line-height: 2;
 }
 
-.line {
+.laptop {
+  width: 500px;
+  height: 350px;
+  font-size: 1.2em;
+  padding: 4%;
+  border: 5px solid #444352;
+  border-radius: .8em;
+}
+
+.operator {
+  color: #8FCCB8;
+}
+
+.regular {
+  color: white;
 }
 
 .screen {
-  width: 500px;
+  width: 400px;
   height: 300px;
-  background: #272633;
+  padding: 3%;
   border: 5px solid #B4E378;
+  color: white;
 }
 
 .selected {
@@ -63,7 +80,7 @@
 }
 
 .string{
-  color: #7FD017;
+  color: #00C1AB;
 }
 
 .text {

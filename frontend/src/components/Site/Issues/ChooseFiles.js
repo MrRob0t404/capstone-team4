@@ -9,9 +9,7 @@ class ChooseFiles extends Component {
       placeholder: '',
       allFiles: [],
       allDirs: [],
-      allPaths: {
-        root: []
-      },
+      allPaths: [],
       selectedFileNames: []
     }
   }
