@@ -9,8 +9,17 @@ class AceEditor extends React.Component {
     this.state = {
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
+<<<<<<< HEAD
       originalCode: code,
       editedCode: code,
+=======
+      originalCode: `for (var i = 0; i < 10 ; i--){ 
+        console.log(i)
+      }`,
+      editedCode: `for (var i = 0; i < 10 ; i--){ 
+        console.log(i)
+      }`,
+>>>>>>> 8361bf74725f38fb88b31c9242e66207126f504e
       lines: []
     }
     this.cells = [];
@@ -130,7 +139,7 @@ class AceEditor extends React.Component {
           {this.state.files.map(v => <div className="tab">{v}</div>)}
         </div>
         <div id="editor-container">
-          <h2>Whenever I rerender my routes dont work.</h2>
+          <h2>Why doesn't my for loop work?</h2>
           <div className = "acediff"></div>
         </div>
         <div id="right-pane">
