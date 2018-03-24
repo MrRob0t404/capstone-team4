@@ -31,33 +31,6 @@ class SoloEditor extends React.Component {
     </div>
   )
 
-  renderComments = () => (
-    <div id="comments">
-      <h3>Comments</h3>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-    </div>
-  )
-
-  togglePane = e => {
-    e.target.innerText === "Description" ?
-      this.setState({renderDescription: true}):
-      this.setState({renderDescription: false})
-  }
-
   addOnClick = () => {
     let lines = this.state.lines
     for(var i=0; i<this.cells.length; i++){
@@ -94,15 +67,8 @@ class SoloEditor extends React.Component {
           <div className = "acediff"></div>
         </div>
         <div id="right-pane">
-          <div id="pane-nav">
-            <p onClick={this.togglePane}>Description</p>
-            <p onClick={this.togglePane}>Comments</p>
-          </div>
           <div className="pane-section">
-            {this.state.renderDescription?
-              this.renderDescription():
-              this.renderComments()
-            }
+            {this.renderDescription()}
           </div>
         </div>
       </div>

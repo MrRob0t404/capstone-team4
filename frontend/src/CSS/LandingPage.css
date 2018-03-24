@@ -30,12 +30,25 @@
   -o-transition: all 0.30s ease-in-out;
 }
 
+.keyword {
+  color: #00C1AB;
+}
+
 .laptop {
-  width: 600px;
-  height: 400px;
+  width: 500px;
+  height: 300px;
+  font-size: 1.2em;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
   border: 5px solid #444352;
-  border-radius: 1em;
+  border-radius: .8em;
   background-color: #272633;
+  font-family: monospace;
+  line-height: 2;
+}
+
+.line {
 }
 
 .screen {
@@ -47,6 +60,10 @@
 
 .selected {
   text-shadow: 0 0 10px #00C1AB;
+}
+
+.string{
+  color: #7FD017;
 }
 
 .text {

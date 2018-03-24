@@ -9,20 +9,10 @@ class AceEditor extends React.Component {
     this.state = {
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
-<<<<<<< HEAD
       originalCode: code,
       editedCode: code,
-=======
-      originalCode: `for (var i = 0; i < 10 ; i--){ 
-        console.log(i)
-      }`,
-      editedCode: `for (var i = 0; i < 10 ; i--){ 
-        console.log(i)
-      }`,
->>>>>>> 8361bf74725f38fb88b31c9242e66207126f504e
       lines: []
     }
-    this.cells = [];
   }
 
   componentDidMount() {
@@ -67,8 +57,6 @@ class AceEditor extends React.Component {
       })
     })
 
-    this.cells = aceDiffer.getEditors().left.container.children[1].children[0].children
-
   }
 
   renderDescription = () => (
@@ -109,37 +97,17 @@ class AceEditor extends React.Component {
       this.setState({renderDescription: false})
   }
 
-  addOnClick = () => {
-    let lines = this.state.lines
-    for(var i=0; i<this.cells.length; i++){
-      this.cells[i].addEventListener('click', function(e){
-        if(e.target.className.includes('selected-cell')) {
-          lines.splice(lines.indexOf(e.target.innerText), 1)
-          e.target.className = e.target.className.replace('selected-cell', '')
-          // this.setState({lines: lines})
-        }else{
-          e.target.className = e.target.className + 'selected-cell'
-          lines.push(e.target.innerText)
-          // this.setState({lines: lines})
-        }
-        console.log(lines)
-      })
-    }
-  }
 
   render() {
     const {rightEditor} = this.state
-    if(this.cells[0]){
-      console.log(this.cells)
-      this.addOnClick()
-    }
+
     return (
       <div id="solution">
         <div id="file-tabs">
           {this.state.files.map(v => <div className="tab">{v}</div>)}
         </div>
         <div id="editor-container">
-          <h2>Why doesn't my for loop work?</h2>
+          <h2>Why doesn{"'"}t my for loop work?</h2>
           <div className = "acediff"></div>
         </div>
         <div id="right-pane">
