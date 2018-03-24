@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
-import '../.././CSS/LandingPage.css';
+import '../../.././CSS/LandingPage.css';
+import LaptopCode from './LaptopCode'
 
 class Landing extends Component {
   constructor(){
@@ -35,28 +36,18 @@ class Landing extends Component {
   }
 
   render(){
-    console.log(this.state)
+    console.log(LaptopCode)
     return(
       <div id="landing">
 
         <div id="header">
           <div className="laptop">
-            <div className="line">
-              <span className="keyword">const</span> greeting = <span className="string">'Hello World!'</span>;
-            </div>
-            <div className="line">
-              <span className="keyword">const</span> devNames = [<span className="string">'Monique'</span>, <span className="string">'Simon'</span>, <span className="string">'Newton'</span>, <span className="string">'Elon'</span>, <span className="string">'Carlo'</span>];
-            </div>
-            <div className="line">
-              <span className="keyword">const</span> numDevsOnTeam = devNames.length;
-            </div>
+            {LaptopCode()}
           </div>
           <div className="text">
             <h2>Lorem ipsum dolor amet crucifix ennui poke succulents fixie asymmetrical. </h2>
             <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
             glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
-          </div>
-          <div id="background">
           </div>
         </div>
 
@@ -84,8 +75,12 @@ class Landing extends Component {
           <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
           glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
           <div className="interaction">
-            <div className="screen"></div>
-            <div className="screen"></div>
+            <div className="screen">
+              {LaptopCode()}
+            </div>
+            <div className="screen">
+              {LaptopCode()}
+            </div>
           </div>
         </div>
 
