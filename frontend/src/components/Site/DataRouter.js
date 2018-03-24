@@ -18,22 +18,25 @@ class DataRouter extends Component {
   }
 
   handleIssues = () => {
+    const { user, loading } = this.props;
     return (
-      <IssueRouter />
+      <IssueRouter user={user} loading={loading}/>
     )
   }
 
   handleProfile = () => {
-    const { active, user, logOutButton } = this.props
-    if(active === false) {
+    const { user, logOut, loading } = this.props
+    if(loading){
+      return <div>Loading User...</div>
+    } else if(!user) {
       return <Redirect to='/login' />
     } else {
-        return <Profile user={user} logOut={logOutButton} />
+        return <Profile user={user} logOut={logOut} />
     }
-    
   }
 
   render() {
+    console.log(`dataRouter`, this.props.user)
     return (
       <div id="data">
         <nav id="global-nav">

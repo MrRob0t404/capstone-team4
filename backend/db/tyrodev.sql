@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS users, problem, files, solution, comments, tickets;
 
 CREATE TABLE users (
     ID SERIAL PRIMARY KEY,
+    firstName VARCHAR,
+    lastName VARCHAR,
     username VARCHAR,
     password_digest VARCHAR,
     email VARCHAR,
@@ -38,7 +40,6 @@ CREATE TABLE problem (
     lines VARCHAR,
     fileID INTEGER REFERENCES files(ID)
 );
-
 
 
 CREATE TABLE solution (
