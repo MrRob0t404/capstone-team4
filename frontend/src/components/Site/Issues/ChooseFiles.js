@@ -9,6 +9,9 @@ class ChooseFiles extends Component {
       placeholder: '',
       allFiles: [],
       allDirs: [],
+      allPaths: {
+        root: []
+      },
       selectedFileNames: []
     }
   }
@@ -41,9 +44,11 @@ class ChooseFiles extends Component {
   selectDirs = e => {
     let files = this.state.allFiles
     let dirs = this.state.allDirs
+    let paths = this.state.allPaths
     dirs.splice(dirs.indexOf(e.target.innerText), 1)
-    console.log('dirs', dirs)
-    this.setState({allDirs: dirs})
+    // console.log('dirs', dirs)
+    // this.setState({allDirs: dirs})
+    paths.push(e.target.innerText)
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${e.target.innerText}`)
       .then(res => {
         console.log('res.data !!!!', res.data)
@@ -53,7 +58,7 @@ class ChooseFiles extends Component {
             this.setState({allFiles: files})
           }else{
             dirs.push(v.path)
-            this.setState({allDirs: dirs})
+            this.setState({allDirs: dirs, allPaths: paths})
           }
         })
       })
@@ -69,6 +74,7 @@ class ChooseFiles extends Component {
         <div id="select-files-container">
 
           <div className="column">
+            <h3>Directories</h3>
             {this
               .state
               .allDirs
@@ -76,6 +82,7 @@ class ChooseFiles extends Component {
           </div>
 
           <div className="column">
+            <h3>Files</h3>
             {this
               .state
               .allFiles
@@ -83,7 +90,7 @@ class ChooseFiles extends Component {
           </div>
 
           <div id="embed-list">
-            <h3>Files</h3>
+            <h3>Embedding</h3>
             <div id="file-names">
               {this
                 .state
