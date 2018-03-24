@@ -4,6 +4,7 @@ import AllIssues from './AllIssues'
 import NewIssue from './NewIssue'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
+import SoloEditor from '../CodeEditor/SoloEditor'
 import '../../.././CSS/OpenIssue.css';
 
 const URL_COMPONENT_USER = Symbol("name");
@@ -77,14 +78,27 @@ class IssueRouter extends Component {
     }
   }
 
+  renderSolutions = () => {
+    return (
+      <CodeEditor />
+    )
+  }
+
+  renderSoloEditor = () => {
+    return(
+      <SoloEditor />
+    )
+  }
+
   render() {
     console.log('issuesRouter State :', this.state)
     return (
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={AllIssues}/>
+          <Route path="/issues/new/edit" render={this.renderSoloEditor}/>
           <Route path="/issues/new" render={this.openIssue}/>
-          <Route path="/issues/:issuesID" component={CodeEditor}/>
+          <Route path="/issues/:issuesID" render={this.renderSolutions}/>
         </Switch>
       </div>
     )

@@ -100,7 +100,7 @@ class ChooseFiles extends Component {
           </div>
         </div>
         <div className="fullWidth">
-          <button>Done</button>
+          <Link to="/issues/new/edit"><button>Done</button></Link>
         </div>
       </div>
     )

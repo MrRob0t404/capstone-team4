@@ -13,7 +13,7 @@ class RegisterUser extends React.Component {
             password: '',
             verifyPassword: '',
             email: '',
-            message: ''
+            message: '   '
         }
     }
 
@@ -73,22 +73,20 @@ class RegisterUser extends React.Component {
         const { message, firstName, lastName, email, password, verifyPassword, username } = this.state
         console.log(`register state`, this.state)
         return (
-            <div id="auth">
-                <div id="auth-container">
+            <div className="auth" id="register">
+                <div className="auth-container" id="register-container">
                     <h2><Link to="/home"><i className="fas fa-code"></i></Link></h2>
                     <h2>TyroDev</h2>
-                    <input name="firstName" placeholder="First Name" type="text" onChange={this.handleInput} value={firstName} />
-                    <input name="lastName" placeholder="Last Name" type="text" onChange={this.handleInput} value={lastName} />
-                    <input name="email" type="email" placeholder="email" onChange={this.handleInput} value={email} />
-                    <input name="username" type="text" placeholder="username" onChange={this.handleInput} value={username} />
-                    <input name="password" type="password" placeholder="password" onChange={this.handleInput} value={password} />
-                    <input name="verifyPassword" type="password" placeholder="re-enter password" onChange={this.handleInput} value={verifyPassword} />
-                    <p>{message}</p>
+                    <div id="register-inputs">
+                      <input name="firstName" placeholder="Full Name" type="text" onChange={this.handleInput} value={firstName} />
+                      <input name="email" type="email" placeholder="Email" onChange={this.handleInput} value={email} />
+                      <input name="username" type="text" placeholder="Username" onChange={this.handleInput} value={username} />
+                      <input name="password" type="password" placeholder="Password" onChange={this.handleInput} value={password} />
+                      <input name="verifyPassword" type="password" placeholder="Re-enter Password" onChange={this.handleInput} value={verifyPassword} />
+                    </div>
                     <button id="login" onClick={this.handleRegisterButton}>Register</button>
                     <p>{" "} Already a TyroDev member? <Link to='/login'> Login </Link></p>
-                    <div className="divider"></div>
-                    <p className="divider-label">or</p>
-                    <button id="Oauth"><i class="fa fa-github" aria-hidden="true"></i><p>Login with Github</p></button>
+                    <p>{message}</p>
                 </div>
             </div>
         )
@@ -96,5 +94,3 @@ class RegisterUser extends React.Component {
 }
 
 export default RegisterUser
-
-

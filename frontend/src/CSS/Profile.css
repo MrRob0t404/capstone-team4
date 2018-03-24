@@ -36,6 +36,12 @@
   justify-content: center;
 }
 
+#profile-info > button {
+  height: 5vh;
+  padding: 0 2%;
+  color: #aaa;
+}
+
 #profile-nav {
   width: 100vw;
   height: 8vh;

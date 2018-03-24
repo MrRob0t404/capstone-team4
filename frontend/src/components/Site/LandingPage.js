@@ -40,7 +40,17 @@ class Landing extends Component {
       <div id="landing">
 
         <div id="header">
-          <div className="laptop"></div>
+          <div className="laptop">
+            <div className="line">
+              <span className="keyword">const</span> greeting = <span className="string">'Hello World!'</span>;
+            </div>
+            <div className="line">
+              <span className="keyword">const</span> devNames = [<span className="string">'Monique'</span>, <span className="string">'Simon'</span>, <span className="string">'Newton'</span>, <span className="string">'Elon'</span>, <span className="string">'Carlo'</span>];
+            </div>
+            <div className="line">
+              <span className="keyword">const</span> numDevsOnTeam = devNames.length;
+            </div>
+          </div>
           <div className="text">
             <h2>Lorem ipsum dolor amet crucifix ennui poke succulents fixie asymmetrical. </h2>
             <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
