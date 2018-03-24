@@ -11,7 +11,7 @@ class Issues extends React.Component {
         date: '3/11/18',
         status: 'Open',
         responses: 3,
-        title: "Why doesn't my for loop work?.",
+        title: "Why doesn't my for loop work?",
         profilePic: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
         ticketID: 3
       }
