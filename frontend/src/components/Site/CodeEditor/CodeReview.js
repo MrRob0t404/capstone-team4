@@ -7,7 +7,6 @@ class AceEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      rightEditor: this.githubCode,
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
       originalCode: code,
@@ -108,14 +107,13 @@ class AceEditor extends React.Component {
         if(e.target.className.includes('selected-cell')) {
           lines.splice(lines.indexOf(e.target.innerText), 1)
           e.target.className = e.target.className.replace('selected-cell', '')
-          console.log(lines)
-          this.setState({lines: lines})
+          // this.setState({lines: lines})
         }else{
           e.target.className = e.target.className + 'selected-cell'
           lines.push(e.target.innerText)
-          console.log(lines)
-          this.setState({lines: lines})
+          // this.setState({lines: lines})
         }
+        console.log(lines)
       })
     }
   }
@@ -123,10 +121,9 @@ class AceEditor extends React.Component {
   render() {
     const {rightEditor} = this.state
     if(this.cells[0]){
-      console.log(`!!!!!`)
+      console.log(this.cells)
       this.addOnClick()
     }
-    console.log(this.state)
     return (
       <div id="solution">
         <div id="file-tabs">
