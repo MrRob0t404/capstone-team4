@@ -9,20 +9,13 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: '',
-      active: false
+      user: null,
+      loading: true
     }
   }
 
 
 // functions passed as Props
-
-isActive = () => {
-  this.setState({
-    active: !this.state.active
-  });
-};
-
 
 UserFound = user => {
   this.setState({
@@ -34,8 +27,9 @@ logOut = () => {
   axios
     .get("/users/logout")
     .then(res => {
+      console.log(`this is the response`,res.data)
       this.setState({
-        active: false
+       user: null
       });
     })
     .catch(err => {
@@ -44,19 +38,21 @@ logOut = () => {
 };
 
 
-componentDidMount() {
-  const { user } = this.state;
+componentDidMount(){
   axios
     .get("/users/getUser")
     .then(res => {
-      console.log("THIS IS A RESPONSE" , res)
+      console.log("THIS IS A RESPONSE res.data:" , res.data)
       this.setState({
         user: res.data.user,
-        active: true
+        loading: false
       });
     })
     .catch(err => {
       console.log(`errrr`, err);
+      this.setState({
+        loading: false
+      })
     });
 }
 
@@ -65,23 +61,26 @@ componentDidMount() {
 
 // Components
   handleLoginUser = () => {
-    return (
-      <LoginUser active={this.isActive} setUser={this.UserFound}/>
-    )
+    const { user } = this.state
+    if(user) {
+     return <Redirect to='/home' />
+    } else {
+      return  <LoginUser  setUser={this.UserFound}/>
+    }
   }
 
 
   handleRegisterUser = () => {
     return (
-      <RegisterUser active={this.isActive} setUser={this.UserFound} />
+      <RegisterUser setUser={this.UserFound} />
     )
   }
 
 
   handleDataRouter = () => {
-    const { user } = this.state
+    const { user, loading } = this.state
     return (
-      <DataRouter user={user} active={this.isActive} logOutButton={this.logOut}/>
+      <DataRouter user={user} logOut={this.logOut} loading={loading} />
     )
   }
 
@@ -89,6 +88,7 @@ componentDidMount() {
   render() {
     const { user, active } = this.state
     console.log(`App.js state`, this.state)
+
     return ( 
       <div>
         <Switch>

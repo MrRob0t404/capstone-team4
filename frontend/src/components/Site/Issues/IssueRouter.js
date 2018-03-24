@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Switch, Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import AllIssues from './AllIssues'
 import NewIssue from './NewIssue'
 import ChooseFiles from './ChooseFiles'
@@ -57,6 +57,14 @@ class IssueRouter extends Component {
   }
 
   openIssue = () => {
+    const { user, loading } = this.props;
+    console.log("open issue")
+    console.log("user, loading: ", user)
+    if(loading) {
+      return <div>Loading User...</div>
+    } else if (!user) {
+      return <Redirect to='/login' />
+    }
     if (this.state.formComplete) {
       return (<ChooseFiles
         repositoryName={this.state.repositoryName}

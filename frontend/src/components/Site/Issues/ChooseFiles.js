@@ -7,31 +7,24 @@ class ChooseFiles extends Component {
     super(props);
     this.state = {
       placeholder: '',
-      allData: [],
       allFiles: [],
-      allDir: [],
+      allDirs: [],
+      allPaths: {
+        root: []
+      },
       selectedFileNames: []
     }
   }
 
   componentWillMount = (props) => {
-    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(response => {
+    let files = []
+    let dirs = []
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
+      res.data.forEach(v => v.type === 'file' ? files.push(v.path) : dirs.push(v.path))
       this.setState({
         githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`,
-        allFiles: response
-          .data
-          .filter(ele => {
-            if (ele.type === 'file') {
-              return ele
-            }
-          }),
-        allDir: response
-          .data
-          .filter(ele => {
-            if (ele.type === 'dir') {
-              return ele
-            }
-          })
+        allFiles: files,
+        allDirs: dirs
       })
     })
   }
@@ -48,69 +41,56 @@ class ChooseFiles extends Component {
     }
   }
 
-  goBackHelper = () => {
-    const {placeholder} = this.state
-    this.setState({
-      copyPlaceholder: placeholder.split('/')
-    })
-    this.setState(prevState => {
-      const copyPlaceholder2 = prevState.placeholder.splice((placeholder.indexOf('src') + 1), (placeholder.length) - placeholder.indexOf('src'))
-      return copyPlaceholder2;
-    })
-    this.setState({placeholder: placeholder})
-  }
-
-  selectDir = (e, props) => {
-    const {allDir, githubLink, placeholder} = this.state
-    let selectedDir = e.target.innerText
-    console.log('target', selectedDir)
-    placeholder.includes(selectedDir)
-      ? this.goBackHelper()
-      : axios(`${githubLink}` + `${selectedDir}`).then(response => {
-        this.setState({
-          placeholder: placeholder + `${selectedDir}/`,
-          githubLink: githubLink + `${selectedDir}/`,
-          allFiles: response
-            .data
-            .filter(ele => {
-              if (ele.type === 'file') {
-                return ele
-              }
-            }),
-          allDir: allDir.concat(response.data.filter(ele => {
-            if (ele.type === 'dir' && this.state.allDir.indexOf(ele) === -1) {
-              return ele
-            }
-          }))
+  selectDirs = e => {
+    let files = this.state.allFiles
+    let dirs = this.state.allDirs
+    let paths = this.state.allPaths
+    dirs.splice(dirs.indexOf(e.target.innerText), 1)
+    // console.log('dirs', dirs)
+    // this.setState({allDirs: dirs})
+    paths.push(e.target.innerText)
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${e.target.innerText}`)
+      .then(res => {
+        console.log('res.data !!!!', res.data)
+        res.data.forEach(v => {
+          if(v.type === 'file'){
+            files.push(v.path)
+            this.setState({allFiles: files})
+          }else{
+            dirs.push(v.path)
+            this.setState({allDirs: dirs, allPaths: paths})
+          }
         })
       })
   }
 
   render() {
-    console.log('Choose Files state:', this.state.placeholder)
+    console.log('state', this.state)
 
     return (
-      <div id="choose-dir">
+      <div id="choose-files">
         <h2>Choose up to 5 files that relate to your issue</h2>
 
         <div id="select-files-container">
 
           <div className="column">
+            <h3>Directories</h3>
             {this
               .state
-              .allDir
-              .map(v => <p onClick={this.selectDir}>{v.name}</p>)}
+              .allDirs
+              .map(v => <p onClick={this.selectDirs}>{v}</p>)}
           </div>
 
           <div className="column">
+            <h3>Files</h3>
             {this
               .state
               .allFiles
-              .map(v => <p onClick={this.select}>{v.name}</p>)}
+              .map(v => <p onClick={this.select}>{v}</p>)}
           </div>
 
           <div id="embed-list">
-            <h3>Files</h3>
+            <h3>Embedding</h3>
             <div id="file-names">
               {this
                 .state
@@ -120,7 +100,6 @@ class ChooseFiles extends Component {
           </div>
         </div>
         <div className="fullWidth">
-          <button onClick={this.handleBackButton}>Back</button>
           <button>Done</button>
         </div>
       </div>

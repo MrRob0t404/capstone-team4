@@ -12,14 +12,22 @@ class Profile extends React.Component {
 
 
   renderMyProfile = () => {
-    const { logOutButton, user } = this.props
-    return <Me user={user} logOut={logOutButton}/>
+    const { logOut, user } = this.props
+    return <Me user={user} logOut={logOut}/>
   }
  
+
+ renderIssuesPage = () => {
+  const { user } = this.props
+    return <Issues user={user} />
+  } 
 
 
 
   render () {
+    const { user } = this.props
+    console.log(`profile`, user)
+   
     return (
       <div id="profile">
         <nav id="profile-nav">
@@ -29,7 +37,7 @@ class Profile extends React.Component {
         </nav>
         <Switch>
           <Route exact path='/profile' component={this.renderMyProfile} />
-          <Route path='/profile/issues' component={Issues} />
+          <Route path='/profile/issues' component={this.renderIssuesPage} />
           <Route path='/profile/solutions' component={Solutions} />
         </Switch>
       </div>
