@@ -1,3 +1,27 @@
+.column {
+  width: 70%;
+  padding: 2% 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-left: 1px solid #ddd;
+}
+
+.column:first-of-type {
+  border: none;
+}
+
+.column > p {
+  width: 15vw;
+  height: 5vh;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.fullWidth > p {
+  padding-left: 36vw;
+}
+
 .helper {
   width: 30vw;
 }
@@ -5,10 +29,6 @@
 .helper > p {
   margin-left: -1.5em;
   opacity: .6;
-}
-
-.fullWidth > p {
-  padding-left: 36vw;
 }
 
 .input-container > input {
@@ -56,25 +76,6 @@
 
 #file-names {
   width: 100%;
-  text-align: center;
-}
-
-.column {
-  width: 70%;
-  padding: 2% 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  border-left: 1px solid #ddd;
-}
-
-.column:last-of-type {
-  border: none;
-}
-
-.column > p {
-  width: 15vw;
-  height: 5vh;
   text-align: center;
 }
 
