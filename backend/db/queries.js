@@ -37,9 +37,9 @@ function createUser(req, res, next) {
     console.log("create user hash:", hash);
     db
         .none(
-            `INSERT INTO users (username, password_digest, email, profilePic, stack, Bio) 
-      VALUES ($1, $2, $3, $4, $5, $6)`,
-            [req.body.username, hash, req.body.email, req.body.profilePic, req.body.stack, req.body.Bio]
+            `INSERT INTO users (firstName, lastName, username, password_digest, email) 
+      VALUES ($1, $2, $3)`,
+            [req.body.firstName, req.body.lastName, req.body.username, hash, req.body.email]
         )
         .then(() => {
             console.log("req.body.username", req.body.username)
@@ -83,9 +83,25 @@ function getSingleUser(req, res, next) {
         });
 }
 
-function getSolutionByProblemID(req, res, next) {
+function updateProfilePage(req, res, next) {
     db
-        .any("SELECT * FROM solution JOIN problem ON problem.id = solution.problemID WHERE solution.problemID = ${problemID}", { problemID: req })
+        .any("UPDATE users SET profilePic=${imgURL}, stack=${stack} WHERE users.id = ${userID}", { imgURL: req.body.stack, profilePic: req.body.imgURL, userID: req.user.id } )
+        .then(function (data) {
+            res.status(200).json({
+                status: "success",
+                data: data,
+                message: "Fetched user profile"
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send("error uploading user info");
+        });
+}
+
+function getSolutionByTicketID(req, res, next) {
+    db
+        .any("", { userID: req.body.users.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -99,10 +115,9 @@ function getSolutionByProblemID(req, res, next) {
         });
 }
 
-
-function getSolutionByUserID(req, res, next) {
+function getSolutionSnippetByFileID(req, res, next) {
     db
-        .any("SELECT * FROM solution JOIN users ON users.id = solution.problemSolverID WHERE users.id = ${userID}", { userID: req.body.user.id })
+        .any("SELECT * FROM files INNER JOIN solution ON solution.fileID = files.ID WHERE solution.fileID = ${fileID}", { fileID: req.body.files.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -116,9 +131,9 @@ function getSolutionByUserID(req, res, next) {
         });
 }
 
-function getProblemByProblemID(req, res, next) {
+function getProblemByTicketID(req, res, next) {
     db
-        .any("SELECT * FROM problem WHERE problem.id = problem.id")
+        .any("", { fileID: req.body.files.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -132,9 +147,9 @@ function getProblemByProblemID(req, res, next) {
         });
 }
 
-function getProblemByUserID(req, res, next) {
+function getProblemSnippetByFileID(req, res, next) {
     db
-        .any("SELECT description, problem.id, problemPoster, problemSnippet, githubrepo, username FROM problem JOIN users ON users.id = problem.problemPoster WHERE problem.problemPoster = ${userID}", { userID: req.body.user.id })
+        .any("SELECT description, problem.id, problemPoster, problemSnippet, githubrepo, username FROM problem JOIN users ON users.id = problem.problemPoster WHERE problem.problemPoster = ${userID}", { userID: req.body.users.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -148,9 +163,57 @@ function getProblemByUserID(req, res, next) {
         });
 }
 
-function getTicketsByProblemID(req, res, next) {
+function getTicketByUserID(req, res, next) {
     db
-        .any("SELECT * FROM tickets JOIN problem ON problem.id = tickets.problemID WHERE problem.id = ${problemID}", { problemID: req })
+        .any("", { userID: req.body.user.id })
+        .then(function (data) {
+            res.status(200).json({
+                status: "success",
+                data: data,
+                message: "Fetched problem"
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send("error creating user");
+        });
+}
+
+function getTicketByDate(req, res, next) {
+    db
+        .any("", { })
+        .then(function (data) {
+            res.status(200).json({
+                status: "success",
+                data: data,
+                message: "Fetched problem"
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send("error creating user");
+        });
+}
+
+function getTicketByProblemStatus(req, res, next) {
+    db
+        .any("", { })
+        .then(function (data) {
+            res.status(200).json({
+                status: "success",
+                data: data,
+                message: "Fetched problem"
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send("error creating user");
+        });
+}
+
+function getTicketByTitle(req, res, next) {
+    db
+        .any("", { })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -166,7 +229,7 @@ function getTicketsByProblemID(req, res, next) {
 
 function getCommentsByProblemID(req, res, next) {
     db
-        .any("SELECT comment FROM comments JOIN problem ON problem.id = comments.problemID WHERE problem.id = ${problemID}", { problemID: req })
+        .any("SELECT comment FROM comments JOIN problem ON problem.id = comments.problemID WHERE problem.id = ${problemID}", { problemID: req.body.problem.id })
         .then(function (data) {
             res.status(200).json({
                 status: "success",
@@ -186,11 +249,15 @@ module.exports = {
     logoutUser,
     getSingleUser,
     getAllUsers,
-    getSolutionByProblemID,
-    getSolutionByUserID,
-    getProblemByProblemID,
-    getProblemByUserID,
-    getTicketsByProblemID,
+    updateProfilePage,
+    getSolutionByTicketID,
+    getSolutionSnippetByFileID,
+    getProblemByTicketID,
+    getProblemSnippetByFileID,
+    getTicketByUserID,
+    getTicketByDate,
+    getTicketByProblemStatus,
+    getTicketByTitle,
     getCommentsByProblemID,
     getUser
 };
