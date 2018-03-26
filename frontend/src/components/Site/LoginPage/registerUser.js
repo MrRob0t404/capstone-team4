@@ -75,7 +75,7 @@ class RegisterUser extends React.Component {
                     <h2><Link to="/home"><i className="fas fa-code"></i></Link></h2>
                     <h2>TyroDev</h2>
                     <div id="register-inputs">
-                      <input name="fullName" placeholder="Full Name" type="text" onChange={this.handleInput} value={firstName} />
+                      <input name="fullName" placeholder="Full Name" type="text" onChange={this.handleInput} value={fullName} />
                       <input name="email" type="email" placeholder="Email" onChange={this.handleInput} value={email} />
                       <input name="username" type="text" placeholder="Username" onChange={this.handleInput} value={username} />
                       <input name="password" type="password" placeholder="Password" onChange={this.handleInput} value={password} />
@@ -89,5 +89,8 @@ class RegisterUser extends React.Component {
         )
     }
 }
+
+
+
 
 export default RegisterUser

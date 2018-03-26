@@ -50,7 +50,7 @@ class AllIssues extends React.Component {
               <Link to='/issues/solved'><button>Solved</button></Link>
               <Link to='/issues/all'><button>All</button></Link>
             </div>
-            <Link to="issues/new">New</Link>
+            <Link to="/issues/new">New</Link>
           </nav>
           <div id="issues-container">
             {this.renderIssues()}
