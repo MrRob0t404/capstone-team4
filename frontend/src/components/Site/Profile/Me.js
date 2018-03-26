@@ -1,27 +1,46 @@
 import React from 'react';
+import axios from 'axios';
 import { Link, Route } from 'react-router-dom';
 
 class Me extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: null
+      user: null,
+      visiting: [],
     }
   }
 
+  componentDidMount(){
+    axios
+    .get(`/users/profile/${this.props.username}`)
+    .then(res => {
+      console.log(`new response`, res.data.data)
+      this.setState({
+        visiting: res.data.data[0]
+      })
+      this.props.setUser(this.props.username)
+    })
+    .catch(err => {
+      console.log(`err fetching user profile`, err)
+    })
+  }
 
+
+ 
 
   render(){
-    const { user, logOut } = this.props
-    console.log(`me`, user)
+    const { user, logOut } = this.props;
+    const { visiting } = this.state;
+    console.log(`me`, visiting)
 
     return(
       <div id="profile">
         <div id="profile-info">
-          <img id="profile-pic" src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`} />
-          <h2>{user.username}</h2>
+          <img id="profile-pic" src={visiting.profilepic} />
+          <h2>{visiting.username}</h2>
           <h3>{`level`}</h3>
-          <h3>{user.email}</h3>
+          <h3>{visiting.email}</h3>
           <button onClick={logOut}>Logout</button>
         </div>
         <div id="language-container">

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AllIssues from './AllIssues'
 import NewIssue from './NewIssue'
+import SolvedIssues from './solvedIssues'
+import OpenIssues from './openIssues'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import SoloEditor from '../CodeEditor/SoloEditor'
@@ -40,14 +42,32 @@ class IssueRouter extends Component {
     }
   }
 
-  inputHandler = e => this.setState({
-    [e.target.name]: e.target.value
-  })
+  handleOpenIssues = () => {
+    return (
+      <OpenIssues />
+    )
+  }
+
+
+  handleAllIssues = () => {
+    return (
+      <AllIssues />
+    )
+  }
+
+
+  handleSolvedIssues = () => {
+    return (
+      <SolvedIssues />
+    )
+  }
+
+  inputHandler = e => this.setState({ [e.target.name]: e.target.value })
 
   renderNextPage = e => {
-    let {title, repositoryLink, language} = this.state
+    let { title, repositoryLink, language } = this.state
     if (!title || !repositoryLink) {
-      this.setState({message: 'Please fill all input feilds'})
+      this.setState({ message: 'Please fill all input feilds' })
       return
     }
     this.setState({
@@ -57,11 +77,12 @@ class IssueRouter extends Component {
     })
   }
 
+
   openIssue = () => {
     const { user, loading } = this.props;
     console.log("open issue")
     console.log("user, loading: ", user)
-    if(loading) {
+    if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
       return <Redirect to='/login' />
@@ -69,12 +90,12 @@ class IssueRouter extends Component {
     if (this.state.formComplete) {
       return (<ChooseFiles
         repositoryName={this.state.repositoryName}
-        repoOwner={this.state.repoOwner}/>)
+        repoOwner={this.state.repoOwner} />)
     } else {
       return (<NewIssue
         inputHandler={this.inputHandler}
         clickHandler={this.renderNextPage}
-        message={this.state.message}/>)
+        message={this.state.message} />)
     }
   }
 
@@ -85,7 +106,7 @@ class IssueRouter extends Component {
   }
 
   renderSoloEditor = () => {
-    return(
+    return (
       <SoloEditor />
     )
   }
@@ -95,10 +116,12 @@ class IssueRouter extends Component {
     return (
       <div id="issue-router">
         <Switch>
-          <Route exact path="/issues" component={AllIssues}/>
-          <Route path="/issues/new/edit" render={this.renderSoloEditor}/>
-          <Route path="/issues/new" render={this.openIssue}/>
-          <Route path="/issues/:issuesID" render={this.renderSolutions}/>
+          <Route path="/issues/all" component={this.handleAllIssues} />
+          <Route path="/issues/open" component={this.handleOpenIssues} />
+          <Route path="/issues/solved" component={this.handleSolvedIssues} />
+          <Route path="/issues/new/edit" render={this.renderSoloEditor} />
+          <Route path="/issues/new" render={this.openIssue} />
+          <Route path="/issues/:issuesID" render={this.renderSolutions} />
         </Switch>
       </div>
     )

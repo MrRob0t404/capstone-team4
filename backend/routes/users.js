@@ -4,10 +4,8 @@ const {loginRequired} = require("../auth/helpers");
 const passport = require("../auth/local");
 const db = require("../db/queries");
 
-router.post("/new", db.checkUser, db.createUser);
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-
   // console.log('this is what the DB returned', req.user);
   res.status(200).json({
     user: req.user,
@@ -16,15 +14,15 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   return;
 });
 
+router.post("/new", db.createUser);
 
 router.get("/getUser", loginRequired, db.getUser);
-router.get("/", loginRequired, db.getSingleUser);
-router.get("/new", db.getAllUsers);
-router.post("/new", db.createUser);
 router.get("/logout", loginRequired, db.logoutUser);
-router.get("/profile", loginRequired, db.getSingleUser);
-router.get("/")
-
+router.get("/profile/:username", db.getUserProfile);
+router.get("/getTicketFeed", db.getTicketFeed);
+router.get("/getTicket/:id", db.getTicket);
+router.get("/getUserSolutionFeed/:username", db.getUserSolutionFeed);
+router.get("/getUserTicketFeed/:username", db.getUserTicketFeed);
 
 
 module.exports = router;

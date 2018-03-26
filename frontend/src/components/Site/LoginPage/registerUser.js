@@ -7,8 +7,7 @@ class RegisterUser extends React.Component {
     constructor() {
         super();
         this.state = {
-            firstName: '',
-            lastName: '',
+            fullName: '',
             username: '',
             password: '',
             verifyPassword: '',
@@ -24,8 +23,8 @@ class RegisterUser extends React.Component {
     }
 
     handleRegisterButton = e => {
-        const { firstName, lastName, username, password, verifyPassword, email } = this.state;
-        if (!firstName || !lastName, !username, !password || !verifyPassword, !email) {
+        const { fullName, username, password, verifyPassword, email } = this.state;
+        if (!fullName || !username, !password || !verifyPassword, !email) {
             this.setState({
                 message: 'Please fill out all fields.'
             })
@@ -42,17 +41,16 @@ class RegisterUser extends React.Component {
                 .post('/users/new', {
                     username: username,
                     password: password,
-                    email: email
+                    email: email,
+                    fullName: fullName
                 })
                 .then(res => {
                     console.log(`res.data`, res.data)
                     this.setState({
                         username: '',
-                        password: '',
-                        firstName: '',
-                        lastName: '',
-                        password: '',
+                        fullName: '',
                         email: '',
+                        password: '',
                         verifyPassword: '',
                         message: 'Registration Successful'
                     })
@@ -70,7 +68,7 @@ class RegisterUser extends React.Component {
 
 
     render() {
-        const { message, firstName, lastName, email, password, verifyPassword, username } = this.state
+        const { message, fullName, email, password, verifyPassword, username } = this.state
         console.log(`register state`, this.state)
         return (
             <div className="auth" id="register">
@@ -78,7 +76,7 @@ class RegisterUser extends React.Component {
                     <h2><Link to="/home"><i className="fas fa-code"></i></Link></h2>
                     <h2>TyroDev</h2>
                     <div id="register-inputs">
-                      <input name="firstName" placeholder="Full Name" type="text" onChange={this.handleInput} value={firstName} />
+                      <input name="fullName" placeholder="Full Name" type="text" onChange={this.handleInput} value={fullName} />
                       <input name="email" type="email" placeholder="Email" onChange={this.handleInput} value={email} />
                       <input name="username" type="text" placeholder="Username" onChange={this.handleInput} value={username} />
                       <input name="password" type="password" placeholder="Password" onChange={this.handleInput} value={password} />
@@ -92,5 +90,8 @@ class RegisterUser extends React.Component {
         )
     }
 }
+
+
+
 
 export default RegisterUser
