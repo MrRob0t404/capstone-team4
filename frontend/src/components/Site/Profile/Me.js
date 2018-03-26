@@ -41,6 +41,7 @@ class Me extends React.Component {
           <h2>{visiting.username}</h2>
           <h3>{`level`}</h3>
           <h3>{visiting.email}</h3>
+          <button onClick={logOut}>Logout</button>
         </div>
         <div id="language-container">
           <h3>Languages</h3>
@@ -54,7 +55,6 @@ class Me extends React.Component {
           <Link to={`link`}>{`link`}</Link>
           <Link to={`link`}>{`link`}</Link>
         </div>
-        <button onClick={logOut}>LOG OUT</button>
       </div>
     )
   }

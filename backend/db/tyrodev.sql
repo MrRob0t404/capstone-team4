@@ -41,7 +41,6 @@ CREATE TABLE problem (
 );
 
 
-
 CREATE TABLE solution (
     ID SERIAL PRIMARY KEY,
     ticketID INTEGER REFERENCES tickets(ID),

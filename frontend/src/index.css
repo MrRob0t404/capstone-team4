@@ -67,12 +67,11 @@ ul {
 }
 
 #global-nav {
-  height: 8vh;
   display: flex;
   background-color: #272633;
   justify-content: space-around;
   box-shadow: 0 2px 10px #ccc;
-  padding-top: 15px;
+  padding: 15px;
   font-size: 1.5em;
   color: white;
   z-index: 1;

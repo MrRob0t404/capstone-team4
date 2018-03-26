@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
-import LandingPage from './LandingPage';
+import LandingPage from './LandingPage/LandingPage';
 import IssueRouter from './Issues/IssueRouter';
 import Profile from './Profile/Profile';
 

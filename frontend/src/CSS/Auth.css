@@ -1,36 +1,37 @@
-.divider {
-  width: 20vw;
-  height: 1px;
-  border-bottom: 1px solid white;
-  position: absolute;
-  margin-top: 52.5vh;
-}
-
-.divider-label {
-  background: #272633;
-  padding: 0 1%;
-  z-index: 1;
-}
-
-#auth {
-  height: 100vh;
-  background-color: #272633;
+.auth {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #272633, #262E39);
   display: flex;
   justify-content: center;
 }
 
-#auth-container {
-  width: 40vw;
-  height: 70vh;
-  margin-top: 5vh;
-  padding: 5vw;
+#login-container, #register-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
 }
 
-#auth-container > button {
+#login-container {
+  width: 40vw;
+  margin-top: 10vh;
+  padding: 5vw;
+  min-height: 77.5vh
+}
+
+#register-container {
+  width: 40vw;
+  margin-top: 1vh;
+  padding: 1vw;
+}
+
+#register-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container > button {
   width: 22.5vw;
   height: 7vh;
   font-size: 1em;
@@ -40,25 +41,21 @@
   outline: none;
 }
 
-#auth-container > button:last-of-type {
+.auth-container > button:last-of-type {
   background-color: #8AD42C;
   color: white;
   padding-top: 3%;
   text-align: center;
 }
 
-#auth-container > button:last-of-type > p {
-  margin: 3px 0;
-}
-
-#auth-container > input {
+#login-container > input,  #register-inputs > input {
   width: 20vw;
   height: 5vh;
   border: .1px solid #272633;
   margin-bottom: 5vh;
 }
 
-#auth-container > h2 {
+.auth-container > h2 {
   margin: 0 auto 4vh auto;
 }
 
