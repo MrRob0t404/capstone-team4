@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AllIssues from './AllIssues'
 import NewIssue from './NewIssue'
+import SolvedIssues from './solvedIssues'
+import OpenIssues from './openIssues'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import '../../.././CSS/OpenIssue.css';
@@ -19,6 +21,26 @@ class IssueRouter extends Component {
     }
   }
 
+  handleOpenIssues = () => {
+    return (
+      <OpenIssues />
+    )
+  }
+
+
+  handleAllIssues = () => {
+    return (
+      <AllIssues />
+    )
+  }
+
+
+  handleSolvedIssues = () => {
+    return (
+      <SolvedIssues />
+    )
+  }
+
   inputHandler = e => this.setState({[e.target.name]: e.target.value})
 
   renderNextPage = e => {
@@ -29,6 +51,7 @@ class IssueRouter extends Component {
     // }
     this.setState({formComplete: true})
   }
+
 
   openIssue = () => {
   const { user, loading } = this.props;
@@ -58,8 +81,10 @@ class IssueRouter extends Component {
     return(
       <div id="issue-router">
         <Switch>
-          <Route exact path="/issues" component={AllIssues}/>
-          <Route path="/issues/new" render={this.openIssue}/>
+          <Route exact path="/issues/all" component={this.handleAllIssues}/>
+          <Route exact path="/issues/open" component={this.handleOpenIssues}/>
+          <Route exact path="/issues/solved" component={this.handleSolvedIssues}/>
+          <Route exact path="/issues/new" render={this.openIssue}/>
           <Route path="/issues/:issuesID" component={CodeEditor}/>
         </Switch>
       </div>

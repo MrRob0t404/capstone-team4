@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS users, problem, files, solution, comments, tickets;
 
 CREATE TABLE users (
     ID SERIAL PRIMARY KEY,
+    fullName VARCHAR,
     username VARCHAR,
     password_digest VARCHAR,
     email VARCHAR,

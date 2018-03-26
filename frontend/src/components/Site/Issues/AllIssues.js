@@ -1,46 +1,54 @@
 import React from 'react';
+import axios from 'axios';
 import {Link, Route} from 'react-router-dom';
 import '../../.././CSS/Issues.css';
 
-class Issues extends React.Component {
+class AllIssues extends React.Component {
   constructor() {
     super()
     this.state = {
-      userdata: {
-        name: 'Jane Doe',
-        date: '3/11/18',
-        status: 'Open',
-        responses: 3,
-        title: 'Whenever I rerender my routes dont work.',
-        profilePic: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-        ticketID: 3
-      }
+      userdata: []
     }
   }
 
+  componentDidMount(){
+    axios
+    .get('/users/getTicketFeed')
+    .then(res => {
+        this.setState({
+          userdata: res.data.data
+        })
+    })
+    .catch(err => {
+      console.log(`err fetching feed`, err)
+    })
+  }
+
+
   renderIssues = () => {
-    let allIssues = [this.state.userdata, this.state.userdata, this.state.userdata]
-    return allIssues.map((v, i) =>
+    const { userdata } = this.state
+    return userdata.map((v, i) =>
       <div class="issue" id={`${i}`}>
-        <img src={v.profilePic} />
-        <p>{v.name}</p>
-        <p>{v.date}</p>
-        <Link to={`/issues/${i+1}`}>
+        <img src={v.profilepic} />{" "}
+       <Link to={`/profile/${v.username}`}> <p>{v.username}</p></Link>
+        <p>{v.ticketdate}</p>
+        <Link to={`/issues/${v.id}`}>
         <h3>{v.title}</h3></Link>
-        <p>{`${v.responses} Responses`}</p>
-        <p>Status: <span className={v.status.toLowerCase()}>{v.status}</span></p>
+        <p>{v.responses === '0' ? 'No Responses!, be the first!' : `${v.responses} Response(s)`}</p>
+        <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>
       </div>)
   }
 
   render () {
-    console.log(this.renderIssues())
+    const { userdata } = this.state
+    console.log(`userdata`,userdata)
       return (
         <div id="issues">
           <nav id="issues-filter">
             <div>
-              <button>Open</button>
-              <button>Solved</button>
-              <button>All</button>
+              <Link to='/issues/open'><button>Open</button></Link>
+              <Link to='/issues/solved'><button>Solved</button></Link>
+              <Link to='/issues/all'><button>All</button></Link>
             </div>
             <Link to="issues/new">New</Link>
           </nav>
@@ -52,4 +60,4 @@ class Issues extends React.Component {
     }
 }
 
-export default Issues;
+export default AllIssues;

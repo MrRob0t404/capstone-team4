@@ -7,8 +7,7 @@ class RegisterUser extends React.Component {
     constructor() {
         super();
         this.state = {
-            firstName: '',
-            lastName: '',
+            fullName: '',
             username: '',
             password: '',
             verifyPassword: '',
@@ -24,8 +23,8 @@ class RegisterUser extends React.Component {
     }
 
     handleRegisterButton = e => {
-        const { firstName, lastName, username, password, verifyPassword, email } = this.state;
-        if (!firstName || !lastName, !username, !password || !verifyPassword, !email) {
+        const { fullName, username, password, verifyPassword, email } = this.state;
+        if (!fullName || !username, !password || !verifyPassword, !email) {
             this.setState({
                 message: 'Please fill out all fields.'
             })
@@ -42,16 +41,14 @@ class RegisterUser extends React.Component {
                 .post('/users/new', {
                     username: username,
                     password: password,
-                    email: email
+                    email: email,
+                    fullName: fullName
                 })
                 .then(res => {
                     console.log(`res.data`, res.data)
                     this.setState({
                         username: '',
-                        password: '',
-                        firstName: '',
-                        lastName: '',
-                        password: '',
+                        fullName: '',
                         email: '',
                         verifyPassword: '',
                         message: 'Registration Successful'
@@ -70,15 +67,14 @@ class RegisterUser extends React.Component {
 
 
     render() {
-        const { message, firstName, lastName, email, password, verifyPassword, username } = this.state
+        const { message, fullName, email, password, verifyPassword, username } = this.state
         console.log(`register state`, this.state)
         return (
             <div id="auth">
                 <div id="auth-container">
                     <h2><Link to="/home"><i className="fas fa-code"></i></Link></h2>
                     <h2>TyroDev</h2>
-                    <input name="firstName" placeholder="First Name" type="text" onChange={this.handleInput} value={firstName} />
-                    <input name="lastName" placeholder="Last Name" type="text" onChange={this.handleInput} value={lastName} />
+                    <input name="fullName" placeholder="Full Name" type="text" onChange={this.handleInput} value={fullName} />
                     <input name="email" type="email" placeholder="email" onChange={this.handleInput} value={email} />
                     <input name="username" type="text" placeholder="username" onChange={this.handleInput} value={username} />
                     <input name="password" type="password" placeholder="password" onChange={this.handleInput} value={password} />
