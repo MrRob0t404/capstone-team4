@@ -42,7 +42,7 @@ class Issues extends React.Component {
               <button>Solved</button>
               <button>All</button>
             </div>
-            <Link to="issues/new">New</Link>
+            <Link to="/issues/new">New</Link>
           </nav>
           <div id="issues-container">
             {this.renderIssues()}

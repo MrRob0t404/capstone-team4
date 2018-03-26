@@ -17,7 +17,9 @@ class ChooseFiles extends Component {
   componentWillMount = (props) => {
     let files = []
     let dirs = []
+
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
+      console.log(this.makeObjForPath('root', res.data))
       res.data.forEach(v => v.type === 'file' ? files.push(v.path) : dirs.push(v.path))
       this.setState({
         githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`,
@@ -25,6 +27,22 @@ class ChooseFiles extends Component {
         allDirs: dirs
       })
     })
+  }
+
+  makeObjForPath = (pathName, contentsArr) => {
+    let files = []
+    let dirs = []
+    let obj = {
+      name: pathName,
+      files: [],
+      dirs: []
+    }
+    contentsArr.forEach(v => {
+      v.type === 'file' ?
+        obj.files.push(v):
+        obj.dirs.push(v)
+    })
+    return obj
   }
 
   select = e => {
@@ -42,21 +60,16 @@ class ChooseFiles extends Component {
   selectDirs = e => {
     let files = this.state.allFiles
     let dirs = this.state.allDirs
-    let paths = this.state.allPaths
-    dirs.splice(dirs.indexOf(e.target.innerText), 1)
-    // console.log('dirs', dirs)
-    // this.setState({allDirs: dirs})
-    paths.push(e.target.innerText)
-    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${e.target.innerText}`)
+    let innerText = e.target.innerText
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${innerText}`)
       .then(res => {
+        console.log('obj!!!!!!!!!', this.makeObjForPath(innerText, res.data))
         console.log('res.data !!!!', res.data)
         res.data.forEach(v => {
           if(v.type === 'file'){
-            files.push(v.path)
             this.setState({allFiles: files})
           }else{
-            dirs.push(v.path)
-            this.setState({allDirs: dirs, allPaths: paths})
+            this.setState({allDirs: dirs})
           }
         })
       })
