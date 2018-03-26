@@ -6,39 +6,57 @@ import Solutions from './ProfileSolutions';
 import '../../.././CSS/Profile.css';
 
 class Profile extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.state = {
+      currentUserProfile: ''
+    }
   }
 
 
-  renderMyProfile = () => {
-    const { logOut, user } = this.props
-    return <Me user={user} logOut={logOut}/>
+  setCurrentUserProfile = (user) => {
+    this.setState({
+      currentUserProfile: user
+    })
+  }
+
+  renderMyProfile = (props) => {
+    const { logOut, user } = this.props;
+    const { username } = props.match.params;
+    return <Me user={user} logOut={logOut} username={username} setUser={this.setCurrentUserProfile}/>
   }
  
 
- renderIssuesPage = () => {
-  const { user } = this.props
-    return <Issues user={user} />
+ renderIssuesPage = (props) => {
+  const { user } = this.props;
+  const { username } = props.match.params;
+    return <Issues user={user} username={username} setUser={this.setCurrentUserProfile}/>
   } 
 
+
+  renderSolutions = (props) => {
+    const { user } = this.props;
+    const { username } = props.match.params;
+    return <Solutions username={username} user={user} setUser={this.setCurrentUserProfile} />
+  }
 
 
   render () {
     const { user } = this.props
+    const { currentUserProfile } = this.state
     console.log(`profile`, user)
    
     return (
       <div id="profile">
         <nav id="profile-nav">
-          <Link to="/profile">Me</Link>
-          <Link to="/profile/issues">Issues</Link>
-          <Link to="/profile/solutions">Solutions</Link>
+          <Link to={`/profile/${currentUserProfile}`}>Me</Link>
+          <Link to={`/profile/issues/${currentUserProfile}`}>Issues</Link>
+          <Link to={`/profile/solutions/${currentUserProfile}`}>Solutions</Link>
         </nav>
         <Switch>
-          <Route exact path='/profile' component={this.renderMyProfile} />
-          <Route path='/profile/issues' component={this.renderIssuesPage} />
-          <Route path='/profile/solutions' component={Solutions} />
+          <Route exact path='/profile/:username' component={this.renderMyProfile} />
+          <Route path='/profile/issues/:username' component={this.renderIssuesPage} />
+          <Route path='/profile/solutions/:username' component={this.renderSolutions} />
         </Switch>
       </div>
     )
