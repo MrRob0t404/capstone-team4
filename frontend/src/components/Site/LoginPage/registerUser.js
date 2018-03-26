@@ -50,6 +50,7 @@ class RegisterUser extends React.Component {
                         username: '',
                         fullName: '',
                         email: '',
+                        password: '',
                         verifyPassword: '',
                         message: 'Registration Successful'
                     })
