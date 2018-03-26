@@ -25,11 +25,11 @@
   float: left;
 }
 
-.issue > p {
+.issue > p, .issue > a > p {
   display: inline-block;
 }
 
-.issue > p:first-of-type {
+.issue > a:first-of-type {
   margin-left: 1%;
 }
 
