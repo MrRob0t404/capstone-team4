@@ -18,6 +18,51 @@ class ChooseFiles extends Component {
     let dirs = []
 
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      let path = [this.makePathObj('root', res.data)]
+      console.log('!!!!!!!!!!!!!!!!!', path)
+      res.data.forEach(v => v.type === 'file' ? files.push(v.path) : dirs.push(v.path))
+      this.setState({
+        githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`,
+        allFiles: files,
+        allDirs: dirs,
+        allPaths: path
+      })
+    })
+  }
+
+  makeObjForPath = (pathName, contentsArr) => {
+    let files = []
+    let dirs = []
+    let obj = {
+      name: pathName,
+      files: [],
+      dirs: []
+    }
+    contentsArr.forEach(v => {
+      v.type === 'file' ?
+        obj.files.push(v):
+        obj.dirs.push(v)
+    })
+    return obj
+  }
+
+  select = e => {
+    let path = e.target.dataset.path
+    let selectedFileNames = this.state.selectedFileNames;
+    if (selectedFileNames.indexOf(path) >= 0 || selectedFileNames.indexOf(e.target.innerText) >= 0) {
+      selectedFileNames.splice(selectedFileNames.indexOf(path), 1)
+      this.setState({selectedFileNames: selectedFileNames})
+    } else {
+        selectedFileNames.push(path)
+        this.setState({selectedFileNames: selectedFileNames})
+    }
+  }
+
+=======
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
       res
         .data
         .forEach(v => v.type === 'file'
@@ -27,8 +72,24 @@ class ChooseFiles extends Component {
     })
   }
 
+<<<<<<< HEAD
   selectDirs = e => {
     let paths = this.state.allPaths
+=======
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
+  selectDirs = e => {
+    let paths = this.state.allPaths
+<<<<<<< HEAD
+    let path = e.target.dataset.path
+    e.target.disabled = true
+    console.log('fjdsls', path[e.target.dataset.index])
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${path}`)
+      .then(res => {
+        paths.push(this.makePathObj(path, res.data))
+        this.setState({allPaths: paths})
+      })
+=======
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
     dirs.splice(dirs.indexOf(e.target.innerText), 1)
     // console.log('dirs', dirs) this.setState({allDirs: dirs})
     paths.push(e.target.innerText)
@@ -46,6 +107,10 @@ class ChooseFiles extends Component {
           }
         })
     })
+<<<<<<< HEAD
+=======
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
   }
 
   makePathObj = (name, contentArr) => {
@@ -88,10 +153,30 @@ class ChooseFiles extends Component {
 
           <div className="column">
             <h3>Files</h3>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            {this.state.allPaths.map(v => {
+               console.log(v.name)
+                if(v.files[0]){
+                  return (<div className="path-container">
+                    <h3>{v.name}</h3>
+                    {v.files.map(v =>
+                      <button data-path={v.path} onClick={this.select}>{v.name}</button>
+                    )}
+                  </div>)
+              }})
+            }
+=======
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
             {this
               .state
               .allFiles
               .map(v => <p onClick={this.props.selectFile}>{v}</p>)}
+<<<<<<< HEAD
+=======
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
           </div>
 
           <div className="column" id="embed-list">
@@ -105,9 +190,19 @@ class ChooseFiles extends Component {
           </div>
         </div>
         <div className="fullWidth">
+<<<<<<< HEAD
           <Link to="/issues/new/edit">
             <button onClick={this.props.handleClick}>Done</button>
           </Link>
+=======
+<<<<<<< HEAD
+          <Link to="/issues/new/edit"><button>Next</button></Link>
+=======
+          <Link to="/issues/new/edit">
+            <button onClick={this.props.handleClick}>Done</button>
+          </Link>
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
+>>>>>>> 8c09557a160b6c34df00309b38b392591dbaf3e4
         </div>
       </div>
     )
