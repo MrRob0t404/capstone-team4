@@ -27,7 +27,6 @@ class OpenIssues extends React.Component {
 
     renderIssues = () => {
         const { userdata } = this.state
-        console.log(`openissue`, userdata)
         return userdata.map((v, i) =>
             <div class="issue" id={`${i}`}>
                 <img src={v.profilepic} />{" "}
@@ -42,7 +41,6 @@ class OpenIssues extends React.Component {
 
     render() {
         const { userdata } = this.state
-        console.log(`openissue`, userdata)
         return (
             <div id="issues">
                 <nav id="issues-filter">

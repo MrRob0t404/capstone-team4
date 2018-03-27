@@ -12,7 +12,7 @@ class Solutions extends React.Component {
 
   componentDidMount(){
     axios
-    .get(`/users/getUserSolutionFeed/${this.props.username}`)
+    .get(`/users/getUserProfileSolutions/${this.props.username}`)
     .then(res => {
       this.setState({
         userdata: res.data.data
@@ -26,7 +26,6 @@ class Solutions extends React.Component {
 
   renderIssues = () => {
     const { userdata } = this.state
-    console.log(`openissue`, userdata)
     return userdata.map((v, i) =>
         <div class="issue" id={`${i}`}>
             <img src={v.profilepic} />{" "}
@@ -42,7 +41,7 @@ class Solutions extends React.Component {
 
   render () {
     const { userdata } = this.state;
-    console.log(`userData`, userdata)
+
     return (
       <div id="issues-container">
             {this.renderIssues()}

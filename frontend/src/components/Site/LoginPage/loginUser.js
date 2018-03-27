@@ -29,7 +29,6 @@ class LoginUser extends Component {
         password: password
       })
       .then(res => {
-        console.log(`this is res.data`, res.data);
         this.props.setUser(res.data.user);
         this.setState({
           username: '',
