@@ -6,12 +6,12 @@ class SoloEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      rightEditor: this.githubCode,
       files: ['index.html', 'style.css', 'app.js'],
-      renderDescription: true,
-      originalCode: code,
-      editedCode: code,
-      lines: []
+      currentFile: 'index.html',
+      lines: [],
+      currentIssue: 0,
+      issueDescription: '',
+      allProblems: []
     }
     this.cells = [];
   }
@@ -19,13 +19,6 @@ class SoloEditor extends React.Component {
   componentDidMount() {
 
   }
-
-  renderDescription = () => (
-    <div className="description">
-      <h3>Description</h3>
-      <textarea></textarea>
-    </div>
-  )
 
   addOnClick = () => {
     let lines = this.state.lines
@@ -46,6 +39,21 @@ class SoloEditor extends React.Component {
     }
   }
 
+  addProblem = () => {
+    let issueObj = {
+      description: this.state.issueDescription
+    }
+    this.setState({})
+  }
+
+  handleProblemDescription = e => {
+    this.setState({issueDescription: e.target.value})
+  }
+
+  submitTicket = () => {
+
+  }
+
   render() {
     const {rightEditor} = this.state
     if(this.cells[0]){
@@ -64,8 +72,20 @@ class SoloEditor extends React.Component {
         </div>
         <div id="right-pane">
           <div className="pane-section">
-            {this.renderDescription()}
+            <div className="description">
+              <h3>Description</h3>
+              <textarea onChange={this.handleProblemDescription} value={this.state.issueDescription}></textarea>
+            </div>
+            <div className="description">
+              <h3>Issues<button onClick={this.addProblem}>+</button></h3>
+              <ul>
+                {this.state.allProblems.map((v, i) => <li>{`Issue ${i+1}`}</li>)}
+              </ul>
+            </div>
           </div>
+        </div>
+        <div className="pane-buttons">
+          <button onClick={this.submitTicket}>Done</button>
         </div>
       </div>
     )

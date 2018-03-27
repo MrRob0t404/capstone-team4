@@ -3,7 +3,24 @@
   height: 30vh;
 }
 
+.pane-buttons {
+  width: 20vw;
+  height: 98%;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-left: 80%;
+  padding-bottom: 2%;
+  justify-content: space-around;
+}
+
+.pane-buttons > button {
+  font-size: 1.5em;
+}
+
 .pane-section {
+  height: 100%;
   padding: 0 5%;
 }
 

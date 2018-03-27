@@ -28,6 +28,9 @@
 .interaction > input {
   background-color: #f8f8f8;
   font-size: 1.5em;
+}
+
+.interaction > input:first-of-type {
   margin-right: 3%;
 }
 
@@ -98,6 +101,7 @@
 #background, #choose, #dual, #edit, #header{
   padding: 4% 6%;
   display: flex;
+  justify-content: space-evenly;
 }
 
 #background {

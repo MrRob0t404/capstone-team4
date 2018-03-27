@@ -136,7 +136,7 @@ class ChooseFiles extends Component {
           </div>
         </div>
         <div className="fullWidth">
-          <Link to="/issues/new/edit"><button>Done</button></Link>
+          <Link to="/issues/new/edit"><button>Next</button></Link>
         </div>
       </div>
     )
