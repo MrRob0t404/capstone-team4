@@ -24,6 +24,7 @@ UserFound = user => {
 };
 
 logOut = () => {
+  const { user } = this.state;
   axios
     .get("/users/logout")
     .then(res => {
@@ -40,9 +41,8 @@ logOut = () => {
 
 componentDidMount(){
   axios
-    .get("/users/getUser")
+    .get("/users/getLoggedinUser")
     .then(res => {
-      // console.log("THIS IS A RESPONSE res.data:" , res.data)
       this.setState({
         user: res.data.user,
         loading: false
@@ -86,7 +86,6 @@ componentDidMount(){
 
   render() {
     const { user, active } = this.state
-    // console.log(`App.js state`, this.state)
 
     return ( 
       <div>

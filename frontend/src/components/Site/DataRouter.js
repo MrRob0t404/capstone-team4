@@ -26,17 +26,11 @@ class DataRouter extends Component {
 
   handleProfile = () => {
     const { user, logOut, loading } = this.props
-    if (loading) {
-      return <div>Loading User...</div>
-    } else if (!user) {
-      return <Redirect to='/login' />
-    } else {
       return <Profile user={user} logOut={logOut} />
-    }
   }
 
   render() {
-    console.log(`dataRouter`, this.props.user)
+
     const { user } = this.props;
     return (
       <div id="data">
@@ -79,3 +73,17 @@ class DataRouter extends Component {
 }
 
 export default DataRouter
+
+
+
+// if (loading) {
+//   return <div>Loading User...</div>
+// } else if (!user) {
+//   return <Redirect to='/login' />
+// } else {
+//   return <Profile user={user} logOut={logOut} />
+// }
+
+
+
+// {user ? <Redirect to={`profile/${user.username}`}/><i class="fas fa-user"></i> : <Redirect to='/login'/><i class="fas fa-user"></i>}

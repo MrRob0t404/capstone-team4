@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
 import brace from 'brace';
-import AceEditor from 'react-ace';
+import AceEditor from 'react-ace-editor';
 
 import 'brace/mode/jsx';
 import 'brace/theme/github';
@@ -16,7 +16,7 @@ class SoloEditor extends Component {
       lines: [],
       currentIssue: 0,
       issueDescription: '',
-      allProblems: []
+      allProblems: [],
 
       language: "javascript",
       rightEditor: this.githubCode,
@@ -30,7 +30,7 @@ class SoloEditor extends Component {
     this.cells = [];
   }
 
-  componentDidMount() {
+  componentDidMount() {}
 
   renderDescription = () => (
     <div id="description">

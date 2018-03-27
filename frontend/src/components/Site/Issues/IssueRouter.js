@@ -157,9 +157,6 @@ class IssueRouter extends Component {
   }
 
   render() {
-    console.log('issuesRouter State decoded obj:', this.state.decodedCodeObj)
-    console.log('selectedFiles:', this.state.selectedFileNames)
-
     return (
       <div id="issue-router">
         {/*<div id="search">

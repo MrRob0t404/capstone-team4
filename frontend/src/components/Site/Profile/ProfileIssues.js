@@ -27,7 +27,7 @@ class Issues extends React.Component {
 
   renderIssues = () => {
     const { userdata } = this.state
-    console.log(`openissue`, userdata)
+
     return userdata.map((v, i) =>
         <div class="issue" id={`${i}`}>
             <img src={v.profilepic} />{" "}

@@ -14,12 +14,10 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   return;
 });
 
+router.get("/getLoggedinUser", loginRequired, db.getUser);
+router.get("/getUserID/:usernam", db.getUserID);
+router.get("/getUserProfileSolutions/:username", db.getUserProfileSolutions);
 router.post("/new", db.createUser);
-<<<<<<< HEAD
-
-router.get("/getUser", loginRequired, db.getUser);
-=======
->>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
 router.get("/logout", loginRequired, db.logoutUser);
 router.get("/profile/:username", db.getUserProfile);
 router.get("/getTicketFeed", db.getTicketFeed);

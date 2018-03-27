@@ -40,9 +40,9 @@ function getUser(req, res, next) {
 
 function getTicketFeed(req, res, next) {
   db
-    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.userid, COUNT(users.id) AS responses
-        FROM tickets JOIN users ON tickets.userid = users.id JOIN solution ON solution.ticketid = tickets.id
-        GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.userid`)
+    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, COUNT(users.id) AS responses
+        FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id
+        GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid ORDER BY tickets.id DESC`)
     .then(function (data) {
       res.status(200).json({
         status: "success",
@@ -97,7 +97,7 @@ function editUserProfile(req, res, next) {
 
 function getUserTicketFeed(req, res, next) {
   db
-    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.userid, COUNT(users.id) AS responses FROM tickets JOIN users ON tickets.userid = users.id JOIN solution ON solution.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.userid", { username: req.params.username })
+    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, COUNT(users.id) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid", { username: req.params.username })
     .then(function (data) {
       res.status(200).json({
         status: 'Success',
@@ -116,28 +116,28 @@ function getUserTicketFeed(req, res, next) {
 
 
 
-function getUserSolutionFeed(req, res, next) {
-  db
-    .any("SELECT * FROM solution JOIN tickets ON solution.ticketid = tickets.id JOIN users ON solution.userid = users.id WHERE users.username=${username}", { username: req.params.username })
-    .then(function (data) {
-      res.status(200).json({
-        status: 'Success',
-        data: data,
-        message: 'Fetched User Solution feed'
-      })
-    })
-    .catch(err => {
-      console.log(`err in getUserSolutionFeed`, err)
-      res.status(500).json({
-        message: "FAILED: getUserSolutionFeed"
-      });
-    })
-}
+// function getUserSolutionFeed(req, res, next) {
+//   db
+//     .any("SELECT *, COUNT(users.id) AS RESPONSES FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE solutions.solution_userid=${userid} GROUP BY tickets.id, users.id, solutions.id", { userid: req.params.userid})
+//     .then(function (data) {
+//       res.status(200).json({
+//         status: 'Success',
+//         data: data,
+//         message: 'Fetched User Solution feed'
+//       })
+//     })
+//     .catch(err => {
+//       console.log(`err in getUserSolutionFeed`, err)
+//       res.status(500).json({
+//         message: "FAILED: getUserSolutionFeed"
+//       });
+//     })
+// }
 
 
 function getTicket(req, res, next) {
   db
-    .any("SELECT * FROM tickets JOIN users ON tickets.userid = users.id JOIN solution ON solution.ticketid = tickets.id JOIN files ON solution.fileid = files.id JOIN problem ON problem.ticketid = tickets.id JOIN comments ON comments.problemid = problem.id WHERE tickets.id=${id}", { id: req.params.id })
+    .any("SELECT * FROM tickets JOIN users ON tickets.userid = users.id JOIN solutions ON solutions.ticketid = tickets.id JOIN files ON solutions.fileid = files.id JOIN problem ON problem.ticketid = tickets.id JOIN comments ON comments.problemid = problem.id WHERE tickets.id=${id}", { id: req.params.id })
     .then(function (data) {
       res.status(200)
         .json({
@@ -175,18 +175,59 @@ function getUserProfile(req, res, next) {
 
 
 
+function getUserID(req, res, next) {
+  db
+
+    .catch(err => {
+      console.log(`err fetching userID`, err)
+      res.status(500)
+        .json({
+          message: `error getting userid`
+        })
+    })
+}
+
+function getUserProfileSolutions(req, res, next) {
+  console.log(`req.params`,req.params)
+  db
+    .one("SELECT id FROM users WHERE username=${username}", { username: req.params.username })
+    .then(data => {
+      db
+        .any("SELECT *, COUNT(users.id) AS RESPONSES FROM tickets JOIN users ON " +
+        "tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE solutions.solution_userid = ${id} " +
+        "GROUP BY tickets.id, users.id, solutions.id", { id: data.id })
+        .then(data => {
+          res.status(200)
+            .json({
+              data: data
+            })
+        })
+    })
+    .catch(err => {
+      console.log('err fetching profile solutions', err)
+      res.status(500)
+        .json({
+          message: 'error fethcing profile solutions', err
+        })
+    })
+}
+
+
+
+
 module.exports = {
   createUser,
   logoutUser,
   getUser,
   getTicketFeed,
   getUserTicketFeed,
-  getUserSolutionFeed,
   getTicket,
   getUserProfile,
+  getUserID,
+  getUserProfileSolutions
 };
 
 
 
 
-
+// getUserSolutionFeed,

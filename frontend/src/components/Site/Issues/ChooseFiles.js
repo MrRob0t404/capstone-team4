@@ -29,6 +29,8 @@ class ChooseFiles extends Component {
 
   selectDirs = e => {
     let paths = this.state.allPaths
+    let files = this.state.allFiles
+    let dirs = this.state.allDirs
     dirs.splice(dirs.indexOf(e.target.innerText), 1)
     // console.log('dirs', dirs) this.setState({allDirs: dirs})
     paths.push(e.target.innerText)
