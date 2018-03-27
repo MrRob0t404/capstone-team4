@@ -63,7 +63,6 @@ class ChooseFiles extends Component {
   }
 
   render() {
-    console.log('state', this.state)
 
     return (
       <div id="choose-files">

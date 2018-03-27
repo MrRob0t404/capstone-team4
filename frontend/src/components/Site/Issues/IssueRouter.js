@@ -112,7 +112,6 @@ class IssueRouter extends Component {
   }
 
   render() {
-    console.log('issuesRouter State :', this.state)
     return (
       <div id="issue-router">
         <Switch>

@@ -8,14 +8,15 @@ class Me extends React.Component {
     this.state = {
       user: null,
       visiting: [],
+
     }
   }
 
-  componentDidMount(){
+  fetchProfile = (username) => {
+    const { user } = this.state
     axios
-    .get(`/users/profile/${this.props.username}`)
+    .get(`/users/profile/${username}`)
     .then(res => {
-      console.log(`new response`, res.data.data)
       this.setState({
         visiting: res.data.data[0]
       })
@@ -26,13 +27,22 @@ class Me extends React.Component {
     })
   }
 
+  componentDidMount(){
+   this.fetchProfile(this.props.username);
+  }
 
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.username !== this.props.username) {
+      this.fetchProfile(nextProps.username)
+    } 
+  }
+  
  
 
   render(){
-    const { user, logOut } = this.props;
+    const { user, logOut, setUser } = this.props;
     const { visiting } = this.state;
-    console.log(`me`, visiting)
 
     return(
       <div id="profile">
@@ -41,7 +51,7 @@ class Me extends React.Component {
           <h2>{visiting.username}</h2>
           <h3>{`level`}</h3>
           <h3>{visiting.email}</h3>
-          <button onClick={logOut}>Logout</button>
+         {user ? user.id === visiting.id ? <Link to='/home'><button onClick={logOut}>Logout</button></Link> : <div></div> : <div></div>}
         </div>
         <div id="language-container">
           <h3>Languages</h3>
