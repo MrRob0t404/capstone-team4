@@ -22,7 +22,7 @@ router.get("/logout", loginRequired, db.logoutUser);
 router.get("/profile/:username", db.getUserProfile);
 router.get("/getTicketFeed", db.getTicketFeed);
 router.get("/getTicket/:id", db.getTicket);
-router.get("/getUserSolutionFeed/:username", db.getUserSolutionFeed);
+// router.get("/getUserSolutionFeed/:username", db.getUserSolutionFeed);
 router.get("/getUserTicketFeed/:username", db.getUserTicketFeed);
 
 

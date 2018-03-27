@@ -257,6 +257,10 @@
     display: none;
   }
 
+  .laptop-code {
+    font-size: .6em;
+  }
+
   .screen {
     width: 80vw;
     height: auto;

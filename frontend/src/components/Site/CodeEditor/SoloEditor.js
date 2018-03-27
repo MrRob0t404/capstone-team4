@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
 import brace from 'brace';
-import AceEditor from 'react-ace-editor';
+import AceEditor from 'react-ace';
 
 import 'brace/mode/jsx';
 import 'brace/theme/github';
@@ -11,13 +11,6 @@ class SoloEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: ['index.html', 'style.css', 'app.js'],
-      currentFile: 'index.html',
-      lines: [],
-      currentIssue: 0,
-      issueDescription: '',
-      allProblems: [],
-
       language: "javascript",
       rightEditor: this.githubCode,
       files: this.props.selectedFiles,
@@ -29,8 +22,6 @@ class SoloEditor extends Component {
     }
     this.cells = [];
   }
-
-  componentDidMount() {}
 
   renderDescription = () => (
     <div id="description">
@@ -76,21 +67,6 @@ class SoloEditor extends Component {
     }
   }
 
-  addProblem = () => {
-    let issueObj = {
-      description: this.state.issueDescription
-    }
-    this.setState({})
-  }
-
-  handleProblemDescription = e => {
-    this.setState({issueDescription: e.target.value})
-  }
-
-  submitTicket = () => {
-
-  }
-
   render() {
     const {rightEditor, selectedFile} = this.state
     const {decodedContentObj} = this.props
@@ -131,21 +107,11 @@ class SoloEditor extends Component {
         </div>
         <div id="right-pane">
           <div className="pane-section">
-            <div className="description">
-              <h3>Description</h3>
-              <textarea onChange={this.handleProblemDescription} value={this.state.issueDescription}></textarea>
-            </div>
-            <div className="description">
-              <h3>Issues<button onClick={this.addProblem}>+</button></h3>
-              <ul>
-                {this.state.allProblems.map((v, i) => <li>{`Issue ${i+1}`}</li>)}
-              </ul>
-            </div>
+            {this.renderDescription()}
           </div>
         </div>
-        <div className="pane-buttons">
-          <button onClick={this.submitTicket}>Done</button>
-        </div>
+        {/* Solo code editor */}
+        <div></div>
       </div>
     )
   }

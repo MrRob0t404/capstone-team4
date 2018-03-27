@@ -16,7 +16,6 @@ class ChooseFiles extends Component {
   componentWillMount = (props) => {
     let files = []
     let dirs = []
-
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
       res
         .data
@@ -28,9 +27,9 @@ class ChooseFiles extends Component {
   }
 
   selectDirs = e => {
-    let paths = this.state.allPaths
     let files = this.state.allFiles
     let dirs = this.state.allDirs
+    let paths = this.state.allPaths
     dirs.splice(dirs.indexOf(e.target.innerText), 1)
     // console.log('dirs', dirs) this.setState({allDirs: dirs})
     paths.push(e.target.innerText)
@@ -50,21 +49,6 @@ class ChooseFiles extends Component {
     })
   }
 
-  makePathObj = (name, contentArr) => {
-    let obj = {
-      name: name,
-      files: [],
-      dirs: []
-    }
-
-    contentArr.forEach(v => {
-      v.type === 'file'?
-        obj.files.push(v):
-        obj.dirs.push(v)
-    })
-    return obj
-  }
-
   render() {
 
     return (
@@ -75,17 +59,10 @@ class ChooseFiles extends Component {
 
           <div className="column">
             <h3>Directories</h3>
-            {this.state.allPaths.map(v => {
-               console.log(v.name)
-                if(v.dirs[0]){
-                  return (<div className="path-container">
-                    <h3>{v.name}</h3>
-                    {v.dirs.map((v,i) =>
-                      <button data-path={v.path} data-index={i} onClick={this.selectDirs}>{v.name}</button>
-                    )}
-                  </div>)
-              }})
-            }
+            {this
+              .state
+              .allDirs
+              .map(v => <p onClick={this.selectDirs}>{v}</p>)}
           </div>
 
           <div className="column">
@@ -96,13 +73,13 @@ class ChooseFiles extends Component {
               .map(v => <p onClick={this.props.selectFile}>{v}</p>)}
           </div>
 
-          <div className="column" id="embed-list">
+          <div id="embed-list">
             <h3>Embedding</h3>
             <div id="file-names">
               {this
                 .props
                 .selectedFileNames
-                .map(v => <p onClick={this.select}>{v}</p>)}
+                .map(v => <p>{v}</p>)}
             </div>
           </div>
         </div>

@@ -159,10 +159,6 @@ class IssueRouter extends Component {
   render() {
     return (
       <div id="issue-router">
-        {/*<div id="search">
-          <input id="search-bar" placeholder="Search" />
-          <button id="search-button"><i class="fas fa-search"></i></button>
-        </div>*/}
         <Switch>
           <Route path="/issues/all" component={this.handleAllIssues}/>
           <Route path="/issues/open" component={this.handleOpenIssues}/>
