@@ -42,7 +42,8 @@ class IssueRouter extends Component {
       language: '',
       message: 'Please fill all input feilds',
       selectedFileNames: [],
-      encodedContent: ''
+      encodedContent: '',
+      decodedCodeArr: []
     }
   }
 
@@ -88,38 +89,49 @@ class IssueRouter extends Component {
     }
   }
 
-  handleClick = () => {
-    const {selectedFileNames} = this.state
+  getDecodedData = (filePath) => {
+    return axios.get(`https://api.github.com/repos/simongaviria1/capstone-team4/contents/${filePath}`)
+  }
 
-    selectedFileNames.map(ele => {
-      axios
-        .get(`https://api.github.com/repos/simongaviria1/capstone-team4/contents/${ele}`)
-        .then(res => {
-          // console.log('encoded content', res.data.content)
-          this.decode(res.data.content)
-        })
+  // Iterates through file paths, decodes them, and adds decoded text to an
+  // decodedCodeArr
+  handleClick = () => {
+    const {selectedFileNames} = this.state //an arr of file paths
+
+    const getEncodedContent = selectedFileNames.map(filePath => {
+      return (this.getDecodedData(filePath))
     })
+
+    Promise
+      .all(getEncodedContent)
+      .then(responses => {
+        const decodedCodeObj = {}
+        responses.forEach(responseObj => {
+          decodedCodeObj[responseObj.data.path] = this.decode(responseObj.data.content)
+        }) //An array of axios calls (obj)
+
+        this.setState({decodedCodeObj: decodedCodeObj}) //sets state with array of responses
+      })
+      .catch(err => {
+        console.log('error getting encoded content: ', err)
+      })
 
   }
 
+  //Decodes 64bit encoded response from github
   decode = (e) => {
-    console.log(true)
-    this.setState({
-      decodedText: window.atob(e)
-    })
+    return window.atob(e)
   }
 
   openIssue = () => {
     const {user, loading} = this.props;
     const {selectedFileNames, repoOwner, repositoryLink, repositoryName} = this.state;
-    // console.log("open issue") console.log("user, loading: ", user)
     if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
       return <Redirect to='/login'/>
     }
     if (this.state.formComplete) {
-      // return (<SoloEditor decodedContent={this.state.decodedContent}/>)
       return (<ChooseFiles
         repositoryName={repositoryName}
         repoOwner={repoOwner}
@@ -139,11 +151,15 @@ class IssueRouter extends Component {
   }
 
   renderSoloEditor = () => {
-    return (<SoloEditor decodedContent={this.state.decodedText}/>)
+    return (<SoloEditor
+      selectedFilesNames={this.state.selectedFileNames}
+      decodedContentObj={this.state.decodedCodeObj}/>)
   }
 
   render() {
-    console.log('issuesRouter State decoded :', this.state.decodedContent)
+    console.log('issuesRouter State decoded obj:', this.state.decodedCodeObj)
+    console.log('selectedFiles:', this.state.selectedFileNames)
+
     return (
       <div id="issue-router">
         <Switch>

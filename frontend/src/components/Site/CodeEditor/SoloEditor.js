@@ -4,20 +4,21 @@ import code from './SeedCode'
 import brace from 'brace';
 import AceEditor from 'react-ace';
 
+import 'brace/mode/jsx';
+import 'brace/theme/github';
+
 class SoloEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       language: "javascript",
       rightEditor: this.githubCode,
-      files: [
-        'index.html', 'style.css', 'app.js'
-      ],
+      files: this.props.selectedFiles,
       renderDescription: true,
       originalCode: code,
       editedCode: code,
       lines: [],
-      encodedContent: this.props.encodedContent
+      selectedFile: ''
     }
     this.cells = [];
   }
@@ -33,15 +34,13 @@ class SoloEditor extends Component {
     </div>
   )
 
-  handleTabClick = () => {
-    console.log('tab clicked')
-  }
+  handleTabClick = e => {
 
-  decode = () => {
-    console.log(true)
-    this.setState({
-      decodedText: window.atob(this.props.encodedContent)
-    })
+    console.log('tab:', e.target)
+    console.log('tab props: ', Object.keys(e.target))
+    console.log('tab name:', e.target.name)
+
+    this.setState({selectedFile: e.target.name})
   }
 
   addOnClick = () => {
@@ -56,12 +55,12 @@ class SoloEditor extends Component {
               .target
               .className
               .replace('selected-cell', '')
-            console.log(lines)
+            // console.log(lines)
             this.setState({lines: lines})
           } else {
             e.target.className = e.target.className + 'selected-cell'
             lines.push(e.target.innerText)
-            console.log(lines)
+            // console.log(lines)
             this.setState({lines: lines})
           }
         })
@@ -69,27 +68,34 @@ class SoloEditor extends Component {
   }
 
   render() {
-    const {rightEditor} = this.state
+    const {rightEditor, selectedFile} = this.state
+    const {decodedContentObj} = this.props
+    console.log("soloeditor props: ", this.props)
+    if (!decodedContentObj) {
+      return <div>
+        no content selected
+      </div>
+    }
     if (this.cells[0]) {
-      console.log(`!!!!!`, this.props.decodedContent)
+      console.log(`Solo Editor State`, this.state)
       this.addOnClick()
     }
     return (
       <div id="solution">
         <div id="file-tabs">
           {this
-            .state
-            .files
-            .map(v => <div className='tab' onClick={this.handleTabClick}>{v}</div>)}
+            .props
+            .selectedFilesNames
+            .map(v => <button className='tab' name={v} onClick={this.handleTabClick}>{v}</button>)}
         </div>
         <div id="editor-container">
           <h2>Whenever I rerender my routes dont work.</h2>
           <div className="acediff">
             <AceEditor
-              mode={this.state.language}
-              theme="monokai"
+              mode="jsx"
+              theme="github"
               highlightActiveLine={true}
-              value={this.props.decodedContent}
+              value={decodedContentObj[selectedFile]}
               setOptions={{
               enableBasicAutoCompletion: true,
               enableLiveAutoCompletion: true,

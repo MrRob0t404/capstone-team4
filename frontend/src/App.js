@@ -27,7 +27,7 @@ logOut = () => {
   axios
     .get("/users/logout")
     .then(res => {
-      console.log(`this is the response`,res.data)
+      // console.log(`this is the response`,res.data)
       this.setState({
        user: null
       });
@@ -42,7 +42,7 @@ componentDidMount(){
   axios
     .get("/users/getUser")
     .then(res => {
-      console.log("THIS IS A RESPONSE res.data:" , res.data)
+      // console.log("THIS IS A RESPONSE res.data:" , res.data)
       this.setState({
         user: res.data.user,
         loading: false
@@ -55,7 +55,6 @@ componentDidMount(){
       })
     });
 }
-
 
 
 
@@ -87,7 +86,7 @@ componentDidMount(){
 
   render() {
     const { user, active } = this.state
-    console.log(`App.js state`, this.state)
+    // console.log(`App.js state`, this.state)
 
     return ( 
       <div>
