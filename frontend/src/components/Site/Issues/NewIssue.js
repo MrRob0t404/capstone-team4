@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link, Route} from 'react-router-dom';
 
 class NewIssue extends Component {
-  constructor(){
+  constructor() {
     super();
   }
 
-  render(){
+  render() {
     const {inputHandler, clickHandler, message} = this.props;
-    return(
+    return (
       <div id="newIssue">
         <div className="input-container">
           <div className="helper">
