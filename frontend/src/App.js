@@ -28,7 +28,7 @@ logOut = () => {
   axios
     .get("/users/logout")
     .then(res => {
-      console.log(`this is the response`,res.data)
+      // console.log(`this is the response`,res.data)
       this.setState({
        user: null
       });
@@ -55,7 +55,6 @@ componentDidMount(){
       })
     });
 }
-
 
 
 

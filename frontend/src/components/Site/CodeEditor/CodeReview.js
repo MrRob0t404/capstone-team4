@@ -3,6 +3,12 @@ import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
 
+
+var disqus_config = function() {
+    this.page.url = "https://test.tyrodev.com/issues";
+    this.page.identifier = window.location.pathname;
+}
+
 class AceEditor extends React.Component {
   constructor() {
     super();
@@ -70,26 +76,16 @@ class AceEditor extends React.Component {
     </div>
   )
 
-  renderComments = () => (
-    <div id="comments">
-      <h3>Comments</h3>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
-    </div>
-  )
+  renderComments = () => {
+    (function() {
+	    let s = document.createElement("script");
+	    s.src = "https://tyrodev.disqus.com/embed.js";
+	    s.setAttribute("data-timestamp", +new Date());
+	    (document.head || document.body).appendChild(s);
+    })();
+
+    return <div id="disqus_thread"></div>
+  }
 
   togglePane = e => {
     e.target.innerText === "Description" ?

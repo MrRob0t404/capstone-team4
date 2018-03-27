@@ -20,7 +20,6 @@ router.get("/getUserProfileSolutions/:username", db.getUserProfileSolutions);
 
 router.post("/new", db.createUser);
 router.get("/logout", loginRequired, db.logoutUser);
-
 router.get("/profile/:username", db.getUserProfile);
 router.get("/getTicketFeed", db.getTicketFeed);
 router.get("/getTicket/:id", db.getTicket);
