@@ -1,15 +1,6 @@
-.tab {
-  width: 16vh;
-  height: 4vh;
-  background-color: #eee;
-  text-align: center;
-  margin-left: -6vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #555;
-  border-width: 1px 1px 0 1px;
-  transform: rotate(90deg);
+.description > textarea {
+  width: 100%;
+  height: 30vh;
 }
 
 .pane-section {
@@ -18,6 +9,20 @@
 
 .selected-cell {
   background-color: #8FCCB8;
+}
+
+.tab {
+  width: 16vh;
+  height: 4vh;
+  background-color: #eee;
+  text-align: center;
+  margin: 30px -6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #555;
+  border-width: 1px 1px 0 1px;
+  transform: rotate(90deg);
 }
 
 #editor-container {
@@ -31,7 +36,6 @@
 #file-tabs {
   width: 1vw;
   height: 100%;
-  padding-top: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

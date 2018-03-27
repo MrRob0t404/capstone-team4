@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const LaptopCode = () => (
-  <div>
+  <div className="laptop-code">
     <div className="line">
       <span className="keyword">const</span> greeting <span className="operator">=</span> <span className="string">'Hello World!'</span>;
     </div>

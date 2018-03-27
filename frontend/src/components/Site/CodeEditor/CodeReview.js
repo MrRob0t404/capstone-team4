@@ -9,9 +9,9 @@ class AceEditor extends React.Component {
     this.state = {
       files: ['index.html', 'style.css', 'app.js'],
       renderDescription: true,
-      originalCode: code,
-      editedCode: code,
-      lines: []
+      originalCode: code[0].code,
+      editedCode: code[0].code,
+      currentFile: ''
     }
   }
 
@@ -49,7 +49,6 @@ class AceEditor extends React.Component {
       },
     });
 
-
     // This function tracks the changes made to the right side of the editor and updates the state
     aceDiffer.getEditors().right.on("change", () => {
       this.setState({
@@ -57,16 +56,30 @@ class AceEditor extends React.Component {
       })
     })
 
+    let x = {}
+    code.forEach(v => x[v.name] = v.code)
+    console.log('X', x)
+
   }
 
   renderDescription = () => (
-    <div id="description">
-      <h3>Description</h3>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
+    <div>
+      <div>
+        <h3>Description</h3>
+        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+        paleo bitters beard. Knausgaard bitters try-hard leggings,
+        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+        Intelligentsia godard williamsburg quinoa.</p>
+      </div>
+      <div>
+        <h3>Response</h3>
+        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
+        paleo bitters beard. Knausgaard bitters try-hard leggings,
+        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
+        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
+        Intelligentsia godard williamsburg quinoa.</p>
+      </div>
     </div>
   )
 

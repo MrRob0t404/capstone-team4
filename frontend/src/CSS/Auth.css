@@ -5,6 +5,10 @@
   justify-content: center;
 }
 
+#login {
+  margin-bottom: 5%;
+}
+
 #login-container, #register-container {
   display: flex;
   flex-direction: column;
@@ -49,8 +53,8 @@
 }
 
 #login-container > input,  #register-inputs > input {
-  width: 20vw;
-  height: 5vh;
+  width: 23vw;
+  height: 7vh;
   border: .1px solid #272633;
   margin-bottom: 5vh;
 }

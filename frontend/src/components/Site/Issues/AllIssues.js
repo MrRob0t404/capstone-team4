@@ -34,19 +34,9 @@ class AllIssues extends React.Component {
         <p>{v.ticketdate}</p>
         <Link to={`/issues/${v.id}`}>
         <h3>{v.title}</h3></Link>
-        <p>{v.responses === '0' ? 'No Responses!, be the first!' : `${v.responses} Response(s)`}</p>
+        <p>{v.responses === '0' ? 'No Responses!, be the first!' : `${v.responses} Responses`}</p>
         <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>
       </div>)
-
-      /*<div class="issue" id={`${i}`}>
-        <img src={v.profilePic} />
-        <p>{v.name}</p>
-        <p>{v.date}</p>
-        <Link to={`/issues/${i+1}`}>
-        <h3>{v.title}</h3></Link>
-        <p>{`${v.responses} Responses`}</p>
-        <p>Status: <span className={v.status.toLowerCase()}>{v.status}</span></p>
-      </div>*/
   }
 
   render () {

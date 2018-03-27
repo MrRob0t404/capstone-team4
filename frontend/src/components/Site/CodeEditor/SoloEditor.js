@@ -21,13 +21,9 @@ class SoloEditor extends React.Component {
   }
 
   renderDescription = () => (
-    <div id="description">
+    <div className="description">
       <h3>Description</h3>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-      paleo bitters beard. Knausgaard bitters try-hard leggings,
-      lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-      Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-      Intelligentsia godard williamsburg quinoa.</p>
+      <textarea></textarea>
     </div>
   )
 

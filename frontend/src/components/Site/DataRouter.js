@@ -40,14 +40,28 @@ class DataRouter extends Component {
     const { user } = this.props;
     return (
       <div id="data">
-        <nav id="global-nav">
-          <Link to="/home"><i class="fas fa-code"></i></Link>
-          <div id="search">
-            <input id="search-bar" placeholder="Search" />
-            <button id="search-button"><i class="fas fa-search"></i></button>
+        <nav class="navbar">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/home">TyroDev</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav navbar-left">
+                <li><Link to="/issues/open">Issues</Link></li>
+                <li><Link to="/issues/new">New</Link></li>
+                <li><Link to={user ? `/profile/${user.username}` : '/profile'}>Profile</Link></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/register">Sign Up</Link></li>
+              </ul>
+            </div>
           </div>
-          <Link to="/issues/open">Issues</Link>
-          <Link to={user ? `/profile/${user.username}` : '/profile'}><i class="fas fa-user"></i></Link>
         </nav>
         <Switch>
           <Route exact path="/" render={() => <Redirect to="/home" />} />
