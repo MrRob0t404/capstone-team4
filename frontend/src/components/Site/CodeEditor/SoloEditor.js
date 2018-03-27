@@ -11,14 +11,13 @@ class SoloEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
       files: ['index.html', 'style.css', 'app.js'],
       currentFile: 'index.html',
       lines: [],
       currentIssue: 0,
       issueDescription: '',
       allProblems: []
-=======
+
       language: "javascript",
       rightEditor: this.githubCode,
       files: this.props.selectedFiles,
@@ -27,15 +26,12 @@ class SoloEditor extends Component {
       editedCode: code,
       lines: [],
       selectedFile: ''
->>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
     }
     this.cells = [];
   }
 
-<<<<<<< HEAD
   componentDidMount() {
 
-=======
   renderDescription = () => (
     <div id="description">
       <h3>Description</h3>
@@ -54,7 +50,6 @@ class SoloEditor extends Component {
     console.log('tab name:', e.target.name)
 
     this.setState({selectedFile: e.target.name})
->>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
   }
 
   addOnClick = () => {
@@ -148,14 +143,9 @@ class SoloEditor extends Component {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
         <div className="pane-buttons">
           <button onClick={this.submitTicket}>Done</button>
         </div>
-=======
-        {/* Solo code editor */}
-        <div></div>
->>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
       </div>
     )
   }
