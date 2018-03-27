@@ -17,6 +17,7 @@ class ChooseFiles extends Component {
   componentWillMount = (props) => {
     let files = []
     let dirs = []
+
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
       let path = [this.makePathObj('root', res.data)]
       console.log('!!!!!!!!!!!!!!!!!', path)
@@ -28,6 +29,22 @@ class ChooseFiles extends Component {
         allPaths: path
       })
     })
+  }
+
+  makeObjForPath = (pathName, contentsArr) => {
+    let files = []
+    let dirs = []
+    let obj = {
+      name: pathName,
+      files: [],
+      dirs: []
+    }
+    contentsArr.forEach(v => {
+      v.type === 'file' ?
+        obj.files.push(v):
+        obj.dirs.push(v)
+    })
+    return obj
   }
 
   select = e => {

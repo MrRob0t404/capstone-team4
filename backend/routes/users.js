@@ -14,11 +14,10 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   return;
 });
 
-router.get("/getUser", loginRequired, db.getUser);
-
 router.post("/new", db.createUser);
-router.get("/logout", loginRequired, db.logoutUser);
 
+router.get("/getUser", loginRequired, db.getUser);
+router.get("/logout", loginRequired, db.logoutUser);
 router.get("/profile/:username", db.getUserProfile);
 router.get("/getTicketFeed", db.getTicketFeed);
 router.get("/getTicket/:id", db.getTicket);
@@ -27,4 +26,3 @@ router.get("/getUserTicketFeed/:username", db.getUserTicketFeed);
 
 
 module.exports = router;
-
