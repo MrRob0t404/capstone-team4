@@ -3,14 +3,13 @@ import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
 
 class ChooseFiles extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       placeholder: '',
       allFiles: [],
       allDirs: [],
-      allPaths: [],
-      selectedFileNames: []
+      allPaths: []
     }
   }
 
@@ -19,6 +18,7 @@ class ChooseFiles extends Component {
     let dirs = []
 
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
+<<<<<<< HEAD
       let path = [this.makePathObj('root', res.data)]
       console.log('!!!!!!!!!!!!!!!!!', path)
       res.data.forEach(v => v.type === 'file' ? files.push(v.path) : dirs.push(v.path))
@@ -59,8 +59,20 @@ class ChooseFiles extends Component {
     }
   }
 
+=======
+      res
+        .data
+        .forEach(v => v.type === 'file'
+          ? files.push(v.path)
+          : dirs.push(v.path))
+      this.setState({githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`, allFiles: files, allDirs: dirs})
+    })
+  }
+
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
   selectDirs = e => {
     let paths = this.state.allPaths
+<<<<<<< HEAD
     let path = e.target.dataset.path
     e.target.disabled = true
     console.log('fjdsls', path[e.target.dataset.index])
@@ -69,6 +81,25 @@ class ChooseFiles extends Component {
         paths.push(this.makePathObj(path, res.data))
         this.setState({allPaths: paths})
       })
+=======
+    dirs.splice(dirs.indexOf(e.target.innerText), 1)
+    // console.log('dirs', dirs) this.setState({allDirs: dirs})
+    paths.push(e.target.innerText)
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${e.target.innerText}`).then(res => {
+      console.log('res.data !!!!', res.data)
+      res
+        .data
+        .forEach(v => {
+          if (v.type === 'file') {
+            files.push(v.path)
+            this.setState({allFiles: files})
+          } else {
+            dirs.push(v.path)
+            this.setState({allDirs: dirs, allPaths: paths})
+          }
+        })
+    })
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
   }
 
   makePathObj = (name, contentArr) => {
@@ -87,7 +118,6 @@ class ChooseFiles extends Component {
   }
 
   render() {
-    console.log('state', this.state)
 
     return (
       <div id="choose-files">
@@ -112,6 +142,7 @@ class ChooseFiles extends Component {
 
           <div className="column">
             <h3>Files</h3>
+<<<<<<< HEAD
             {this.state.allPaths.map(v => {
                console.log(v.name)
                 if(v.files[0]){
@@ -123,20 +154,32 @@ class ChooseFiles extends Component {
                   </div>)
               }})
             }
+=======
+            {this
+              .state
+              .allFiles
+              .map(v => <p onClick={this.props.selectFile}>{v}</p>)}
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
           </div>
 
           <div className="column" id="embed-list">
             <h3>Embedding</h3>
             <div id="file-names">
               {this
-                .state
+                .props
                 .selectedFileNames
                 .map(v => <p onClick={this.select}>{v}</p>)}
             </div>
           </div>
         </div>
         <div className="fullWidth">
+<<<<<<< HEAD
           <Link to="/issues/new/edit"><button>Next</button></Link>
+=======
+          <Link to="/issues/new/edit">
+            <button onClick={this.props.handleClick}>Done</button>
+          </Link>
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
         </div>
       </div>
     )

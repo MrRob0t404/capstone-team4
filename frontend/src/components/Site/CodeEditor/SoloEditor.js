@@ -1,41 +1,83 @@
-import React from "react";
+import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
+import brace from 'brace';
+import AceEditor from 'react-ace';
 
-class SoloEditor extends React.Component {
-  constructor() {
-    super();
+import 'brace/mode/jsx';
+import 'brace/theme/github';
+
+class SoloEditor extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
+<<<<<<< HEAD
       files: ['index.html', 'style.css', 'app.js'],
       currentFile: 'index.html',
       lines: [],
       currentIssue: 0,
       issueDescription: '',
       allProblems: []
+=======
+      language: "javascript",
+      rightEditor: this.githubCode,
+      files: this.props.selectedFiles,
+      renderDescription: true,
+      originalCode: code,
+      editedCode: code,
+      lines: [],
+      selectedFile: ''
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
     }
     this.cells = [];
   }
 
+<<<<<<< HEAD
   componentDidMount() {
 
+=======
+  renderDescription = () => (
+    <div id="description">
+      <h3>Description</h3>
+      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
+        adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
+        leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
+        truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
+        tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
+    </div>
+  )
+
+  handleTabClick = e => {
+
+    console.log('tab:', e.target)
+    console.log('tab props: ', Object.keys(e.target))
+    console.log('tab name:', e.target.name)
+
+    this.setState({selectedFile: e.target.name})
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
   }
 
   addOnClick = () => {
     let lines = this.state.lines
-    for(var i=0; i<this.cells.length; i++){
-      this.cells[i].addEventListener('click', function(e){
-        if(e.target.className.includes('selected-cell')) {
-          lines.splice(lines.indexOf(e.target.innerText), 1)
-          e.target.className = e.target.className.replace('selected-cell', '')
-          console.log(lines)
-          this.setState({lines: lines})
-        }else{
-          e.target.className = e.target.className + 'selected-cell'
-          lines.push(e.target.innerText)
-          console.log(lines)
-          this.setState({lines: lines})
-        }
-      })
+    for (var i = 0; i < this.cells.length; i++) {
+      this
+        .cells[i]
+        .addEventListener('click', function (e) {
+          if (e.target.className.includes('selected-cell')) {
+            lines.splice(lines.indexOf(e.target.innerText), 1)
+            e.target.className = e
+              .target
+              .className
+              .replace('selected-cell', '')
+            // console.log(lines)
+            this.setState({lines: lines})
+          } else {
+            e.target.className = e.target.className + 'selected-cell'
+            lines.push(e.target.innerText)
+            // console.log(lines)
+            this.setState({lines: lines})
+          }
+        })
     }
   }
 
@@ -55,20 +97,42 @@ class SoloEditor extends React.Component {
   }
 
   render() {
-    const {rightEditor} = this.state
-    if(this.cells[0]){
-      console.log(`!!!!!`)
+    const {rightEditor, selectedFile} = this.state
+    const {decodedContentObj} = this.props
+    console.log("soloeditor props: ", this.props)
+    if (!decodedContentObj) {
+      return <div>
+        no content selected
+      </div>
+    }
+    if (this.cells[0]) {
+      console.log(`Solo Editor State`, this.state)
       this.addOnClick()
     }
-    console.log(this.state)
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map(v => <div className="tab">{v}</div>)}
+          {this
+            .props
+            .selectedFilesNames
+            .map(v => <button className='tab' name={v} onClick={this.handleTabClick}>{v}</button>)}
         </div>
         <div id="editor-container">
           <h2>Whenever I rerender my routes dont work.</h2>
-          <div className = "acediff"></div>
+          <div className="acediff">
+            <AceEditor
+              mode="jsx"
+              theme="github"
+              highlightActiveLine={true}
+              value={decodedContentObj[selectedFile]}
+              setOptions={{
+              enableBasicAutoCompletion: true,
+              enableLiveAutoCompletion: true,
+              enableSnippets: true,
+              showLineNumbers: true,
+              tabSize: 2
+            }}/>
+          </div>
         </div>
         <div id="right-pane">
           <div className="pane-section">
@@ -84,9 +148,14 @@ class SoloEditor extends React.Component {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <div className="pane-buttons">
           <button onClick={this.submitTicket}>Done</button>
         </div>
+=======
+        {/* Solo code editor */}
+        <div></div>
+>>>>>>> 7e37970637f3390f18ad63eefd93a98d146b84c4
       </div>
     )
   }
