@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
-import ReactAce from 'react-ace-editor';
+import brace from 'brace';
+import AceEditor from 'react-ace';
 
 class SoloEditor extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       language: "javascript",
       rightEditor: this.githubCode,
@@ -15,12 +16,11 @@ class SoloEditor extends Component {
       renderDescription: true,
       originalCode: code,
       editedCode: code,
-      lines: []
+      lines: [],
+      encodedContent: this.props.encodedContent
     }
     this.cells = [];
   }
-
-  componentDidMount() {} //Make API call for
 
   renderDescription = () => (
     <div id="description">
@@ -35,6 +35,13 @@ class SoloEditor extends Component {
 
   handleTabClick = () => {
     console.log('tab clicked')
+  }
+
+  decode = () => {
+    console.log(true)
+    this.setState({
+      decodedText: window.atob(this.props.encodedContent)
+    })
   }
 
   addOnClick = () => {
@@ -64,28 +71,32 @@ class SoloEditor extends Component {
   render() {
     const {rightEditor} = this.state
     if (this.cells[0]) {
-      console.log(`!!!!!`)
+      console.log(`!!!!!`, this.props.decodedContent)
       this.addOnClick()
     }
-    console.log(this.state)
     return (
       <div id="solution">
         <div id="file-tabs">
           {this
             .state
             .files
-            .map(v => <div className='tab' onClick={this.handleTabClick} >{v}</div>)}
+            .map(v => <div className='tab' onClick={this.handleTabClick}>{v}</div>)}
         </div>
         <div id="editor-container">
           <h2>Whenever I rerender my routes dont work.</h2>
           <div className="acediff">
-            <ReactAce mode={this.state.language} theme="eclipse" setReadOnly={false} onChange={this.onChange} style={{
-              height: '400px',
-              width: '100px'
-            }} ref={instance => {
-              this.ace = instance;
-            }} // Let's put things into scope
-            />
+            <AceEditor
+              mode={this.state.language}
+              theme="monokai"
+              highlightActiveLine={true}
+              value={this.props.decodedContent}
+              setOptions={{
+              enableBasicAutoCompletion: true,
+              enableLiveAutoCompletion: true,
+              enableSnippets: true,
+              showLineNumbers: true,
+              tabSize: 2
+            }}/>
           </div>
         </div>
         <div id="right-pane">
