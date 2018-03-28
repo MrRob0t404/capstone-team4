@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, Route } from 'react-router-dom';
-import '../../.././CSS/Issues.css';
+import '../.././CSS/Issues.css';
 
-class SolvedIssues extends React.Component {
+class OpenIssues extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -16,7 +16,7 @@ class SolvedIssues extends React.Component {
             .get('/users/getTicketFeed')
             .then(res => {
                 this.setState({
-                    userdata: res.data.data.filter(issue => issue.problemstatus === '1')
+                    userdata: res.data.data.filter(issue => issue.problemstatus === '0')
                 })
             })
             .catch(err => {
@@ -27,7 +27,6 @@ class SolvedIssues extends React.Component {
 
     renderIssues = () => {
         const { userdata } = this.state
-        console.log(`openissue`, userdata)
         return userdata.map((v, i) =>
             <div class="issue" id={`${i}`}>
                 <img src={v.profilepic} />{" "}
@@ -60,4 +59,4 @@ class SolvedIssues extends React.Component {
     }
 }
 
-export default SolvedIssues;
+export default OpenIssues;

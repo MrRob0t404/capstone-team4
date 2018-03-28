@@ -9,7 +9,7 @@ import OpenIssues from './openIssues'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import SoloEditor from '../CodeEditor/SoloEditor'
-import '../../.././CSS/OpenIssue.css';
+import '../.././CSS/OpenIssue.css';
 
 const URL_COMPONENT_USER = Symbol("name");
 const URL_COMPONENT_REPO = Symbol("repo");
