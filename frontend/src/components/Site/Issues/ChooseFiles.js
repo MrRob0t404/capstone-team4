@@ -14,39 +14,33 @@ class ChooseFiles extends Component {
   }
 
   componentWillMount = (props) => {
-    let files = []
-    let dirs = []
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`).then(res => {
-      res
-        .data
-        .forEach(v => v.type === 'file'
-          ? files.push(v.path)
-          : dirs.push(v.path))
-      this.setState({githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`, allFiles: files, allDirs: dirs})
+      this.setState({
+        githubLink: `https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/`,
+        allPaths: [this.makeObjForDir('root', res.data)]
+      })
     })
   }
 
   selectDirs = e => {
-    let files = this.state.allFiles
-    let dirs = this.state.allDirs
     let paths = this.state.allPaths
-    dirs.splice(dirs.indexOf(e.target.innerText), 1)
-    // console.log('dirs', dirs) this.setState({allDirs: dirs})
-    paths.push(e.target.innerText)
-    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${e.target.innerText}`).then(res => {
-      console.log('res.data !!!!', res.data)
-      res
-        .data
-        .forEach(v => {
-          if (v.type === 'file') {
-            files.push(v.path)
-            this.setState({allFiles: files})
-          } else {
-            dirs.push(v.path)
-            this.setState({allDirs: dirs, allPaths: paths})
-          }
-        })
+    let path = e.target.dataset.path
+    axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${path}`).then(res => {
+      paths.push(this.makeObjForDir(path, res.data))
+      this.setState({allPaths: paths})
     })
+  }
+
+  makeObjForDir = (name, contentsArr) => {
+    let obj = {
+      name,
+      files: [],
+      dirs: []
+    }
+    contentsArr.forEach(v => v.type==="file"?
+      obj.files.push(v):
+      obj.dirs.push(v))
+    return obj
   }
 
   render() {
@@ -61,19 +55,33 @@ class ChooseFiles extends Component {
             <h3>Directories</h3>
             {this
               .state
-              .allDirs
-              .map(v => <p onClick={this.selectDirs}>{v}</p>)}
+              .allPaths
+              .map(v => {if(v.dirs[0]){
+                return(
+                  <div className="path-container">
+                    <h3>{v.name}</h3>
+                    {v.dirs.map((v, i) => <p data-path={v.path} onClick={this.selectDirs}>{v.name}</p>)}
+                  </div>
+                )
+              }})}
           </div>
 
           <div className="column">
             <h3>Files</h3>
             {this
               .state
-              .allFiles
-              .map(v => <p onClick={this.props.selectFile}>{v}</p>)}
+              .allPaths
+              .map(v => {if(v.files[0]){
+                return(
+                  <div className="path-container">
+                    <h3>{v.name}</h3>
+                    {v.files.map((v, i) => <p data-path={v.path} onClick={this.props.selectFile}>{v.name}</p>)}
+                  </div>
+                )
+              }})}
           </div>
 
-          <div id="embed-list">
+          <div className="column">
             <h3>Embedding</h3>
             <div id="file-names">
               {this

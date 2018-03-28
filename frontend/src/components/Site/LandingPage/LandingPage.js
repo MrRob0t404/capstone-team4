@@ -49,6 +49,7 @@ class Landing extends Component {
             <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
             glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
           </div>
+          <button id="mobile-button">Sign Up</button>
         </div>
 
         <div id="choose">
@@ -71,9 +72,11 @@ class Landing extends Component {
         </div>
 
         <div id="dual">
-          <h1>Dual Editors</h1>
-          <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
-          glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+          <div className="text">
+            <h1>Dual Editors</h1>
+            <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
+            glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+          </div>
           <div className="interaction">
             <div className="screen">
               {LaptopCode()}

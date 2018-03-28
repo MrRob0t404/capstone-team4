@@ -80,11 +80,11 @@ class IssueRouter extends Component {
   selectFile = e => {
     let target = e.target
     let selectedFileNames = this.state.selectedFileNames;
-    if (selectedFileNames.indexOf(target.innerText) >= 0) {
-      selectedFileNames.splice(selectedFileNames.indexOf(target.innerText), 1)
+    if (selectedFileNames.indexOf(target.dataset.path) >= 0) {
+      selectedFileNames.splice(selectedFileNames.indexOf(target.dataset.path), 1)
       this.setState({selectedFileNames: selectedFileNames})
     } else {
-      selectedFileNames.push(target.innerText)
+      selectedFileNames.push(target.dataset.path)
       this.setState({selectedFileNames: selectedFileNames})
     }
   }

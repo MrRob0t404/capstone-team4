@@ -35,12 +35,13 @@ class SoloEditor extends Component {
   )
 
   handleTabClick = e => {
-
     console.log('tab:', e.target)
     console.log('tab props: ', Object.keys(e.target))
     console.log('tab name:', e.target.name)
 
     this.setState({selectedFile: e.target.name})
+
+    console.log('STTE', this.state)
   }
 
   addOnClick = () => {
@@ -80,6 +81,7 @@ class SoloEditor extends Component {
       console.log(`Solo Editor State`, this.state)
       this.addOnClick()
     }
+
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -90,7 +92,7 @@ class SoloEditor extends Component {
         </div>
         <div id="editor-container">
           <h2>Whenever I rerender my routes dont work.</h2>
-          <div className="acediff">
+          <div className="ace-container">
             <AceEditor
               mode="jsx"
               theme="github"
@@ -111,7 +113,6 @@ class SoloEditor extends Component {
           </div>
         </div>
         {/* Solo code editor */}
-        <div></div>
       </div>
     )
   }
