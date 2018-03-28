@@ -90,7 +90,8 @@ class IssueRouter extends Component {
   }
 
   getDecodedData = (filePath) => {
-    return axios.get(`https://api.github.com/repos/simongaviria1/capstone-team4/contents/${filePath}`)
+    const {repoOwner, repositoryName} = this.state
+    return axios.get(`https://api.github.com/repos/${repoOwner}/${repositoryName}/contents/${filePath}`)
   }
 
   // Iterates through file paths, decodes them, and adds decoded text to an
@@ -157,6 +158,10 @@ class IssueRouter extends Component {
   }
 
   render() {
+    console.log('issuesRouter State decoded name:', this.state.repoOwner)
+    // console.log('selectedFiles:', this.state.selectedFileNames)
+
+
     return (
       <div id="issue-router">
         <Switch>
