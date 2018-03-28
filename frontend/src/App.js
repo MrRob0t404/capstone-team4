@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import LoginUser from './components/Site/LoginPage/loginUser';
-import RegisterUser from './components/Site/LoginPage/registerUser';
-import DataRouter from './components/Site/DataRouter';
+import LoginUser from './components/LoginPage/loginUser';
+import RegisterUser from './components/LoginPage/registerUser';
+import DataRouter from './components/DataRouter';
 
 class App extends Component {
   constructor() {
