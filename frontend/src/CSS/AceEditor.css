@@ -83,6 +83,10 @@
 
 /* ACE EDITOR */
 
+.ace_editor {
+  width: 100%;
+}
+
 .acediff {
   width: 65vw;
   height: 80%;
