@@ -69,7 +69,6 @@ class RegisterUser extends React.Component {
 
     render() {
         const { message, fullName, email, password, verifyPassword, username } = this.state
-        console.log(`register state`, this.state)
         return (
             <div className="auth" id="register">
                 <div className="auth-container" id="register-container">

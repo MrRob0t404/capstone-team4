@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import Me from './Me';
 import Issues from './ProfileIssues';
 import Solutions from './ProfileSolutions';
@@ -9,7 +10,8 @@ class Profile extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      currentUserProfile: ''
+      currentUserProfile: '',
+      visiting: ''
     }
   }
 
@@ -18,33 +20,35 @@ class Profile extends React.Component {
     this.setState({
       currentUserProfile: user
     })
-  }
+  };
 
   renderMyProfile = (props) => {
     const { logOut, user } = this.props;
     const { username } = props.match.params;
-    return <Me user={user} logOut={logOut} username={username} setUser={this.setCurrentUserProfile}/>
-  }
+    return <Me user={user} logOut={logOut} username={username} setUser={this.setCurrentUserProfile} />
+  };
  
 
  renderIssuesPage = (props) => {
   const { user } = this.props;
   const { username } = props.match.params;
-    return <Issues user={user} username={username} setUser={this.setCurrentUserProfile}/>
-  } 
+  const { currentUserProfile } = this.state;
+    return <Issues user={user} username={username} setUser={this.setCurrentUserProfile} currentUser={currentUserProfile}/>
+  };
 
 
   renderSolutions = (props) => {
+    const { currentUserProfile } = this.state;
     const { user } = this.props;
     const { username } = props.match.params;
-    return <Solutions username={username} user={user} setUser={this.setCurrentUserProfile} />
-  }
+    return <Solutions username={username} setUser={this.setCurrentUserProfile} currentUser={currentUserProfile} />
+  };
 
 
   render () {
-    const { user } = this.props
-    const { currentUserProfile } = this.state
-    console.log(`profile`, user)
+    const { user } = this.props;
+    const { currentUserProfile } = this.state;
+
    
     return (
       <div id="profile">

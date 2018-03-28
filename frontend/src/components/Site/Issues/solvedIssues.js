@@ -42,7 +42,6 @@ class SolvedIssues extends React.Component {
 
     render() {
         const { userdata } = this.state
-        console.log(`closedissue`, userdata)
         return (
             <div id="issues">
                 <nav id="issues-filter">

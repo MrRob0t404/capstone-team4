@@ -13,7 +13,7 @@ class AceEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      files: ['index.html', 'style.css', 'app.js'],
+      files: ['index.html', 'style.css','app.js'],
       renderDescription: true,
       originalCode: code,
       editedCode: code,
@@ -89,13 +89,13 @@ class AceEditor extends React.Component {
 
   togglePane = e => {
     e.target.innerText === "Description" ?
-      this.setState({renderDescription: true}):
-      this.setState({renderDescription: false})
+      this.setState({ renderDescription: true }) :
+      this.setState({ renderDescription: false })
   }
 
 
   render() {
-    const {rightEditor} = this.state
+    const { rightEditor } = this.state
 
     return (
       <div id="solution">
@@ -104,7 +104,7 @@ class AceEditor extends React.Component {
         </div>
         <div id="editor-container">
           <h2>Why doesn{"'"}t my for loop work?</h2>
-          <div className = "acediff"></div>
+          <div className="acediff"></div>
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -112,8 +112,8 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            {this.state.renderDescription?
-              this.renderDescription():
+            {this.state.renderDescription ?
+              this.renderDescription() :
               this.renderComments()
             }
           </div>
