@@ -46,7 +46,7 @@ class DataRouter extends Component {
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-left">
-                <li><Link to="/issues/open">Issues</Link></li>
+                <li><Link to="/issues">Issues</Link></li>
                 <li><Link to="/issues/new">New</Link></li>
                 <li><Link to={user ? `/profile/${user.username}` : '/profile'}>Profile</Link></li>
               </ul>
