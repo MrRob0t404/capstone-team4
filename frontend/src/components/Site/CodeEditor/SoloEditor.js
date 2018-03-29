@@ -14,26 +14,23 @@ class SoloEditor extends Component {
     this.state = {
       language: "javascript",
       rightEditor: this.githubCode,
-      files: this.props.selectedFiles,
       renderDescription: true,
       originalCode: code,
       editedCode: code,
       lines: [],
-      selectedFile: ''
+      selectedFile: this.props.selectedFilesNames[0],
+      allDescriptions: {}
     }
     this.cells = [];
   }
 
-  renderDescription = () => (
-    <div id="description">
-      <h3>Description</h3>
-      <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
-        adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
-        leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
-        truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
-        tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
-    </div>
-  )
+  componentDidMount(){
+    let obj = {}
+    this.props.selectedFilesNames.forEach(v => obj[v] = '')
+    this.setState({
+      allDescriptions: obj
+    })
+  }
 
   handleTabClick = e => {
     console.log('tab:', e.target)
@@ -41,38 +38,21 @@ class SoloEditor extends Component {
     console.log('tab name:', e.target.name)
 
     this.setState({selectedFile: e.target.name})
-
-    // console.log('STTE', this.state)
   }
 
-  addOnClick = () => {
-    let lines = this.state.lines
-    for (var i = 0; i < this.cells.length; i++) {
-      this
-        .cells[i]
-        .addEventListener('click', function (e) {
-          if (e.target.className.includes('selected-cell')) {
-            lines.splice(lines.indexOf(e.target.innerText), 1)
-            e.target.className = e
-              .target
-              .className
-              .replace('selected-cell', '')
-            // console.log(lines)
-            this.setState({lines: lines})
-          } else {
-            e.target.className = e.target.className + 'selected-cell'
-            lines.push(e.target.innerText)
-            // console.log(lines)
-            this.setState({lines: lines})
-          }
-        })
-    }
+  handleDescription = e => {
+    let descArr = this.state.allDescriptions
+    descArr[this.state.selectedFile] = e.target.value
+    this.setState({allDescriptions: descArr})
   }
 
   render() {
     const {rightEditor, selectedFile} = this.state
     const {decodedContentObj} = this.props
     console.log("soloeditor props: ", this.props)
+
+    console.log('STATE', this.state)
+
     if (!decodedContentObj) {
       return <div>
         no content selected
@@ -108,16 +88,21 @@ class SoloEditor extends Component {
               enableLiveAutoCompletion: true,
               enableSnippets: true,
               showLineNumbers: true,
-              tabSize: 2
+              tabSize: 2,
+              width: '70%',
+              height: '90%'
             }}/>
           </div>
         </div>
         <div id="right-pane">
           <div className="pane-section">
-            {this.renderDescription()}
+            <div className="description">
+              <h3>Description</h3>
+              <textarea onChange={this.handleDescription} value={this.state.allDescriptions[this.state.selectedFile]}></textarea>
+            </div>
+            <button>Done</button>
           </div>
         </div>
-        {/* Solo code editor */}
       </div>
     )
   }

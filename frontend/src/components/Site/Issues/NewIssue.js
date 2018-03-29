@@ -15,7 +15,7 @@ class NewIssue extends Component {
             <h3>Title</h3>
             <p>ex. Whenever I rerender my routes dont work.</p>
           </div>
-          <input name="title" onChange={inputHandler}/>
+          <input name="title" onChange={inputHandler} autofocus="true"/>
         </div>
         <div className="input-container">
           <div className="helper">
