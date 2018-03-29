@@ -1,6 +1,11 @@
+.description {
+  width: 95%;
+}
+
 .description > textarea {
   width: 100%;
   height: 30vh;
+  resize: vertical;
 }
 
 .pane-buttons {
@@ -21,7 +26,20 @@
 
 .pane-section {
   height: 100%;
-  padding: 0 5%;
+  padding: 0 5% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pane-section > button {
+  width: 50%;
+  padding: 1% 0;
+  background-color: #8AD42C;
+  color: white;
+  border-radius: 1em;
+  font-size: 1.2em;
 }
 
 .selected-cell {
@@ -40,6 +58,11 @@
   border: 1px solid #555;
   border-width: 1px 1px 0 1px;
   transform: rotate(90deg);
+}
+
+#brace-editor {
+  width: 50%;
+  height: 90%;
 }
 
 #editor-container {
