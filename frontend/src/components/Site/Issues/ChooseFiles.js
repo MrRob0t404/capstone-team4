@@ -44,7 +44,6 @@ class ChooseFiles extends Component {
   }
 
   render() {
-
     return (
       <div id="choose-files">
         <h2>Choose up to 5 files that relate to your issue</h2>
@@ -87,13 +86,13 @@ class ChooseFiles extends Component {
               {this
                 .props
                 .selectedFileNames
-                .map(v => <p>{v}</p>)}
+                .map(v => <p data-path={v} onClick={this.props.selectFile}>{v}</p>)}
             </div>
           </div>
         </div>
         <div className="fullWidth">
           <Link to="/issues/new/edit">
-            <button onClick={this.props.handleClick}>Done</button>
+            <button onClick={this.props.handleClick}>Next</button>
           </Link>
         </div>
       </div>
