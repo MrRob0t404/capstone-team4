@@ -48,11 +48,11 @@ class DataRouter extends Component {
               <ul class="nav navbar-nav navbar-left">
                 <li><Link to="/issues">Issues</Link></li>
                 <li><Link to="/issues/new">New</Link></li>
-                <li><Link to={user ? `/profile/${user.username}` : '/profile'}>Profile</Link></li>
+                <li><Link to={user ? `/profile/${user.username}` : '/login'}>Profile</Link></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Sign Up</Link></li>
+                {!user ? <li><Link to="/login">Login</Link></li> : <div><strong> Welcome, {user.username}!</strong> </div>}
+                {!user ? <li><Link to="/register">Sign Up</Link></li> : <div></div>}
               </ul>
             </div>
           </div>

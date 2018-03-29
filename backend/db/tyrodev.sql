@@ -28,8 +28,7 @@ CREATE TABLE files (
     code VARCHAR,
     fileName VARCHAR,
     ticketID INTEGER REFERENCES tickets(ID),
-    languages VARCHAR,
-    files_userID INTEGER REFERENCES users(ID)
+    languages VARCHAR
 );
 
 CREATE TABLE problems (
@@ -46,15 +45,10 @@ CREATE TABLE solutions (
     ticketID INTEGER REFERENCES tickets(ID),
     solution_userID INTEGER REFERENCES users(ID),
     fileID INTEGER REFERENCES files(ID),
-    solution_description VARCHAR,
-    solution_code VARCHAR
+    solution_description VARCHAR
 );
 
-CREATE TABLE comments (
-    ID SERIAL PRIMARY KEY,
-    comment VARCHAR,
-    problemID INTEGER REFERENCES problems(ID)
-);
+
 
 
 
@@ -63,7 +57,7 @@ INSERT INTO users (username, fullName, password_digest, email, profilePic, stack
     VALUES ('Newton21', 'Newton Brooks', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'https://media.licdn.com/dms/image/C4E03AQFb_xBYxIBS3Q/profile-displayphoto-shrink_200_200/0?e=1527278400&v=alpha&t=hHwItVBYuqAODErCwQ6Aqre7OkySZz7V05uSwXmh8-Q', 'JS, React, Pug, HTML, CSS'),
          ('Edje-C', 'Elon Jefferson','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'https://media.licdn.com/dms/image/C5603AQEYfXhxT_WETA/profile-displayphoto-shrink_800_800/0?e=1527278400&v=alpha&t=mN0gF1Ykq3vDj50Jkahsiz6xVL6djtpOB9MJQWH02ds', 'Python, C++, Machine Learning'),
          ('MoMo','Monique Mojica', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'https://media.licdn.com/dms/image/C5603AQH4BiE3sUUIWQ/profile-displayphoto-shrink_800_800/0?e=1527278400&v=alpha&t=KnJgy6kfHob4bQ_VouARSWoX-Gjh5lWvD4fM6_bUg3o', 'HTML'),
-         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522180800&v=alpha&t=wI6A5HUQanxRc2ztffl0RKU2b9pJRJMAMYvQXa9pDUM', 'Basic, Assembly, ASCII'),
+         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522342800&v=alpha&t=RqOAVRun-Wxf6oOzdhOUfjUOOW_zKna7mReN-DbqnQY', 'Basic, Assembly, ASCII'),
          ('Keithest', 'Keith Aple', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png', 'JS, Angular, Ruby'),
          ('Benny', 'Ben Profit', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png', 'React Native, WEBGL, #C'),
          ('SplashBro', 'Stephen Curry', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'email@email.com', 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png', 'Ruby'),
@@ -76,16 +70,16 @@ INSERT INTO tickets (ticket_userID, ticketDate, problemStatus, title)
            (3, '4/10/17', '1', 'Cant get route to work'),
            (1, '5/20/17', '0', 'Toaster Speech Enable');
 
-INSERT INTO files (code, ticketID, languages, files_userID)
-    VALUES ('forvar i  0 i < arr.length i++){ fail }', 1, 'Python', 4),
-           ('function amirite(bool){ if(bool === true){ return "okay" else "yea" }}', 1, 'Python', 4),
-           ('@import comic sans ERR', 2, 'Javascript', 2),
-           ('@import comic-sans', 2, 'Javascript', 2),
-           ('<Link exact path= />', 2, 'React', 3),
-           ('01010101010101010101010000111101010101001010100', 4, 'C++', 1),
-           ('for(var i = 100; i > arr.length; i--){}', 1, 'Python', 4),
-           ('<Switch> <Home render(this.renderHomepage) /> </Switch>', 3, 'React', 3),
-           ('0000011110101010101010101010101010101010101010101010101011100', 4, 'C++', 1);
+INSERT INTO files (code, ticketID, languages)
+    VALUES ('forvar i  0 i < arr.length i++){ fail }', 1, 'Python'),
+           ('function amirite(bool){ if(bool === true){ return "okay" else "yea" }}', 1, 'Python'),
+           ('@import comic sans ERR', 2, 'Javascript'),
+           ('@import comic-sans', 2, 'Javascript'),
+           ('<Link exact path= />', 2, 'React'),
+           ('01010101010101010101010000111101010101001010100', 4, 'C++'),
+           ('for(var i = 100; i > arr.length; i--){}', 1, 'Python'),
+           ('<Switch> <Home render(this.renderHomepage) /> </Switch>', 3, 'React'),
+           ('0000011110101010101010101010101010101010101010101010101011100', 4, 'C++');
 
 
 INSERT INTO problems (ticketID, problem_description, lines, fileID)
@@ -102,10 +96,5 @@ INSERT INTO solutions (ticketID, solution_userID, fileID, solution_description)
            (4, 3, 9, 'i just want to know if this works');
 
 
-INSERT INTO comments (comment, problemID)
-    VALUES ('no you solve it this way', 1),
-           ('dont solve it this way you should use recursion', 2),
-           ('Nice I wouldve solved it diff', 3),
-           ('beep boop boop beeep', 4);
 
 
