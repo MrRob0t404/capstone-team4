@@ -7,6 +7,8 @@ import NewIssue from './NewIssue'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import SoloEditor from '../CodeEditor/SoloEditor'
+import SolutionRouter from '../CodeEditor/SolutionRouter'
+
 import '../../.././CSS/OpenIssue.css';
 
 const URL_COMPONENT_USER = Symbol("name");
@@ -139,28 +141,30 @@ class IssueRouter extends Component {
     }
   }
 
-  renderSolutions = () => {
-    return (<CodeEditor/>)
-  }
-
   renderSoloEditor = () => {
     return (<SoloEditor
       selectedFilesNames={this.state.selectedFileNames}
       decodedContentObj={this.state.decodedCodeObj}/>)
   }
 
+  renderSolutionsRouter = (props) => {
+    console.log(this.props)
+    return(
+      <SolutionRouter />
+    )
+  }
+
+
   render() {
     console.log('issuesRouter State decoded name:', this.state.repoOwner)
     // console.log('selectedFiles:', this.state.selectedFileNames)
-
-
     return (
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={this.renderIssuesFeed}/>
           <Route path="/issues/new/edit" render={this.renderSoloEditor}/>
           <Route path="/issues/new" render={this.openIssue}/>
-          <Route path="/issues/:issuesID" render={this.renderSolutions}/>
+          <Route path="/issues/:issuesID" render={this.renderSolutionsRouter}/>
         </Switch>
       </div>
     )

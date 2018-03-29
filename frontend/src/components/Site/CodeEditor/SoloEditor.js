@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
+import "../../../CSS/EditorPages.css";
 import code from './SeedCode'
 import brace from 'brace';
 import AceEditor from 'react-ace';

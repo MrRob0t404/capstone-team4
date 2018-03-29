@@ -21,7 +21,6 @@
 
 #register-container {
   width: 40vw;
-  margin-top: 1vh;
   padding: 1vw;
 }
 
@@ -31,37 +30,41 @@
   align-items: center;
 }
 
-.auth-container > button {
+.auth-button {
   width: 22.5vw;
   height: 7vh;
-  font-size: 1em;
-  padding: 1em 2em;
-  border: none;
+  font-size: 1.2em;
   border-radius: 2px;
-  outline: none;
-}
-
-.auth-container > button:last-of-type {
   background-color: #8AD42C;
   color: white;
-  padding-top: 3%;
-  text-align: center;
 }
 
-#login-container > input,  #register-inputs > input {
+.auth-container > form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container > p {
+  font-size: 1.2em;
+}
+
+.auth-container > p > a {
+  color: #8FCCB8;
+}
+
+.auth-container > form > input {
   width: 23vw;
   height: 7vh;
   border: .1px solid #272633;
   margin-bottom: 5vh;
 }
 
-.auth-container > h2 {
-  margin: 0 auto 4vh auto;
+.auth-container > form > input:last-of-type {
+  margin-bottom: 15px;
 }
 
-#Oauth > .fa-github {
-  font-size: 2.5em;
-  margin-top: -4%;
-  padding: 1%;
-  float: left;
+.auth-container > h2 {
+  margin: 0 auto 4vh auto;
 }

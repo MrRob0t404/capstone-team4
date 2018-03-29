@@ -22,6 +22,7 @@ class LoginUser extends Component {
   }
 
   handleLoginButton = e => {
+    e.preventDefault()
     const { username, password } = this.state;
     axios
       .post('/users/login', {
@@ -55,9 +56,11 @@ class LoginUser extends Component {
         <div className="auth-container" id="login-container">
           <h2><Link to="/home"><i class="fas fa-code"></i></Link></h2>
           <h2>TyroDev</h2>
-          <input name="username" placeholder="username" type="text" onChange={this.handleInput} value={username}/>
-          <input name="password" placeholder="password" type="password" onChange={this.handleInput} value={password}/>
-          <button id="login" onClick={this.handleLoginButton}>Login</button>
+          <form>
+            <input name="username" placeholder="username" type="text" onChange={this.handleInput} value={username}/>
+            <input name="password" placeholder="password" type="password" onChange={this.handleInput} value={password}/>
+            <input type="submit" className="auth-button" onClick={this.handleLoginButton} value="Login"/>
+          </form>
           <p>{" "} Not a TyroDev member? <Link to='/register'> Sign up </Link></p>
           <p>{message}</p>
         </div>

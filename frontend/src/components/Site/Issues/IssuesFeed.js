@@ -7,7 +7,8 @@ class IssuesFeed extends React.Component {
   constructor() {
     super()
     this.state = {
-      userdata: []
+      userdata: [],
+      filter: 'open'
     }
   }
 
@@ -21,12 +22,16 @@ class IssuesFeed extends React.Component {
     return userdata.map((v, i) =>
       <div class="issue" id={`${i}`}>
         <img src={v.profilepic} />{" "}
-          <Link to={`/profile/${v.username}`}> <p>{v.username}</p></Link>
+        <div>
+          <Link to={`/profile/${v.username}`}>{v.username}</Link>
           <p>{v.ticketdate}</p>
+        </div>
         <Link to={`/issues/${v.id}`}>
         <h3>{v.title}</h3></Link>
-        <p>{v.responses === '0' ? 'No Responses!, be the first!' : `${v.responses} Responses`}</p>
-        <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>
+        <div>
+          <p>{v.responses === '0' ? 'No Responses!, be the first!' : `${v.responses} Responses`}</p>
+          <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>
+        </div>
       </div>)
   }
 
@@ -35,7 +40,8 @@ class IssuesFeed extends React.Component {
       .get('/users/getTicketFeed')
       .then(res => {
         this.setState({
-          userdata: res.data.data.filter(issue => issue.problemstatus === '0')
+          userdata: res.data.data.filter(issue => issue.problemstatus === '0'),
+          filter: 'open'
         })
       })
       .catch(err => {
@@ -48,7 +54,8 @@ class IssuesFeed extends React.Component {
       .get('/users/getTicketFeed')
       .then(res => {
         this.setState({
-          userdata: res.data.data.filter(issue => issue.problemstatus === '1')
+          userdata: res.data.data.filter(issue => issue.problemstatus === '1'),
+          filter: 'solved'
         })
       })
       .catch(err => {
@@ -61,7 +68,8 @@ class IssuesFeed extends React.Component {
     .get('/users/getTicketFeed')
     .then(res => {
         this.setState({
-          userdata: res.data.data
+          userdata: res.data.data,
+          filter: 'all'
         })
     })
     .catch(err => {
@@ -76,9 +84,9 @@ class IssuesFeed extends React.Component {
         <div id="issues">
           <nav id="issues-filter">
             <div>
-              <button onClick={this.openIssues}>Open</button>
-              <button onClick={this.solvedIssues}>Solved</button>
-              <button onClick={this.allIssues}>All</button>
+              <button className={this.state.filter==='open'? 'underline' : ''} onClick={this.openIssues}>Open</button>
+              <button className={this.state.filter==='solved'? 'underline' : ''} onClick={this.solvedIssues}>Solved</button>
+              <button className={this.state.filter==='all'? 'underline' : ''} onClick={this.allIssues}>All</button>
             </div>
             <Link to="/issues/new">New</Link>
           </nav>
