@@ -15,64 +15,69 @@ class App extends Component {
   }
 
 
-// functions passed as Props
+  // functions passed as Props
 
-UserFound = user => {
-  this.setState({
-    user: user
-  });
-};
-
-logOut = () => {
-  const { user } = this.state;
-  axios
-    .get("/users/logout")
-    .then(res => {
-      // console.log(`this is the response`,res.data)
-      this.setState({
-       user: null
-      });
-    })
-    .catch(err => {
-      console.log(err);
+  UserFound = user => {
+    this.setState({
+      user: user
     });
-};
+  };
 
-
-componentDidMount(){
-  axios
-    .get("/users/getLoggedinUser")
-    .then(res => {
-      this.setState({
-        user: res.data.user,
-        loading: false
-      });
-    })
-    .catch(err => {
-      console.log(`errrr`, err);
-      this.setState({
-        loading: false
+  logOut = () => {
+    const { user } = this.state;
+    axios
+      .get("/users/logout")
+      .then(res => {
+        // console.log(`this is the response`,res.data)
+        this.setState({
+          user: null
+        });
       })
-    });
-}
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
+  componentDidMount() {
+    axios
+      .get("/users/getLoggedinUser")
+      .then(res => {
+        this.setState({
+          user: res.data.user,
+          loading: false
+        });
+      })
+      .catch(err => {
+        console.log(`errrr`, err);
+        this.setState({
+          loading: false
+        })
+      });
+  }
 
 
 
-// Components
+  // Components
   handleLoginUser = () => {
     const { user } = this.state
-    if(user) {
-     return <Redirect to='/home' />
+    if (user) {
+      return <Redirect to='/home' />
     } else {
-      return  <LoginUser  setUser={this.UserFound}/>
+      return <LoginUser setUser={this.UserFound} />
     }
   }
 
 
   handleRegisterUser = () => {
-    return (
-      <RegisterUser setUser={this.UserFound} />
-    )
+    const { user } = this.state;
+    if (user) {
+      return <Redirect to={`/profile/${user.username}`} />
+    } else {
+      return (
+        <RegisterUser setUser={this.UserFound} />
+      )
+    }
   }
 
 
@@ -87,7 +92,7 @@ componentDidMount(){
   render() {
     const { user, active } = this.state
 
-    return ( 
+    return (
       <div>
         <Switch>
           <Route path="/login" component={this.handleLoginUser} />
