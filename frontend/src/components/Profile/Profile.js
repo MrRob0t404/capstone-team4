@@ -4,7 +4,7 @@ import axios from 'axios';
 import Me from './Me';
 import Issues from './ProfileIssues';
 import Solutions from './ProfileSolutions';
-import '../../.././CSS/Profile.css';
+import '../.././CSS/Profile.css';
 
 class Profile extends React.Component {
   constructor(props) {

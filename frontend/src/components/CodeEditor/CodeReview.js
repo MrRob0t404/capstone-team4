@@ -1,6 +1,6 @@
 import React from "react";
 import AceDiff from "ace-diff";
-import "../../../CSS/AceEditor.css";
+import "../../CSS/AceEditor.css";
 import code from './SeedCode'
 
 

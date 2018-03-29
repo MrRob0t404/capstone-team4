@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Link, Route} from 'react-router-dom';
-import '../../.././CSS/Issues.css';
+import '../.././CSS/Issues.css';
 
 class AllIssues extends React.Component {
   constructor() {
