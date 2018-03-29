@@ -65,7 +65,7 @@ class DataRouter extends Component {
         </Switch>
         <div id="footer">
           <i class="fa fa-github" aria-hidden="true"></i>
-          <p>Monique - Simon - Newton - Elon - Carlo</p>
+          <p><Link to="">Monique</Link> - <Link to="">Simon</Link> - <Link to="">Newton</Link> - <Link to="">Elon</Link> - <Link to="">Carlo</Link></p>
         </div>
       </div>
     )

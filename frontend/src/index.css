@@ -125,10 +125,17 @@ ul {
   height: 15vh;
   padding: 0 5%;
   border-top: 1px solid #ddd;
+  background: #272633;
+  color: white;
   display: flex;
   align-self: center;
   align-items: center;
   justify-content: space-between;
+}
+
+#footer > p > a {
+  color: #8AD42C;
+  font-size: 1.2em;
 }
 
 #footer > .fa-github {

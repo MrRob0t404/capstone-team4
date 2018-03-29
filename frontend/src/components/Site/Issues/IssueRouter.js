@@ -2,10 +2,8 @@ import React, {Component} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import axios from 'axios';
 
-import AllIssues from './AllIssues'
+import IssuesFeed from './IssuesFeed'
 import NewIssue from './NewIssue'
-import SolvedIssues from './solvedIssues'
-import OpenIssues from './openIssues'
 import ChooseFiles from './ChooseFiles'
 import CodeEditor from '../CodeEditor/CodeReview'
 import SoloEditor from '../CodeEditor/SoloEditor'
@@ -47,17 +45,10 @@ class IssueRouter extends Component {
     }
   }
 
-  handleOpenIssues = () => {
-    return (<OpenIssues/>)
+  renderIssuesFeed = () => {
+    return (<IssuesFeed/>)
   }
 
-  handleAllIssues = () => {
-    return (<AllIssues/>)
-  }
-
-  handleSolvedIssues = () => {
-    return (<SolvedIssues/>)
-  }
 
   inputHandler = e => this.setState({
     [e.target.name]: e.target.value
@@ -166,9 +157,7 @@ class IssueRouter extends Component {
     return (
       <div id="issue-router">
         <Switch>
-          <Route path="/issues/all" component={this.handleAllIssues}/>
-          <Route path="/issues/open" component={this.handleOpenIssues}/>
-          <Route path="/issues/solved" component={this.handleSolvedIssues}/>
+          <Route exact path="/issues" component={this.renderIssuesFeed}/>
           <Route path="/issues/new/edit" render={this.renderSoloEditor}/>
           <Route path="/issues/new" render={this.openIssue}/>
           <Route path="/issues/:issuesID" render={this.renderSolutions}/>
