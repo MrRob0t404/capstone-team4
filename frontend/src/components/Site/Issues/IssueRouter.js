@@ -43,7 +43,8 @@ class IssueRouter extends Component {
       message: 'Please fill all input feilds',
       selectedFileNames: [],
       encodedContent: '',
-      decodedCodeArr: []
+      decodedCodeArr: [],
+      count: 1
     }
   }
 
@@ -117,7 +118,6 @@ class IssueRouter extends Component {
       .catch(err => {
         console.log('error getting encoded content: ', err)
       })
-
   }
 
   //Decodes 64bit encoded response from github
@@ -127,7 +127,7 @@ class IssueRouter extends Component {
 
   openIssue = () => {
     const {user, loading} = this.props;
-    const {selectedFileNames, repoOwner, repositoryLink, repositoryName} = this.state;
+    const {selectedFileNames, repoOwner, repositoryLink, repositoryName, count} = this.state;
     if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
@@ -149,7 +149,7 @@ class IssueRouter extends Component {
   }
 
   renderSolutions = () => {
-    return (<CodeEditor/>)
+    return (<CodeEditor count ={this.state.count}/>)
   }
 
   renderSoloEditor = () => {
@@ -161,7 +161,6 @@ class IssueRouter extends Component {
   render() {
     console.log('issuesRouter State decoded name:', this.state.repoOwner)
     // console.log('selectedFiles:', this.state.selectedFileNames)
-
 
     return (
       <div id="issue-router">

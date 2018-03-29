@@ -3,9 +3,10 @@ import "../../../CSS/AceEditor.css";
 import code from './SeedCode'
 import brace from 'brace';
 import AceEditor from 'react-ace';
+import {getModeForPath} from '../../../lib/modelist'
 
-import 'brace/mode/jsx';
-import 'brace/theme/github';
+import './Import/import';
+import 'brace/theme/solarized_dark';
 
 class SoloEditor extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class SoloEditor extends Component {
 
     this.setState({selectedFile: e.target.name})
 
-    console.log('STTE', this.state)
+    // console.log('STTE', this.state)
   }
 
   addOnClick = () => {
@@ -78,9 +79,13 @@ class SoloEditor extends Component {
       </div>
     }
     if (this.cells[0]) {
-      console.log(`Solo Editor State`, this.state)
+      // console.log(`Solo Editor State`, this.state)
       this.addOnClick()
     }
+    var mode = getModeForPath(this.state.selectedFile);
+    // console.log('mode: ', mode.name)
+
+   var highlight = new Range(1, 1, 10, 10)
 
     return (
       <div id="solution">
@@ -94,8 +99,8 @@ class SoloEditor extends Component {
           <h2>Whenever I rerender my routes dont work.</h2>
           <div className="ace-container">
             <AceEditor
-              mode="jsx"
-              theme="github"
+              mode={mode.name}
+              theme="solarized_dark"
               highlightActiveLine={true}
               value={decodedContentObj[selectedFile]}
               setOptions={{
