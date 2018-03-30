@@ -150,14 +150,14 @@ class IssueRouter extends Component {
   renderSolutionsRouter = (props) => {
     console.log(this.props)
     return(
-      <SolutionRouter />
+      <SolutionRouter
+        props={props}
+      />
     )
   }
 
 
   render() {
-    console.log('issuesRouter State decoded name:', this.state.repoOwner)
-    // console.log('selectedFiles:', this.state.selectedFileNames)
     return (
       <div id="issue-router">
         <Switch>

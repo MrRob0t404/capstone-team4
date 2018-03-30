@@ -65,7 +65,8 @@ class AceEditor extends React.Component {
 
     let x = {}
     code.forEach(v => x[v.name] = v.code)
-    console.log('X', x)
+
+
 
   }
 

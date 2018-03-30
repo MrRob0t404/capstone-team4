@@ -8,16 +8,28 @@ class SolutionRouter extends Component {
   constructor() {
     super();
     this.state = {
+      data: []
     }
   }
 
+  componentDidMount(){
+    axios
+      .get(`/users/getProblem/${this.props.props.match.params.issuesID}`)
+      .then(res => {
+        console.log('res.data', res.data)
+      })
+  }
 
-  renderSolutions = () => {
-    return (<CodeEditor/>)
+
+  renderSolutions = (props) => {
+    return (
+      <CodeEditor
+        props={props}
+      />
+    )
   }
 
   renderAddSolution = (props) => {
-    console.log('renderSolutionsProps', props)
     return(
       <AddSolution />
     )
