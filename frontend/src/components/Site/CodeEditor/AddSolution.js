@@ -1,17 +1,11 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
 import code from './SeedCode'
 
-
-var disqus_config = function() {
-    this.page.url = "https://test.tyrodev.com/issues";
-    this.page.identifier = window.location.pathname;
-}
-
-class AceEditor extends React.Component {
+class AddSolution extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -69,50 +63,13 @@ class AceEditor extends React.Component {
 
   }
 
-  renderDescription = () => (
-    <div>
-      <div>
-        <h3>Description</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
-      </div>
-      <div>
-        <h3>Response</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
-      </div>
-    </div>
-  )
-
-  renderComments = () => {
-    (function() {
-	    let s = document.createElement("script");
-	    s.src = "https://tyrodev.disqus.com/embed.js";
-	    s.setAttribute("data-timestamp", +new Date());
-	    (document.head || document.body).appendChild(s);
-    })();
-
-    return <div id="disqus_thread"></div>
-  }
-
-  togglePane = e => {
-    e.target.innerText === "Description" ?
-      this.setState({ renderDescription: true }) :
-      this.setState({ renderDescription: false })
-  }
-
   handleTabClick = e => {
 	let { left, right } = this.aceDiffer.getEditors();
 	  left.setValue(this.state.files[Number(e.target.id)].code);
 	  right.setValue(this.state.files[Number(e.target.id)].code);
 	  this.setState( { currentFile: Number(e.target.id) } );
  }
+
 
   render() {
     const { rightEditor } = this.state
@@ -123,19 +80,15 @@ class AceEditor extends React.Component {
         </div>
         <div id="editor-container">
           <div className="solution-header">
-            <h2>Why doesn{"'"}t my for loop work?</h2>
-            <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
-          </div>
+            <h2>Why doesn{"'"}t my for loop work?</h2></div>
     	    <div className="acediff"></div>
         </div>
         <div id="right-pane">
-          <div id="pane-nav">
-            <p onClick={this.togglePane}>Description</p>
-            <p onClick={this.togglePane}>Comments</p>
-          </div>
           <div className="pane-section">
-            <div className={this.state.renderDescription? "": "hidden"}>{this.renderDescription()}</div>
-            <div className={this.state.renderDescription? "hidden": "fullWidth"}>{this.renderComments()}</div>
+            <div className="description">
+              <h3>Description</h3>
+              <textarea></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -143,4 +96,4 @@ class AceEditor extends React.Component {
   }
 }
 
-export default AceEditor;
+export default AddSolution;
