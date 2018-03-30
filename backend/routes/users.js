@@ -26,7 +26,8 @@ router.get("/getUserTicketFeed/:username", db.getUserTicketFeed);
 router.post('/submitProblem', loginRequired, db.submitProblem )
 router.post('/submitSolution', loginRequired, db.submitSolution)
 router.get('/getAllTicketSolutions/ticket/:ticketid/solution/:solutionid', db.getAllTicketSolutions)
-router.get('/getProblem/:ticketid', db.getProblem)
+router.get('/getProblem/:ticketid', db.getProblem);
+router.get('/getSolutions/:ticketid', db.getSolutions);
 
 
 
