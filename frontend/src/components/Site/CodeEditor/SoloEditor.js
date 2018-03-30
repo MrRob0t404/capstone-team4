@@ -18,6 +18,7 @@ class SoloEditor extends Component {
       originalCode: code,
       editedCode: code,
       lines: [],
+      testing: [],
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {}
     }
@@ -49,7 +50,7 @@ class SoloEditor extends Component {
   render() {
     const {rightEditor, selectedFile} = this.state
     const {decodedContentObj} = this.props
-    console.log("soloeditor props: ", this.props)
+    console.log("soloeditor props: again", this.props)
 
     console.log('STATE', this.state)
 

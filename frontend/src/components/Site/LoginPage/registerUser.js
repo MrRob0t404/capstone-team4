@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
 
 
 class RegisterUser extends React.Component {
@@ -12,7 +12,7 @@ class RegisterUser extends React.Component {
             password: '',
             verifyPassword: '',
             email: '',
-            message: '   '
+            message: '   ',
         }
     }
 
@@ -69,7 +69,7 @@ class RegisterUser extends React.Component {
 
 
     render() {
-        const { message, fullName, email, password, verifyPassword, username } = this.state
+        const { message, fullName, email, password, verifyPassword, username, loggedIn } = this.state
         return (
             <div className="auth" id="register">
                 <div className="auth-container" id="register-container">
