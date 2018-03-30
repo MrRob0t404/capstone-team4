@@ -117,7 +117,6 @@ class IssueRouter extends Component {
       .catch(err => {
         console.log('error getting encoded content: ', err)
       })
-
   }
 
   //Decodes 64bit encoded response from github
@@ -161,9 +160,8 @@ class IssueRouter extends Component {
   render() {
     console.log('issuesRouter State decoded name:', this.state.repoOwner)
     // console.log('selectedFiles:', this.state.selectedFileNames)
-
-
     return (
+      
       <div id="issue-router">
         <Switch>
           <Route path="/issues/all" component={this.handleAllIssues}/>

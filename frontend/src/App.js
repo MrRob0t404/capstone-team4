@@ -75,7 +75,7 @@ class App extends Component {
       return <Redirect to={`/profile/${user.username}`} />
     } else {
       return (
-        <RegisterUser setUser={this.UserFound} />
+        <RegisterUser setUser={this.UserFound}  />
       )
     }
   }
