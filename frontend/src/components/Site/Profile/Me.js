@@ -38,6 +38,10 @@ class Me extends React.Component {
     } 
   }
   
+  handleInput = () => {
+    axios 
+      .patch()
+  }
  
 
   render(){
@@ -64,6 +68,9 @@ class Me extends React.Component {
           <h3>Links</h3>
           <Link to={`link`}>{`link`}</Link>
           <Link to={`link`}>{`link`}</Link>
+        </div>
+        <div>
+          <button onClick={this.handleInput}>Edit Profile</button>
         </div>
       </div>
     )
