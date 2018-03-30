@@ -442,7 +442,8 @@ module.exports = {
   submitProblem,
   submitSolution,
   getAllTicketSolutions,
-  getProblem
+  getProblem,
+  getSolutions
 };
 
 
