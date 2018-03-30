@@ -46,9 +46,10 @@ function getUser(req, res, next) {
 
 function getTicketFeed(req, res, next) {
   db
-    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses
-        FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id
-        GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid ORDER BY tickets.id DESC`)
+    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
+    FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id JOIN problems ON problems.ticketid = tickets.id
+    GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description
+    ORDER BY tickets.id DESC`)
     .then(function (data) {
       res.status(200).json({
         status: "success",
