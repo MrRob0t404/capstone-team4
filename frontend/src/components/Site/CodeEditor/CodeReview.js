@@ -57,7 +57,9 @@ class AceEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: [code[0], code[1], code[2]],
+      files: [
+        code[0], code[1], code[2]
+      ],
       renderDescription: true,
       currentFile: 0
     }
@@ -65,9 +67,10 @@ class AceEditor extends React.Component {
   }
 
   componentDidMount() {
-    const { rightEditor } = this.state
+    const {rightEditor} = this.state
 
-    // This object creates the split editor and imports it in the element with className ".acediff"
+    // This object creates the split editor and imports it in the element with
+    // className ".acediff"
     var aceDiffer = this.aceDiffer = new AceDiff({
       mode: null,
       theme: null,
@@ -170,24 +173,42 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
-	let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.files[Number(e.target.id)].code);
-	  right.setValue(this.state.files[Number(e.target.id)].code);
-	  this.setState( { currentFile: Number(e.target.id) } );
- }
-
+    let {left, right} = this
+      .aceDiffer
+      .getEditors();
+    left.setValue(this.state.files[Number(e.target.id)].code);
+    right.setValue(this.state.files[Number(e.target.id)].code);
+    this.setState({
+      currentFile: Number(e.target.id)
+    });
+  }
 
   render() {
     const {rightEditor} = this.state
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v,idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
+          {this
+            .state
+            .files
+            .map((v, idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
         </div>
         <div id="editor-container">
           <h2>Why doesn{"'"}t my for loop work?</h2>
-	  <div className="acediff"></div>
-	  <button id="submit-solution-btn" style={{float: "right", margin: ".25em 0", fontSize: "2rem", fontWeight: "900", width: "20rem", height: "4rem", backgroundColor: "green", color: "orange", disabled: false}}>Submit Solution</button>
+          <div className="acediff"></div>
+          <button
+            id="submit-solution-btn"
+            style={{
+            float: "right",
+            margin: ".25em 0",
+            fontSize: "2rem",
+            fontWeight: "900",
+            width: "20rem",
+            height: "4rem",
+            backgroundColor: "green",
+            color: "orange",
+            disabled: false
+          }}>Submit Solution</button>
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -201,8 +222,7 @@ class AceEditor extends React.Component {
 }
           </div>
         </div>
-	<div className="solutions-list">
-	</div>
+        <div className="solutions-list"></div>
       </div>
     )
   }

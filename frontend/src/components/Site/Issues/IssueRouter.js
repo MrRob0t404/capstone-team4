@@ -154,13 +154,13 @@ class IssueRouter extends Component {
 
   renderSoloEditor = () => {
     return (<SoloEditor
+      title={this.state.title}
       selectedFilesNames={this.state.selectedFileNames}
       decodedContentObj={this.state.decodedCodeObj}/>)
   }
 
   render() {
-    console.log('issuesRouter State decoded name:', this.state.repoOwner)
-    // console.log('selectedFiles:', this.state.selectedFileNames)
+    // console.log('decoded obj :', this.state.decodedCodeArr)
 
     return (
       <div id="issue-router">
