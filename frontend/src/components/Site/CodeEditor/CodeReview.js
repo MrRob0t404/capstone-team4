@@ -1,6 +1,8 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
+import "../../../CSS/EditorPages.css";
 import code from './SeedCode'
 
 import brace from 'brace';
@@ -173,6 +175,7 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
+<<<<<<< HEAD
     let {left, right} = this
       .aceDiffer
       .getEditors();
@@ -185,6 +188,16 @@ class AceEditor extends React.Component {
 
   render() {
     const {rightEditor} = this.state
+=======
+	let { left, right } = this.aceDiffer.getEditors();
+	  left.setValue(this.state.files[Number(e.target.id)].code);
+	  right.setValue(this.state.files[Number(e.target.id)].code);
+	  this.setState( { currentFile: Number(e.target.id) } );
+ }
+
+  render() {
+    const { rightEditor } = this.state
+>>>>>>> 0afbe373b621fae7936d869480f732c91b11dabf
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -194,6 +207,7 @@ class AceEditor extends React.Component {
             .map((v, idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
         </div>
         <div id="editor-container">
+<<<<<<< HEAD
           <h2>Why doesn{"'"}t my for loop work?</h2>
           <div className="acediff"></div>
           <button
@@ -209,6 +223,13 @@ class AceEditor extends React.Component {
             color: "orange",
             disabled: false
           }}>Submit Solution</button>
+=======
+          <div className="solution-header">
+            <h2>Why doesn{"'"}t my for loop work?</h2>
+            <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
+          </div>
+    	    <div className="acediff"></div>
+>>>>>>> 0afbe373b621fae7936d869480f732c91b11dabf
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -216,6 +237,7 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
+<<<<<<< HEAD
             {this.state.renderDescription
               ? this.renderDescription()
               : this.renderComments()
@@ -223,6 +245,12 @@ class AceEditor extends React.Component {
           </div>
         </div>
         <div className="solutions-list"></div>
+=======
+            <div className={this.state.renderDescription? "": "hidden"}>{this.renderDescription()}</div>
+            <div className={this.state.renderDescription? "hidden": "fullWidth"}>{this.renderComments()}</div>
+          </div>
+        </div>
+>>>>>>> 0afbe373b621fae7936d869480f732c91b11dabf
       </div>
     )
   }

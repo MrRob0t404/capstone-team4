@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "../../../CSS/AceEditor.css";
+import "../../../CSS/EditorPages.css";
 import code from './SeedCode'
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -17,7 +18,7 @@ class SoloEditor extends Component {
       renderDescription: true,
       originalCode: code,
       lines: [],
-      selectedFileNames: this.props.selectedFilesNames,
+      testing: [],
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {},
       decodedContentObj: this.props.decodedContentObj
@@ -88,6 +89,9 @@ class SoloEditor extends Component {
     console.log('mode:', this.state.mode)
     const {rightEditor, selectedFile} = this.state
     const {decodedContentObj} = this.props
+    console.log("soloeditor props: again", this.props)
+
+    console.log('STATE', this.state)
 
     if (!decodedContentObj) {
       return <div>
