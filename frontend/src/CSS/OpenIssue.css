@@ -76,7 +76,11 @@
   margin-left: 80vw;
 }
 
-#choose-files > .fullWidth > a > button, #newIssue > .fullWidth > button {
+#choose-files > .fullWidth > a > button {
+  margin-left: 80vw;
+}
+
+#choose-files > .fullWidth > a > button, #newIssue > .fullWidth > input[type="submit"] {
   width: 10vw;
   height: 6vh;
   display: flex;
@@ -125,10 +129,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-#choose-files > .fullWidth > a > button {
-  margin-left: 80vw;
 }
 
 #select-files-container {
