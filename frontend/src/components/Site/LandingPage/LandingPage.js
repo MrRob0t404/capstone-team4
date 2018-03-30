@@ -45,9 +45,12 @@ class Landing extends Component {
             {LaptopCode()}
           </div>
           <div className="text">
-            <h2>Lorem ipsum dolor amet crucifix ennui poke succulents fixie asymmetrical. </h2>
-            <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
-            glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+            <h2>Tyro
+            <br/>[tahy-roh]
+            <br/>noun, plural tyros
+            <br/>1.  a beginner in learning anything; novice.
+            </h2>
+            <p>With our easy to use interface, get answers to your coding problems with our side by side editor feature.  </p>
           </div>
           <button id="mobile-button">Sign Up</button>
         </div>
@@ -55,8 +58,11 @@ class Landing extends Component {
         <div id="choose">
           <div className="text">
             <h1>Choosing Files</h1>
-            <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
-            glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+            <p>Upload your GitHub repo and select the files that you need help on. 
+              <br/>
+              <br/>
+            You also have the option to upload individual code snippets. 
+            </p>
           </div>
           <div className="interaction">
             <p className="selected" onClick={this.select}>index.html</p>
@@ -74,8 +80,7 @@ class Landing extends Component {
         <div id="dual">
           <div className="text">
             <h1>Dual Editors</h1>
-            <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
-            glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+            <p>Side by Side editors easily show the difference, between your code and multiple solutions</p>
           </div>
           <div className="interaction">
             <div className="screen">
@@ -90,8 +95,7 @@ class Landing extends Component {
         <div id="edit">
           <div className="text">
             <h1>Highlighting Differences</h1>
-            <p>Quinoa fanny pack tattooed retro man bun, yuccie schlitz hell of flannel waistcoat ugh
-            glossier raclette readymade. Vhs literally health goth meditation meggings.</p>
+            <p>To select specific parts of your code, the text will be highlighted a different color from the solution code</p>
           </div>
           <div className="interaction">
             <input className={this.state.doesCodeMatch ? '' : 'green-focus'} id="immutable" value='var i = 0' disabled />
