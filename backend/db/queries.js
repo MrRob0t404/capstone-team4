@@ -46,9 +46,10 @@ function getUser(req, res, next) {
 
 function getTicketFeed(req, res, next) {
   db
-    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses
-        FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id
-        GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid ORDER BY tickets.id DESC`)
+    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
+    FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id JOIN problems ON problems.ticketid = tickets.id
+    GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description
+    ORDER BY tickets.id DESC`)
     .then(function (data) {
       res.status(200).json({
         status: "success",
@@ -209,16 +210,16 @@ function newTicket(req, res, next) {
 
 function newFile(req, res, next, ticketid, file) {
   db
-    .one("INSERT INTO files (code, filename, ticketid, languages)" +
-    "VALUES(${code}, ${filename}, ${ticketid}, ${languages}) RETURNING id", {
+    .one("INSERT INTO files (code, filename, ticketid, language)" +
+    "VALUES(${code}, ${filename}, ${ticketid}, ${language}) RETURNING id", {
       code: file.code, filename: file.filename,
-      ticketid: ticketid, languages: file.languages
+      ticketid: ticketid, language: file.language
     })
     .then((data) => {
-        newProblems(req, res, next, data.id, ticketid, file)
+      newProblems(req, res, next, data.id, ticketid, file)
     })
     .catch(err => {
-     
+
       res.status(500)
         .json({
           status: `failed${err}`
@@ -229,10 +230,10 @@ function newFile(req, res, next, ticketid, file) {
 
 function newProblems(req, res, next, fileid, ticketid, file) {
   db
-    .none("INSERT INTO problems (ticketid, problem_description, lines, fileid)" +
-    "VALUES(${ticketid}, ${problem_desc}, ${lines}, ${fileid})", {
+    .none("INSERT INTO problems (ticketid, problem_description, lines)" +
+    "VALUES(${ticketid}, ${problem_desc}, ${lines})", {
       ticketid: ticketid,
-      problem_desc: file.problem_desc, lines: file.lines, fileid: fileid
+      problem_desc: req.body.problem_desc, lines: file.lines
     })
     .then(() => {
       res.status(200)
@@ -250,6 +251,162 @@ function newProblems(req, res, next, fileid, ticketid, file) {
 
 
 
+
+
+
+
+function newSolution(req, res, next, ticketid, file) {
+  db
+    .none("INSERT INTO solutions(ticketID, solution_userid, solution_description) " +
+    "VALUES(${ticketid}, ${userid}, ${solution_desc})", {
+      ticketid: Number(ticketid), userid: req.user.id, solution_desc: req.body.solution_desc
+    })
+    .then(data => {
+      res.status(200)
+        .json({
+          status: 'success'
+        })
+    })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `NewSolutionfailed${err} `
+        })
+    })
+}
+
+
+
+function newFileSolution(req, res, next, ticketid, file) {
+  db
+    .one("INSERT INTO files (code, filename, ticketid, language)" +
+    "VALUES(${code}, ${filename}, ${ticketid}, ${language}) RETURNING id", {
+      code: file.code, filename: file.filename,
+      ticketid: Number(ticketid), language: file.language
+    })
+    .then((data) => {
+      newSolution(req, res, next, ticketid, file)
+    })
+    .catch(err => {
+
+      res.status(500)
+        .json({
+          status: `NewFIleSolutionfailed${err}`
+        })
+    })
+}
+
+// submitSolution
+// looking for ticket, get id, use id to create file, create solution
+// loop through files, each will have one solution
+// in the createnewFile add to solutions table
+
+function submitSolution(req, res, next) {
+  let parsedFiles = JSON.parse(req.body.files)
+  for (var i = 0; i < parsedFiles.length; i++) {
+    console.log(`submitSolution`)
+    newFileSolution(req, res, next, Number(req.body.ticketid), parsedFiles[i])
+  }
+}
+
+
+
+function submitProblem(req, res, next) {
+  db
+    .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
+    "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
+      id: req.user.id, ticketDate: req.body.ticketDate,
+      problemStatus: req.body.problemStatus, title: req.body.title
+    })
+    .then(data => {
+      console.log(`bodyfiles`, req.body.files)
+      let parsedFiles = JSON.parse(req.body.files)
+      console.log(`parsedFiles`, parsedFiles)
+      for (var i = 0; i < parsedFiles.length; i++) {
+        console.log(`i got here`, parsedFiles)
+        newFile(req, res, next, data.id, parsedFiles[i])
+      }
+    })
+}
+
+
+// keep the ticket id,
+// submit files
+// submit problem
+
+
+function getAllTicketSolutions(req, res, next) {
+  db
+    .any("SELECT * FROM solutions JOIN tickets ON " +
+    "solutions.ticketid = tickets.id JOIN files ON files.ticketid = tickets.id " +
+    "WHERE tickets.id=${ticketid} AND solutions.id=${solutionid}", {
+      ticketid: Number(req.params.ticketid),
+      solutionid: Number(req.params.solutionid)
+    })
+    .then(data => {
+      res.status(200)
+        .json({
+          data: data,
+          status: `success`
+        })
+    })
+    .catch(err => {
+      res.status(500)
+        .json({
+          messsage: `failed${err}`
+        })
+    })
+}
+
+function getProblem(req, res, next) {
+  db
+    .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " +
+    "ticketdate, problemstatus, tickets.title, users.username, users.profilepic " +
+    "FROM problems JOIN files ON problems.ticketid=files.ticketid " +
+    "JOIN tickets ON tickets.id = problems.ticketid " +
+    "JOIN users ON users.id=tickets.ticket_userid " +
+    "WHERE problems.ticketid = ${ticketid}", {
+      ticketid: Number(req.params.ticketid)
+    })
+    .then(data => {
+      res.status(200)
+        .json({
+          data: data,
+          status: `success`
+        })
+    })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed${err}`
+        })
+    })
+}
+
+function getSolutions(req, res, next) {
+  db
+    .any("SELECT solutions.ticketid, solutions.solution_userid, solution_description, code, files.filename, " +
+    "users.username, users.profilepic, users.id, solutions.id " +
+    "FROM solutions JOIN files ON solutions.ticketid = files.ticketid JOIN users ON " +
+    "users.id = solutions.solution_userid " +
+    "WHERE solutions.ticketid=${ticketid}", {
+      ticketid: req.params.ticketid
+    })
+    .then(data => {
+      res.status(200)
+        .json({
+          data: data,
+          status: `success`
+        })
+    })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed`
+        })
+    })
+
+}
 
 
 
@@ -273,131 +430,6 @@ function markSolution(req, res, next) {
 }
 
 
-function newSolution(req, res, next, fileid, ticketid, file) {
-    db
-    .none("INSERT INTO solutions(ticketid, solution_userid, fileid, solution_description)" + 
-    "VALUES(${ticketid}, ${userid}, ${fileid}, ${solution_desc})", {
-      ticketid: ticketid, userid: req.user.id, fileid: fileid, solution_desc: file.solution_desc
-    })
-    .then(data => {
-      res.status(200)
-      .json({
-        status: 'success'
-      })
-    })
-    .catch(err => {
-      res.status(500)
-      .json({
-        status: `failed${err}`
-      })
-    })
-}
-
-
-
-function newFileSolution(req, res, next, ticketid, file) {
-  db
-    .one("INSERT INTO files (code, filename, ticketid, languages)" +
-    "VALUES(${code}, ${filename}, ${ticketid}, ${languages}) RETURNING id", {
-      code: file.code, filename: file.filename,
-      ticketid: ticketid, languages: file.languages
-    })
-    .then((data) => {
-        newSolution(req, res, next, data.id, ticketid, file)
-    })
-    .catch(err => {
-     
-      res.status(500)
-        .json({
-          status: `failed${err}`
-        })
-    })
-}
-
-// submitSolution
-// looking for ticket, get id, use id to create file, create solution
-// loop through files, each will have one solution
-// in the createnewFile add to solutions table
-
-function submitSolution (req, res, next) {
-  let parsedFiles = JSON.parse(req.body.files)
-  for(var i = 0; i < parsedFiles.length; i++) {
-    console.log( )
-        newFileSolution(req, res, next, req.body.ticketid, parsedFiles[i])
-  }
-}
-
-
-
-function submitProblem(req, res, next) {
-  db
-    .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
-    "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
-      id: req.user.id, ticketDate: req.body.ticketDate,
-      problemStatus: req.body.problemStatus, title: req.body.title
-    })
-    .then(data => {
-      console.log(`bodyfiles`,req.body.files)
-      let parsedFiles = JSON.parse(req.body.files)
-      console.log(`parsedFiles`, parsedFiles)
-        for(var i = 0; i < parsedFiles.length; i++ ) {
-          console.log(`i got here`, parsedFiles)
-            newFile(req, res, next, data.id, parsedFiles[i])
-        }
-    })
-}
-
-
-// keep the ticket id,
-// submit files
-// submit problem
-
-
-function getAllTicketSolutions(req, res, next) {
-  db
-  .any("SELECT * FROM solutions JOIN tickets ON " + 
-   "solutions.ticketid = tickets.id JOIN files ON files.ticketid = tickets.id " + 
-  "WHERE tickets.id=${ticketid} AND solutions.id=${solutionid}", {
-    ticketid: Number(req.params.ticketid),
-    solutionid: Number(req.params.solutionid)
-  })
-  .then(data => {
-    res.status(200)
-    .json({
-      data: data,
-      status: `success`
-    })
-  })
-  .catch(err => {
-      res.status(500)
-      .json({
-        messsage: `failed${err}`
-      })
-  })
-}
-
-function getProblem(req, res, next) {
-  db
-  .any("SELECT * FROM problems JOIN files ON problems.fileid=files.id WHERE problems.ticketid = ${ticketid}", {
-    ticketid: Number(req.params.ticketid)
-  })
-  .then(data => {
-    res.status(200)
-    .json({
-      data: data,
-      status: `success`
-    })
-  })
-  .catch(err => {
-    res.status(500)
-    .json({
-      status: `failed${err}`
-    })
-  })
-}
-
-
-
 module.exports = {
   createUser,
   logoutUser,
@@ -410,7 +442,8 @@ module.exports = {
   submitProblem,
   submitSolution,
   getAllTicketSolutions,
-  getProblem
+  getProblem,
+  getSolutions
 };
 
 

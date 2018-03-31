@@ -28,15 +28,14 @@ CREATE TABLE files (
     code VARCHAR,
     fileName VARCHAR,
     ticketID INTEGER REFERENCES tickets(ID),
-    languages VARCHAR
+    language VARCHAR
 );
 
 CREATE TABLE problems (
     ID SERIAL PRIMARY KEY,
     ticketID INTEGER REFERENCES tickets(ID),
     problem_description VARCHAR,
-    lines VARCHAR,
-    fileID INTEGER REFERENCES files(ID)
+    lines VARCHAR
 );
 
 
@@ -44,7 +43,6 @@ CREATE TABLE solutions (
     ID SERIAL PRIMARY KEY,
     ticketID INTEGER REFERENCES tickets(ID),
     solution_userID INTEGER REFERENCES users(ID),
-    fileID INTEGER REFERENCES files(ID),
     solution_description VARCHAR
 );
 
@@ -70,7 +68,7 @@ INSERT INTO tickets (ticket_userID, ticketDate, problemStatus, title)
            (3, '4/10/17', '1', 'Cant get route to work'),
            (1, '5/20/17', '0', 'Toaster Speech Enable');
 
-INSERT INTO files (code, ticketID, languages)
+INSERT INTO files (code, ticketID, language)
     VALUES ('forvar i  0 i < arr.length i++){ fail }', 1, 'Python'),
            ('function amirite(bool){ if(bool === true){ return "okay" else "yea" }}', 1, 'Python'),
            ('@import comic sans ERR', 2, 'Javascript'),
@@ -82,18 +80,28 @@ INSERT INTO files (code, ticketID, languages)
            ('0000011110101010101010101010101010101010101010101010101011100', 4, 'C++');
 
 
-INSERT INTO problems (ticketID, problem_description, lines, fileID)
-    VALUES (1, 'Problem with for loop, its not incrementing', '1, 2', 2),
-           (1, 'Problem with function', '5, 6, 7, 8', 2),
-           (2, 'I cant import this font, I just want to use this font.. omg', '5', 1),
-           (3, 'Whenever I rerender my routes dont work', '15', 4),
-           (4, 'I just want to talk to my toaster', '5', 3);
+INSERT INTO problems (ticketID, problem_description, lines)
+    VALUES (1, 'Problem with for loop, its not incrementing', '1, 2'),
+           (1, 'Problem with function', '5, 6, 7, 8'),
+           (2, 'I cant import this font, I just want to use this font.. omg', '5'),
+           (3, 'Whenever I rerender my routes dont work', '15'),
+           (4, 'I just want to talk to my toaster', '5');
 
-INSERT INTO solutions (ticketID, solution_userID, fileID, solution_description)
-    VALUES (2, 1, 4, 'You should try this'),
-           (1, 3, 7, 'This is dumb, try this '),
-           (3, 2, 8, 'you better do this correctly now'),
-           (4, 3, 9, 'i just want to know if this works');
+INSERT INTO solutions (ticketID, solution_userID,  solution_description)
+    VALUES (2, 4, 'You should try this'),
+           (1, 7, 'This is dumb, try this '),
+           (3, 8, 'you better do this correctly now'),
+           (4, 7, 'i just want to know if this works');
+
+
+
+
+
+
+
+
+
+
 
 
 

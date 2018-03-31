@@ -9,7 +9,7 @@ class NewIssue extends Component {
   render() {
     const {inputHandler, clickHandler, message} = this.props;
     return (
-      <div id="newIssue">
+      <form id="newIssue">
         <div className="input-container">
           <div className="helper">
             <h3>Title</h3>
@@ -26,9 +26,9 @@ class NewIssue extends Component {
         </div>
         <div className="fullWidth">
           <p className="message">{message}</p>
-          <button onClick={clickHandler}>Next</button>
+          <input type="submit" onClick={clickHandler} value="Next" />
         </div>
-      </div>
+      </form>
     )
   }
 }

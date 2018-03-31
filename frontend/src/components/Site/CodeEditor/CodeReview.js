@@ -1,6 +1,8 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
+import "../../../CSS/EditorPages.css";
 import code from './SeedCode'
 
 import brace from 'brace';
@@ -173,6 +175,7 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
+
     let {left, right} = this
       .aceDiffer
       .getEditors();
@@ -185,6 +188,7 @@ class AceEditor extends React.Component {
 
   render() {
     const {rightEditor} = this.state
+
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -209,6 +213,7 @@ class AceEditor extends React.Component {
             color: "orange",
             disabled: false
           }}>Submit Solution</button>
+
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -216,6 +221,7 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
+
             {this.state.renderDescription
               ? this.renderDescription()
               : this.renderComments()
@@ -223,6 +229,7 @@ class AceEditor extends React.Component {
           </div>
         </div>
         <div className="solutions-list"></div>
+
       </div>
     )
   }

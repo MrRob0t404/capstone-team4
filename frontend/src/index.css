@@ -4,6 +4,10 @@
   font-size: 1.2em;
 }
 
+.hidden {
+  display: none;
+}
+
 .icon-bar {
   background: white;
 }
@@ -17,36 +21,39 @@
   border: none;
 }
 
-.navbar-brand {
+.navbar-brand, .navbar-brand:hover{
   color: #00C1AB;
   font-size: 2em;
   font-weight: bold;
   margin-right: 20px;
 }
 
-.navbar-brand:hover {
-  color: inherit;
-}
-
-.navbar-nav > li > a {
+.navbar-nav > li, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
   color: white;
 }
 
-.navbar-nav > li > a:hover, .navbar-right > li:last-child > a:hover {
-  text-decoration: none;
-  background: none;
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    background: none;
 }
 
-.navbar-nav > li > a:focus {
-  background: none;
+.navbar-nav > li > p {
+    position: relative;
+    display: block;
+    padding: 15px 0;
+    color: #8FCCB8;
+    font-weight: bold;
 }
 
-.navbar-nav > li:last-of-type {
+.navbar-left > li:last-of-type {
   padding: 0;
   margin-right: 0%;
 }
 
-.navbar-right > li:last-child {
+.navbar-toggle {
+  z-index: 1;
+}
+
+.sign-up-button {
   background: linear-gradient(to right, #00C1AB, #8FCCB8);
   color: white;
   border-radius: 30px;
@@ -55,8 +62,8 @@
   justify-content: center;
 }
 
-.navbar-toggle {
-  z-index: 1;
+.underline {
+  border-bottom: 1px solid;
 }
 
 /* ////////////////////////////////////// */
@@ -64,7 +71,6 @@
 body {
   height: 100vh;
   font-family: 'Roboto', sans-serif;
-  /* font-size: 2em; */
   margin: 0;
   color: #272633;
 }
@@ -125,10 +131,17 @@ ul {
   height: 15vh;
   padding: 0 5%;
   border-top: 1px solid #ddd;
+  background: #272633;
+  color: white;
   display: flex;
   align-self: center;
   align-items: center;
   justify-content: space-between;
+}
+
+#footer > p > a {
+  color: #8AD42C;
+  font-size: 1.2em;
 }
 
 #footer > .fa-github {
