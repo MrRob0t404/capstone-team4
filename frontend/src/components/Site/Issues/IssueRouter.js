@@ -43,7 +43,8 @@ class IssueRouter extends Component {
       message: 'Please fill all input feilds',
       selectedFileNames: [],
       encodedContent: '',
-      decodedCodeArr: []
+      decodedCodeArr: [],
+      count: 1
     }
   }
 
@@ -119,7 +120,7 @@ class IssueRouter extends Component {
 
   openIssue = () => {
     const {user, loading} = this.props;
-    const {selectedFileNames, repoOwner, repositoryLink, repositoryName} = this.state;
+    const {selectedFileNames, repoOwner, repositoryLink, repositoryName, count} = this.state;
     if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
@@ -140,8 +141,15 @@ class IssueRouter extends Component {
     }
   }
 
+
+  renderSolutions = () => {
+    return (<CodeEditor count ={this.state.count}/>)
+  }
+
+
   renderSoloEditor = () => {
     return (<SoloEditor
+      title={this.state.title}
       selectedFilesNames={this.state.selectedFileNames}
       decodedContentObj={this.state.decodedCodeObj}/>)
   }
@@ -155,8 +163,10 @@ class IssueRouter extends Component {
 
 
   render() {
-    console.log('issuesRouter State decoded name:', this.state.repoOwner)
-    // console.log('selectedFiles:', this.state.selectedFileNames)
+
+    // console.log('decoded obj :', this.state.decodedCodeArr)
+
+
     return (
       
       <div id="issue-router">
