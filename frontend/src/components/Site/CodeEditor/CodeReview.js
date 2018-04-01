@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
@@ -69,7 +69,7 @@ class AceEditor extends React.Component {
   }
 
   componentDidMount() {
-    const {rightEditor} = this.state
+    const { rightEditor } = this.state
 
     // This object creates the split editor and imports it in the element with
     // className ".acediff"
@@ -123,7 +123,7 @@ class AceEditor extends React.Component {
   }
 
   handleCycle = () => {
-    const {count, editedCode, rightEditor} = this.state
+    const { count, editedCode, rightEditor } = this.state
     console.log('count:', count)
     console.log('edited code:', rightEditor)
     if (count < solutions.length) {
@@ -132,7 +132,7 @@ class AceEditor extends React.Component {
         rightEditor: solutions[count].code
       })
     } else {
-      this.setState({count: 0})
+      this.setState({ count: 0 })
     }
   }
 
@@ -170,13 +170,13 @@ class AceEditor extends React.Component {
 
   togglePane = e => {
     e.target.innerText === "Description"
-      ? this.setState({renderDescription: true})
-      : this.setState({renderDescription: false})
+      ? this.setState({ renderDescription: true })
+      : this.setState({ renderDescription: false })
   }
 
   handleTabClick = e => {
 
-    let {left, right} = this
+    let { left, right } = this
       .aceDiffer
       .getEditors();
     left.setValue(this.state.files[Number(e.target.id)].code);
@@ -187,7 +187,7 @@ class AceEditor extends React.Component {
   }
 
   render() {
-    const {rightEditor} = this.state
+    const { rightEditor } = this.state
 
     return (
       <div id="solution">
@@ -203,16 +203,16 @@ class AceEditor extends React.Component {
           <button
             id="submit-solution-btn"
             style={{
-            float: "right",
-            margin: ".25em 0",
-            fontSize: "2rem",
-            fontWeight: "900",
-            width: "20rem",
-            height: "4rem",
-            backgroundColor: "green",
-            color: "orange",
-            disabled: false
-          }}>Submit Solution</button>
+              float: "right",
+              margin: ".25em 0",
+              fontSize: "2rem",
+              fontWeight: "900",
+              width: "20rem",
+              height: "4rem",
+              backgroundColor: "green",
+              color: "orange",
+              disabled: false
+            }}>Submit Solution</button>
 
         </div>
         <div id="right-pane">
@@ -225,7 +225,7 @@ class AceEditor extends React.Component {
             {this.state.renderDescription
               ? this.renderDescription()
               : this.renderComments()
-}
+            }
           </div>
         </div>
         <div className="solutions-list"></div>

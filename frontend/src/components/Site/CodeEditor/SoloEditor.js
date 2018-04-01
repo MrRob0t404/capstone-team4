@@ -67,7 +67,6 @@ class SoloEditor extends Component {
           code: window.btoa(obj[key]),
           fileName: key, 
           language: getModeForPath(key),
-          lines: ""
         }
       })
 
@@ -76,6 +75,7 @@ class SoloEditor extends Component {
       "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,
       "problemStatus": "0",
+      "lines": "",
       "problem_desc": `${this.state.description}`,
       "files": JSON.stringify(arrOfCodes)
     }).then(res => {
