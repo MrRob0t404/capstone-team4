@@ -8,7 +8,7 @@ class SolutionRouter extends Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      problemData: []
     }
   }
 
@@ -16,7 +16,7 @@ class SolutionRouter extends Component {
     axios
       .get(`/users/getProblem/${this.props.props.match.params.issuesID}`)
       .then(res => {
-        console.log('res.data', res.data)
+        this.setState({problemData: res.data})
       })
   }
 
@@ -25,6 +25,7 @@ class SolutionRouter extends Component {
     return (
       <CodeEditor
         props={props}
+        problemData={this.state.problemData}
       />
     )
   }
@@ -37,6 +38,7 @@ class SolutionRouter extends Component {
 
 
   render() {
+    console.log(this.state.data)
     return (
       <div id="solution-router">
         <Switch>

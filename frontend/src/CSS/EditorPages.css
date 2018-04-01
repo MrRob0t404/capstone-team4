@@ -58,8 +58,12 @@
   align-items: center;
 }
 
+.solution-header > a {
+  width: 150px;
+}
+
 .solution-header > a > button {
-  width: 150%;
+  width: 100%;
   background-color: #8AD42C;
   color: white;
   padding: 6% 4%;

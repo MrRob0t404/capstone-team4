@@ -15,14 +15,27 @@ class AceEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      files: [code[0], code[1], code[2]],
+      fileNames: [],
       renderDescription: true,
+      description: '',
+      solution: '',
+      originalCode: [''],
+      solutionCode: [''],
       currentFile: 0
     }
     this.aceDiffer = undefined;
   }
 
   componentDidMount() {
+
+    let fileNames = []
+    let originalCode = []
+    let description = this.props.problemData.data[0].description
+    this.props.problemData.data.forEach((v,i) => {
+      originalCode.push(v.code)
+      fileNames.push(v.filename ? v.filename : `file${i}.js`)
+    })
+
     const { rightEditor } = this.state
 
     // This object creates the split editor and imports it in the element with className ".acediff"
@@ -35,14 +48,14 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.state.files[this.state.currentFile].code,
+        content: this.state.originalCode[this.state.currentFile],
         mode: 'null',
         theme: null,
         editable: false,
         copyLinkEnabled: true,
       },
       right: {
-        content: this.state.files[this.state.currentFile].code,
+        content: this.state.solutionCode[this.state.currentFile],
         mode: null,
         theme: null,
         editable: true,
@@ -65,8 +78,6 @@ class AceEditor extends React.Component {
 
     let x = {}
     code.forEach(v => x[v.name] = v.code)
-
-
 
   }
 
@@ -109,18 +120,20 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
-	let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.files[Number(e.target.id)].code);
-	  right.setValue(this.state.files[Number(e.target.id)].code);
-	  this.setState( { currentFile: Number(e.target.id) } );
+	  let { left, right } = this.aceDiffer.getEditors();
+	  left.setValue(this.state.originalCode[Number(e.target.dataset.fileIndex)]);
+	  right.setValue(this.state.solutionCode[Number(e.target.dataset.fileIndex)]);
+	  this.setState( { currentFile: Number(e.target.dataset.fileIndex) } );
  }
 
   render() {
     const { rightEditor } = this.state
+    console.log('props', this.props)
+    console.log('files', this.state.fileNames)
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v,idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
+          {this.state.fileNames.map((v,i) => <div className="tab" data-fileIndex={i} onClick={this.handleTabClick}>{v}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
