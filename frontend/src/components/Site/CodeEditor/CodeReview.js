@@ -4,15 +4,18 @@ import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
 
+import brace from 'brace';
+import './Import/import'
+import 'brace/theme/solarized_dark';
 
-var disqus_config = function() {
-    this.page.url = "https://test.tyrodev.com/issues";
-    this.page.identifier = window.location.pathname;
+var disqus_config = function () {
+  this.page.url = "https://test.tyrodev.com/issues";
+  this.page.identifier = window.location.pathname;
 }
 
 class AceEditor extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       files: [],
       title: '',
@@ -72,27 +75,35 @@ class AceEditor extends React.Component {
         mode: 'null',
         theme: null,
         editable: false,
-        copyLinkEnabled: true,
+        copyLinkEnabled: true
       },
       right: {
         content: this.state.solutionCode[this.state.currentFile] || this.state.originalCode[this.state.currentFile] || '',
         mode: null,
         theme: null,
         editable: true,
-        copyLinkEnabled: true,
+        copyLinkEnabled: true
       },
       classes: {
         diff: 'acediff__diffLine',
         connector: 'acediff__connector',
         newCodeConnectorLinkContent: '&#8594;',
-        deletedCodeConnectorLinkContent: '&#8592;',
-      },
+        deletedCodeConnectorLinkContent: '&#8592;'
+      }
     });
 
-    // This function tracks the changes made to the right side of the editor and updates the state
-    aceDiffer.getEditors().right.on("change", () => {
-      this.setState({
-        rightEditor: aceDiffer.getEditors().right.getValue()
+    // This function tracks the changes made to the right side of the editor and
+    // updates the state
+    aceDiffer
+      .getEditors()
+      .right
+      .on("change", () => {
+        this.setState({
+          rightEditor: aceDiffer
+            .getEditors()
+            .right
+            .getValue()
+        })
       })
     })
   }
@@ -105,30 +116,30 @@ class AceEditor extends React.Component {
       </div>
       <div>
         <h3>Response</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
+        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
+          adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
+          leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
+          truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
+          tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
       </div>
     </div>
   )
 
   renderComments = () => {
-    (function() {
-	    let s = document.createElement("script");
-	    s.src = "https://tyrodev.disqus.com/embed.js";
-	    s.setAttribute("data-timestamp", +new Date());
-	    (document.head || document.body).appendChild(s);
+    (function () {
+      let s = document.createElement("script");
+      s.src = "https://tyrodev.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", + new Date());
+      (document.head || document.body).appendChild(s);
     })();
 
     return <div id="disqus_thread"></div>
   }
 
   togglePane = e => {
-    e.target.innerText === "Description" ?
-      this.setState({ renderDescription: true }) :
-      this.setState({ renderDescription: false })
+    e.target.innerText === "Description"
+      ? this.setState({renderDescription: true})
+      : this.setState({renderDescription: false})
   }
 
   handleTabClick = e => {
@@ -153,6 +164,7 @@ class AceEditor extends React.Component {
             <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
           </div>
     	    <div className="acediff"></div>
+
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -160,10 +172,15 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            <div className={this.state.renderDescription? "": "hidden"}>{this.renderDescription()}</div>
-            <div className={this.state.renderDescription? "hidden": "fullWidth"}>{this.renderComments()}</div>
+
+            {this.state.renderDescription
+              ? this.renderDescription()
+              : this.renderComments()
+}
           </div>
         </div>
+        <div className="solutions-list"></div>
+
       </div>
     )
   }
