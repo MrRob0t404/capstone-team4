@@ -8,7 +8,8 @@ class SolutionRouter extends Component {
   constructor() {
     super();
     this.state = {
-      problemData: []
+      problemData: [],
+      solutionData: []
     }
   }
 
@@ -18,6 +19,12 @@ class SolutionRouter extends Component {
       .then(res => {
         this.setState({problemData: res.data})
       })
+
+    axios
+      .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
+      .then(res => {
+        this.setState({solutionData: res.data})
+      })
   }
 
 
@@ -26,6 +33,7 @@ class SolutionRouter extends Component {
       <CodeEditor
         props={props}
         problemData={this.state.problemData}
+        solutionData={this.state.solutionData}
       />
     )
   }

@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
-import code from './SeedCode'
 
 
 var disqus_config = function() {
@@ -15,28 +14,49 @@ class AceEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      fileNames: [],
-      renderDescription: true,
+      files: [],
+      title: '',
       description: '',
-      solution: '',
-      originalCode: [''],
-      solutionCode: [''],
-      currentFile: 0
+      originalCode: {},
+      solutionCode: {},
+      currentFile: '',
+      date: '',
+      renderDescription: true,
+      renderEditor: true,
     }
     this.aceDiffer = undefined;
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps){
 
-    let fileNames = []
-    let originalCode = []
-    let description = this.props.problemData.data[0].description
-    this.props.problemData.data.forEach((v,i) => {
-      originalCode.push(v.code)
-      fileNames.push(v.filename ? v.filename : `file${i}.js`)
-    })
+    if(nextProps.problemData.data){
+      let title = nextProps.problemData.data[0].title
+      let description = nextProps.problemData.data[0].problem_description
+      let date = nextProps.problemData.data[0].ticketdate
+      let currentFile = nextProps.problemData.data[0].filename
+      let originalCode = {}
+
+      nextProps.problemData.data.forEach((v,i) => {
+        originalCode[v.filename] = (v.code)
+      })
+
+      this.setState({
+        files: nextProps.problemData.data,
+        originalCode,
+        currentFile,
+        date,
+        description,
+        title
+      })
+
+    }
+  }
+
+  renderAceEditor = () => {
 
     const { rightEditor } = this.state
+
+    this.setState({renderEditor: false})
 
     // This object creates the split editor and imports it in the element with className ".acediff"
     var aceDiffer = this.aceDiffer = new AceDiff({
@@ -48,14 +68,14 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.state.originalCode[this.state.currentFile],
+        content: this.state.originalCode[this.state.currentFile] || '' ,
         mode: 'null',
         theme: null,
         editable: false,
         copyLinkEnabled: true,
       },
       right: {
-        content: this.state.solutionCode[this.state.currentFile],
+        content: this.state.solutionCode[this.state.currentFile] || this.state.originalCode[this.state.currentFile] || '',
         mode: null,
         theme: null,
         editable: true,
@@ -75,21 +95,13 @@ class AceEditor extends React.Component {
         rightEditor: aceDiffer.getEditors().right.getValue()
       })
     })
-
-    let x = {}
-    code.forEach(v => x[v.name] = v.code)
-
   }
 
   renderDescription = () => (
     <div>
       <div>
         <h3>Description</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
+        <p>{this.state.description}</p>
       </div>
       <div>
         <h3>Response</h3>
@@ -121,23 +133,23 @@ class AceEditor extends React.Component {
 
   handleTabClick = e => {
 	  let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.originalCode[Number(e.target.dataset.fileIndex)]);
-	  right.setValue(this.state.solutionCode[Number(e.target.dataset.fileIndex)]);
-	  this.setState( { currentFile: Number(e.target.dataset.fileIndex) } );
+	  left.setValue(this.state.originalCode[e.target.innerText]);
+	  right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText]);
+	  this.setState( { currentFile: e.target.innerText } );
  }
 
   render() {
     const { rightEditor } = this.state
-    console.log('props', this.props)
-    console.log('files', this.state.fileNames)
+
+    this.state.description ? this.state.renderEditor ? this.renderAceEditor() : '' : ''
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.fileNames.map((v,i) => <div className="tab" data-fileIndex={i} onClick={this.handleTabClick}>{v}</div>)}
+          {this.state.files.map((v,i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
-            <h2>Why doesn{"'"}t my for loop work?</h2>
+            <h2>{this.state.title}</h2>
             <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
           </div>
     	    <div className="acediff"></div>

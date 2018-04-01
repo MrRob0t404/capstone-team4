@@ -158,7 +158,7 @@ class IssueRouter extends Component {
 
   render() {
     return (
-      
+
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={this.renderIssuesFeed}/>

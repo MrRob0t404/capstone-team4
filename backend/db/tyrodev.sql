@@ -11,7 +11,7 @@ CREATE TABLE users (
     username VARCHAR UNIQUE,
     password_digest VARCHAR,
     email VARCHAR,
-    profile_pic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
+    profilepic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
     stack VARCHAR
 );
 
@@ -99,7 +99,7 @@ INSERT INTO problems (ticketID, problem_description)
            (2, 'I really need this to work, this assignment is due next week and I dont know how to get this to work!!!'),
            (3, 'Isnt it supposed to wrap on its own?'),
            (4, 'The components work in their respective files but when importing them Im getting an error.'),
-           (5, 'You always want a recursive function to start with a base case so it can stop at some point.'),
+           (5, 'Isnt this supposed to work?'),
            (6, 'I know how to make matrises (O.o) but I dont know how to recieve the data conventionally.'),
            (7, 'I just dont get it. Can one of you beautiful amazing, kind people explain it to me?'),
            (8, 'The goal is to have each server holding its own data while the data is sourcing from the same point.');
@@ -108,5 +108,5 @@ INSERT INTO solutions (ticketID, solution_userID,  solution_description, postDat
     VALUES (2, 2, 'To have data update on when rerendering a comptonent you have to render the component through a function.', '3/21/18'),
            (3, 2, 'To break the h3 tag you can use "word-break: break-word;".', '3/22/18'),
            (1, 4, 'First, youre not dumb, this is just a challenge for you. Second, when changing the img to the back of the card you want to save the scr of the front of the card.', '3/23/18'),
-           (6, 5, 'you better do this correctly now', '3/26/18'),
-           (7, 5, 'i just want to know if this works', '3/30/18');
+           (6, 5, 'Heres an example of how this can be done.', '3/26/18'),
+           (7, 5, 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind', '3/30/18');
