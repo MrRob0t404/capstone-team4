@@ -12,7 +12,7 @@ CREATE TABLE users (
     username VARCHAR UNIQUE,
     password_digest VARCHAR,
     email VARCHAR,
-    profile_pic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
+    profilePic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
     stack VARCHAR
 );
 
@@ -104,7 +104,7 @@ INSERT INTO problems (ticketID, problem_description)
            (2, 'I really need this to work, this assignment is due next week and I dont know how to get this to work!!!'),
            (3, 'Isnt it supposed to wrap on its own?'),
            (4, 'The components work in their respective files but when importing them Im getting an error.'),
-           (5, 'You always want a recursive function to start with a base case so it can stop at some point.'),
+           (5, 'I dont get why this doesnt work!'),
            (6, 'I know how to make matrises (O.o) but I dont know how to recieve the data conventionally.'),
            (7, 'I just dont get it. Can one of you beautiful amazing, kind people explain it to me?'),
            (8, 'The goal is to have each server holding its own data while the data is sourcing from the same point.');
