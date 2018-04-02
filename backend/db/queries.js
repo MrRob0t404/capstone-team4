@@ -85,12 +85,11 @@ function getTicketFeed(req, res, next) {
 
 function editUserProfile(req, res, next) {
   db
-    .none("UPDATE users SET email=${email}, fullname=${fullName}, profile_pic=${profilepic}, stack=${stack}, username=${username} WHERE users.id=${userID}", 
+    .none("UPDATE users SET email=${email}, fullname=${fullName}, stack=${stack}, username=${username} WHERE users.id=${userID}", 
     {
       email: req.body.email,
       fullName: req.body.fullName,
       username: req.body.username,
-      profilepic: req.body.profile_pic,
       stack: req.body.stack,
       links: req.body.links,
       userID: req.user.id

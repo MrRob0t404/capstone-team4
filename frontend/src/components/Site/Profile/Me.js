@@ -36,7 +36,6 @@ class Me extends React.Component {
           stack: user.stack,
           links: user.links
         })
-        console.log("visiting", res.data.data[0])
         this.props.setUser(this.props.currentUsername)
       })
       .catch(err => {
@@ -58,25 +57,25 @@ class Me extends React.Component {
       user: nextProps,
       editing: false
     })
-    console.log("componentwillreceiveprops user", this.state.user)
   }
 
   handleInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
-      visiting: { ...this.state.visiting, [e.target.name]: e.target.value }
+      visiting: { ...this.state.visiting, [e.target.name]: e.target.value },
+      profilepic: this.state.profilepic
     });
   };
 
   handleSubmit(event) {
-    const { user, email, fullname, profilepic, stack, username, links } = this.state
+    const { user, email, fullname, stack, username, links } = this.state
+    console.log(this.state)
     event.preventDefault();
     console.log("DID THE THING")
     axios
       .patch('/users/profile/edit', {
         email: email,
         fullName: fullname,
-        profilepic: profilepic,
         username: username,
         stack: stack,
         links: links
@@ -106,11 +105,11 @@ class Me extends React.Component {
 
   renderEditProfile = () => {
     const { user, visiting, username, fullname, email, stack, profilepic, links } = this.state
+    console.log(this.state)
     const { logOut } = this.props
     // console.log("handleClick user", user.user)
     // console.log("this.state", this.state)
     let userLoggedInLinks = links ? links.split(', ') : ['']
-console.log("userLinks", userLoggedInLinks)
     // return(<EditProfile user={user}/>)
     return (
       <div>
