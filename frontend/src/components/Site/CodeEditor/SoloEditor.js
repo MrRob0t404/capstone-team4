@@ -6,6 +6,7 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import {getModeForPath} from '../../../lib/modelist'
 import axios from 'axios';
+import { Base64 } from 'js-base64';
 
 import './Import/import';
 import 'brace/theme/solarized_dark';
@@ -60,17 +61,18 @@ class SoloEditor extends Component {
     // let obj = {1: 2, 3: 4} let arr = Object.keys(obj).map((key) => {   return
     // {key: obj[key]} })
     let obj = this.props.decodedContentObj
-    let arrOfCodes = Object  //Creates an array of objects 
+    let arrOfCodes = Object  //Creates an array of objects
       .keys(obj)
       .map((key) => {
+        console.log('KEY', key)
         return {
-          code: window.btoa(obj[key]),
-          fileName: key, 
-          language: getModeForPath(key),
+          "code": Base64.encode(obj[key]),
+          "fileName": key,
+          "language": getModeForPath(key),
         }
       })
 
-      console.log(arrOfCodes)
+      console.log('arrOfCodes', arrOfCodes)
     axios.post(`/users/submitProblem`, {
       "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,

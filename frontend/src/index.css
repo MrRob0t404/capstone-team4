@@ -151,28 +151,11 @@ ul {
 }
 
 #search {
-  height: 25px;
-  font-size: .75em;
+  width: 50%;
+  font-size: 1.2em;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
 }
-
-#search-bar {
-  width: 45vw;
-}
-
-#search-button {
-  width: 3em;
-  font-size: inherit;
-  padding: 10px 0;
-  border: none;
-  background-color: #8AD42C;
-  color: white;
-}
-
-#search-button:hover {
-  background-color: #8AD42C;
-  color: white;
-}
-
 
 @media (max-width: 768px) {
 

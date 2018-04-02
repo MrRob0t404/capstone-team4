@@ -13,34 +13,20 @@ class SolutionRouter extends Component {
     }
   }
 
-  componentDidMount(){
-    axios
-      .get(`/users/getProblem/${this.props.props.match.params.issuesID}`)
-      .then(res => {
-        this.setState({problemData: res.data})
-      })
-
-    axios
-      .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
-      .then(res => {
-        this.setState({solutionData: res.data})
-      })
-  }
-
 
   renderSolutions = (props) => {
     return (
       <CodeEditor
         props={props}
-        problemData={this.state.problemData}
-        solutionData={this.state.solutionData}
       />
     )
   }
 
   renderAddSolution = (props) => {
     return(
-      <AddSolution />
+      <AddSolution
+        props={props}
+       />
     )
   }
 
