@@ -58,6 +58,7 @@ class IssueRouter extends Component {
   })
 
   renderNextPage = e => {
+    e.preventDefault()
     let {title, repositoryLink, language} = this.state
     if (!title || !repositoryLink) {
       this.setState({message: 'Please fill all input feilds'})
@@ -157,18 +158,15 @@ class IssueRouter extends Component {
   renderSolutionsRouter = (props) => {
     console.log(this.props)
     return(
-      <SolutionRouter />
+      <SolutionRouter
+        props={props}
+      />
     )
   }
 
 
   render() {
-
-    // console.log('decoded obj :', this.state.decodedCodeArr)
-
-
     return (
-      
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={this.renderIssuesFeed}/>
