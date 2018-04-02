@@ -19,7 +19,9 @@ class SoloEditor extends Component {
       renderDescription: true,
       originalCode: code,
       lines: [],
-      testing: [],
+
+      selectedFileNames: this.props.selectedFilesNames,
+
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {},
       decodedContentObj: this.props.decodedContentObj,
@@ -58,36 +60,33 @@ class SoloEditor extends Component {
   // } things to do getDate fucntion make a fucntion that takes code and turns it
   // into an object
   submit = () => {
-    if (this.state.description === "") {
-      this.setState({message: "You cannot leave this field empty"})
-    } else {
-      var d = new Date();
-      let obj = this.props.decodedContentObj
-      let arrOfCodes = Object //Creates an array of objects
-        .keys(obj)
-        .map((key) => {
-          return {
-            code: window.btoa(obj[key]),
-            fileName: key,
-            language: getModeForPath(key).name,
-            lines: ""
-          }
-        })
-
-      console.log(arrOfCodes)
-      axios.post(`/users/submitProblem`, {
-        "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
-        "title": `${this.state.title}`,
-        "problemStatus": "0",
-        "problem_desc": `${this.state.description}`,
-        "files": JSON.stringify(arrOfCodes)
-      }).then(res => {
-        console.log(res)
-        this.setState({submitted: true})
-      }).catch(err => {
-        console.log("problem sending to backend: ", err)
+    var d = new Date();
+    // let obj = {1: 2, 3: 4} let arr = Object.keys(obj).map((key) => {   return
+    // {key: obj[key]} })
+    let obj = this.props.decodedContentObj
+    let arrOfCodes = Object //Creates an array of objects
+      .keys(obj)
+      .map((key) => {
+        return {
+          code: window.btoa(obj[key]),
+          fileName: key,
+          language: getModeForPath(key)
+        }
       })
-    }
+
+    console.log(arrOfCodes)
+    axios.post(`/users/submitProblem`, {
+      "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
+      "title": `${this.state.title}`,
+      "problemStatus": "0",
+      "lines": "",
+      "problem_desc": `${this.state.description}`,
+      "files": JSON.stringify(arrOfCodes)
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log("problem sending to backend: ", err)
+    })
   }
 
   render() {
@@ -96,9 +95,6 @@ class SoloEditor extends Component {
     console.log('mode:', this.state.mode)
     const {rightEditor, selectedFile, submitted} = this.state
     const {decodedContentObj} = this.props
-    console.log("soloeditor props: again", this.props)
-
-    console.log('STATE', this.state)
 
     if (!decodedContentObj) {
       return <div>

@@ -52,7 +52,6 @@ class IssueRouter extends Component {
     return (<IssuesFeed/>)
   }
 
-
   inputHandler = e => this.setState({
     [e.target.name]: e.target.value
   })
@@ -141,6 +140,10 @@ class IssueRouter extends Component {
     }
   }
 
+  renderSolutions = () => {
+    return (<CodeEditor count ={this.state.count}/>)
+  }
+
   renderSoloEditor = () => {
     return (<SoloEditor
       title={this.state.title}
@@ -150,17 +153,15 @@ class IssueRouter extends Component {
 
   renderSolutionsRouter = (props) => {
     console.log(this.props)
-    return(
-      <SolutionRouter />
-    )
+    return (<SolutionRouter/>)
   }
 
-
   render() {
-    console.log('issuesRouter State decoded name:', this.state.repoOwner)
-    // console.log('selectedFiles:', this.state.selectedFileNames)
+
+    // console.log('decoded obj :', this.state.decodedCodeArr)
+
     return (
-      
+
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={this.renderIssuesFeed}/>

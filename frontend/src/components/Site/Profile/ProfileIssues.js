@@ -30,7 +30,7 @@ class Issues extends React.Component {
 
     return userdata.map((v, i) =>
         <div class="issue" id={`${i}`}>
-            <img src={v.profilepic} />{" "}
+            <img src={v.profile_pic} />{" "}
             <Link to={`/profile/${v.username}`}> <p>{v.username}</p></Link>
             <p>{v.ticketdate}</p>
             <Link to={`/issues/${v.id}`}>
