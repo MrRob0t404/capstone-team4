@@ -67,12 +67,12 @@ class SoloEditor extends Component {
         console.log('KEY', key)
         return {
           "code": Base64.encode(obj[key]),
-          "fileName": key,
-          "language": getModeForPath(key)
+          "filename": key,
+          "language": getModeForPath(key).name
         }
       })
 
-    console.log('arrOfCodes', arrOfCodes)
+    console.log('arrOfCodes', JSON.stringify(arrOfCodes))
     axios.post(`/users/submitProblem`, {
       "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,
