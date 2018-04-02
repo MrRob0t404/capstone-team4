@@ -12,7 +12,7 @@ CREATE TABLE users (
     username VARCHAR UNIQUE,
     password_digest VARCHAR,
     email VARCHAR,
-    profilePic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
+    profile_Pic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
     stack VARCHAR
 );
 

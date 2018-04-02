@@ -106,24 +106,6 @@ class AceEditor extends React.Component {
             .getValue()
         })
       })
-
-    let x = {}
-    code.forEach(v => x[v.name] = v.code)
-    // console.log('X', x)
-  }
-
-  handleCycle = () => {
-    const { count, editedCode, rightEditor } = this.state
-    console.log('count:', count)
-    console.log('edited code:', rightEditor)
-    if (count < solutions.length) {
-      this.setState({
-        count: count + 1,
-        rightEditor: solutions[count].code
-      })
-    } else {
-      this.setState({ count: 0 })
-    }
   }
 
   renderDescription = () => (
@@ -197,8 +179,6 @@ class AceEditor extends React.Component {
             }
           </div>
         </div>
-        <div className="solutions-list"></div>
-
       </div>
     )
   }

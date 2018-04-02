@@ -58,6 +58,7 @@ class IssueRouter extends Component {
   })
 
   renderNextPage = e => {
+    e.preventDefault()
     let {title, repositoryLink, language} = this.state
     if (!title || !repositoryLink) {
       this.setState({message: 'Please fill all input feilds'})
