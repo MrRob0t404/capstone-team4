@@ -93,7 +93,7 @@ class SoloEditor extends Component {
     console.log('props soloEditor', this.props)
     console.log('mode:', this.state.mode)
     const {rightEditor, selectedFile} = this.state
-    const {decodedContentObj} = this.props
+    const {decodedContentObj, title} = this.props
 
     if (!decodedContentObj) {
       return <div>
@@ -107,45 +107,46 @@ class SoloEditor extends Component {
     // console.log('mode: ', mode.name)
 
     var highlight = new Range(1, 1, 10, 10)
-    if(this.state.submitted){
-      return <Redirect to= 'issues'/>
-    }else{
-    return (
-      <div id="solution">
-        <div id="file-tabs">
-          {this
-            .props
-            .selectedFilesNames
-            .map(v => <button className='tab' key={v} name={v} onClick={this.handleTabClick}>{v}</button>)}
-        </div>
-        <div id="editor-container">
-          <h2>Whenever I rerender my routes dont work.</h2>
-          <div className="ace-container">
-            <AceEditor
-              mode={this.state.mode.name}
-              theme="solarized_dark"
-              highlightActiveLine={true}
-              value={decodedContentObj[selectedFile]}
-              setOptions={{
-              enableBasicAutoCompletion: true,
-              enableLiveAutoCompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2
-            }}/>
+    if (this.state.submitted) {
+      return <Redirect to='/issues'/>
+    } else {
+      return (
+        <div id="solution">
+          <div id="file-tabs">
+            {this
+              .props
+              .selectedFilesNames
+              .map(v => <button className='tab' key={v} name={v} onClick={this.handleTabClick}>{v}</button>)}
           </div>
-        </div>
-        <div id="right-pane">
-          <div className="pane-section">
-            <div className="description">
-              <h3>Description</h3>
-              <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
+          <div id="editor-container">
+            <h2>{title}</h2>
+            <div className="ace-container">
+              <AceEditor
+                mode={this.state.mode.name}
+                theme="solarized_dark"
+                highlightActiveLine={true}
+                value={decodedContentObj[selectedFile]}
+                setOptions={{
+                enableBasicAutoCompletion: true,
+                enableLiveAutoCompletion: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2
+              }}/>
             </div>
-            <button onClick={this.submit}>Done</button>
+          </div>
+          <div id="right-pane">
+            <div className="pane-section">
+              <div className="description">
+                <h3>Description</h3>
+                <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
+              </div>
+              <button onClick={this.submit}>Done</button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )
+    }
   }
 }
 
