@@ -438,6 +438,55 @@ function markSolution(req, res, next) {
     })
 }
 
+function getComments(req, res, next) {
+  db
+  .any("SELECT comment, comments.ticketid, users.username, users.profile_pic, comments.commenter_id, commentDate " +   
+  "FROM comments JOIN users ON comments.commenter_id=users.id JOIN tickets ON tickets.id = comments.ticketid " + 
+  "WHERE tickets.id=${ticketid}", 
+  {ticketid: Number(req.params.ticketid)})
+  .then(data => {
+    res.status(200)
+    .json({
+      data: data,
+      status: `success`
+    })
+  })
+  .catch(err => {
+    console.log(`err`, err)
+    res.status(500)
+    .json({
+      status: `failed${err}`
+    })
+  })
+}
+
+
+function addComments(req, res, next) {
+  db
+  .none("INSERT INTO comments (ticketid, commenter_id, comment, commentDate) " +
+  "VALUES(${ticketid}, ${userid}, ${comment}, ${commentDate})", {
+    ticketid: req.body.ticketid,
+    userid: req.user.id,
+    comment: req.body.comment,
+    commentDate: req.body.commentDate
+  })
+  .then(data => {
+    res.status(200)
+    .json({
+      status: `success`
+    })
+  })
+  .catch(err => {
+    res.status(500)
+    .json({
+      status: `failed${err}`
+    })
+  })
+}
+
+
+
+
 
 module.exports = {
   createUser,
@@ -452,8 +501,13 @@ module.exports = {
   submitSolution,
   getAllTicketSolutions,
   getProblem,
-  getSolutions
+  getSolutions,
+  getComments,
+  addComments
 };
+
+
+
 
 
 

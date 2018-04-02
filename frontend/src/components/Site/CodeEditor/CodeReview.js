@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
@@ -138,8 +138,8 @@ class AceEditor extends React.Component {
 
   togglePane = e => {
     e.target.innerText === "Description"
-      ? this.setState({ renderDescription: true })
-      : this.setState({ renderDescription: false })
+      ? this.setState({renderDescription: true})
+      : this.setState({renderDescription: false})
   }
 
   handleTabClick = e => {
@@ -150,7 +150,7 @@ class AceEditor extends React.Component {
  }
 
   render() {
-    const { rightEditor } = this.state
+    const {rightEditor} = this.state
 
     this.state.description ? this.state.renderEditor ? this.renderAceEditor() : '' : ''
     return (
@@ -176,7 +176,7 @@ class AceEditor extends React.Component {
             {this.state.renderDescription
               ? this.renderDescription()
               : this.renderComments()
-            }
+}
           </div>
         </div>
       </div>
