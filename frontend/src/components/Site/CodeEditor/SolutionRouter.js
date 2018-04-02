@@ -8,16 +8,37 @@ class SolutionRouter extends Component {
   constructor() {
     super();
     this.state = {
+      problemData: [],
+      solutionData: []
     }
   }
 
+  componentDidMount(){
+    axios
+      .get(`/users/getProblem/${this.props.props.match.params.issuesID}`)
+      .then(res => {
+        this.setState({problemData: res.data})
+      })
 
-  renderSolutions = () => {
-    return (<CodeEditor/>)
+    axios
+      .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
+      .then(res => {
+        this.setState({solutionData: res.data})
+      })
+  }
+
+
+  renderSolutions = (props) => {
+    return (
+      <CodeEditor
+        props={props}
+        problemData={this.state.problemData}
+        solutionData={this.state.solutionData}
+      />
+    )
   }
 
   renderAddSolution = (props) => {
-    console.log('renderSolutionsProps', props)
     return(
       <AddSolution />
     )
@@ -25,6 +46,7 @@ class SolutionRouter extends Component {
 
 
   render() {
+    console.log(this.state.data)
     return (
       <div id="solution-router">
         <Switch>
