@@ -6,7 +6,8 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import {getModeForPath} from '../../../lib/modelist'
 import axios from 'axios';
-import { Base64 } from 'js-base64';
+import {Base64} from 'js-base64';
+import {Redirect} from 'react-router'
 
 import './Import/import';
 import 'brace/theme/solarized_dark';
@@ -19,12 +20,11 @@ class SoloEditor extends Component {
       renderDescription: true,
       originalCode: code,
       lines: [],
-
       selectedFileNames: this.props.selectedFilesNames,
-
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {},
-      decodedContentObj: this.props.decodedContentObj
+      decodedContentObj: this.props.decodedContentObj,
+      submitted: false
     }
     this.cells = [];
   }
@@ -61,18 +61,18 @@ class SoloEditor extends Component {
     // let obj = {1: 2, 3: 4} let arr = Object.keys(obj).map((key) => {   return
     // {key: obj[key]} })
     let obj = this.props.decodedContentObj
-    let arrOfCodes = Object  //Creates an array of objects
+    let arrOfCodes = Object //Creates an array of objects
       .keys(obj)
       .map((key) => {
         console.log('KEY', key)
         return {
           "code": Base64.encode(obj[key]),
           "fileName": key,
-          "language": getModeForPath(key),
+          "language": getModeForPath(key)
         }
       })
 
-      console.log('arrOfCodes', arrOfCodes)
+    console.log('arrOfCodes', arrOfCodes)
     axios.post(`/users/submitProblem`, {
       "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,
@@ -84,7 +84,8 @@ class SoloEditor extends Component {
       console.log(res)
     }).catch(err => {
       console.log("problem sending to backend: ", err)
-    })
+    });
+    this.setState({submitted: true})
   }
 
   render() {
@@ -106,7 +107,9 @@ class SoloEditor extends Component {
     // console.log('mode: ', mode.name)
 
     var highlight = new Range(1, 1, 10, 10)
-
+    if(this.state.submitted){
+      return <Redirect to= 'issues'/>
+    }else{
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -142,7 +145,7 @@ class SoloEditor extends Component {
           </div>
         </div>
       </div>
-    )
+    )}
   }
 }
 
