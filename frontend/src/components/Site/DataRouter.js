@@ -32,6 +32,7 @@ class DataRouter extends Component {
   render() {
 
     const { user } = this.props;
+
     return (
       <div id="data">
         <nav class="navbar">

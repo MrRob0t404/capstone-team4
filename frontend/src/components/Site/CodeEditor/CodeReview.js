@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
@@ -106,10 +106,24 @@ class AceEditor extends React.Component {
             .getValue()
         })
       })
-<<<<<<< HEAD
-=======
-    })
->>>>>>> 1ba49278348f813dfec748d4390c8a7efc356ad8
+
+    let x = {}
+    code.forEach(v => x[v.name] = v.code)
+    // console.log('X', x)
+  }
+
+  handleCycle = () => {
+    const { count, editedCode, rightEditor } = this.state
+    console.log('count:', count)
+    console.log('edited code:', rightEditor)
+    if (count < solutions.length) {
+      this.setState({
+        count: count + 1,
+        rightEditor: solutions[count].code
+      })
+    } else {
+      this.setState({ count: 0 })
+    }
   }
 
   renderDescription = () => (
@@ -142,8 +156,8 @@ class AceEditor extends React.Component {
 
   togglePane = e => {
     e.target.innerText === "Description"
-      ? this.setState({renderDescription: true})
-      : this.setState({renderDescription: false})
+      ? this.setState({ renderDescription: true })
+      : this.setState({ renderDescription: false })
   }
 
   handleTabClick = e => {
@@ -180,7 +194,7 @@ class AceEditor extends React.Component {
             {this.state.renderDescription
               ? this.renderDescription()
               : this.renderComments()
-}
+            }
           </div>
         </div>
         <div className="solutions-list"></div>

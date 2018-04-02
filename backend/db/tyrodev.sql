@@ -3,6 +3,7 @@ CREATE DATABASE tyrodev;
 
 \c tyrodev;
 
+
 DROP TABLE IF EXISTS users, tickets, files, problems, problem, solutions, comments, tickets, solution;
 
 CREATE TABLE users (
@@ -11,7 +12,7 @@ CREATE TABLE users (
     username VARCHAR UNIQUE,
     password_digest VARCHAR,
     email VARCHAR,
-    profilepic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
+    profilePic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
     stack VARCHAR
 );
 
@@ -71,6 +72,10 @@ INSERT INTO tickets (ticket_userID, ticketDate, problemStatus, title)
            (3, '3/26/18', '1', 'Binding DX'),
            (5, '3/29/18', '0', 'Does anyone know how to unsync servers?');
 
+
+
+
+
 INSERT INTO files (ticketID, file_userID, fileName, language, code)
     VALUES (1, 3, 'app.js', 'JavaScript', 'aW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JzsKaW1wb3J0IFJlYWN0RE9NIGZy\nb20gJ3JlYWN0LWRvbSc7CmltcG9ydCB7QnJvd3NlclJvdXRlcn0gZnJvbSAn\ncmVhY3Qtcm91dGVyLWRvbSc7CmltcG9ydCAnLi9pbmRleC5jc3MnOwppbXBv\ncnQgQXBwIGZyb20gJy4vQXBwJzsKaW1wb3J0IHJlZ2lzdGVyU2VydmljZVdv\ncmtlciBmcm9tICcuL3JlZ2lzdGVyU2VydmljZVdvcmtlcic7CgpSZWFjdERP\nTS5yZW5kZXIoCiAgICA8QnJvd3NlclJvdXRlcj4KICAgIDxBcHAvPgogICAg\nPC9Ccm93c2VyUm91dGVyPiwgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jv\nb3QnKSk7CnJlZ2lzdGVyU2VydmljZVdvcmtlcigpOwo=\n'),
            (2, 1, 'app.js', 'JavaScript', 'aW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JzsKaW1wb3J0IFJlYWN0RE9NIGZy\nb20gJ3JlYWN0LWRvbSc7CmltcG9ydCB7QnJvd3NlclJvdXRlcn0gZnJvbSAn\ncmVhY3Qtcm91dGVyLWRvbSc7CmltcG9ydCAnLi9pbmRleC5jc3MnOwppbXBv\ncnQgQXBwIGZyb20gJy4vQXBwJzsKaW1wb3J0IHJlZ2lzdGVyU2VydmljZVdv\ncmtlciBmcm9tICcuL3JlZ2lzdGVyU2VydmljZVdvcmtlcic7CgpSZWFjdERP\nTS5yZW5kZXIoCiAgICA8QnJvd3NlclJvdXRlcj4KICAgIDxBcHAvPgogICAg\nPC9Ccm93c2VyUm91dGVyPiwgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jv\nb3QnKSk7CnJlZ2lzdGVyU2VydmljZVdvcmtlcigpOwo=\n'),
@@ -99,7 +104,7 @@ INSERT INTO problems (ticketID, problem_description)
            (2, 'I really need this to work, this assignment is due next week and I dont know how to get this to work!!!'),
            (3, 'Isnt it supposed to wrap on its own?'),
            (4, 'The components work in their respective files but when importing them Im getting an error.'),
-           (5, 'Isnt this supposed to work?'),
+           (5, 'I dont get why this doesnt work!'),
            (6, 'I know how to make matrises (O.o) but I dont know how to recieve the data conventionally.'),
            (7, 'I just dont get it. Can one of you beautiful amazing, kind people explain it to me?'),
            (8, 'The goal is to have each server holding its own data while the data is sourcing from the same point.');
