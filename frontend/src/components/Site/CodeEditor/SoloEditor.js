@@ -134,9 +134,7 @@ class SoloEditor extends Component {
               enableLiveAutoCompletion: true,
               enableSnippets: true,
               showLineNumbers: true,
-              tabSize: 2,
-              width: '70%',
-              height: '90%'
+              tabSize: 2
             }}/>
           </div>
         </div>
