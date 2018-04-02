@@ -23,6 +23,7 @@ class ChooseFiles extends Component {
   }
 
   selectDirs = e => {
+    e.target.style.display = 'none';
     let paths = this.state.allPaths
     let path = e.target.dataset.path
     axios(`https://api.github.com/repos/${this.props.repoOwner}/${this.props.repositoryName}/contents/${path}`).then(res => {
@@ -59,7 +60,7 @@ class ChooseFiles extends Component {
                 return(
                   <div className="path-container">
                     <h3>{v.name}</h3>
-                    {v.dirs.map((v, i) => <p data-path={v.path} onClick={this.selectDirs}>{v.name}</p>)}
+                    {v.dirs.map((v, i) => <button data-path={v.path} onClick={this.selectDirs}>{v.name}</button>)}
                   </div>
                 )
               }})}

@@ -6,6 +6,13 @@ class NewIssue extends Component {
     super();
   }
 
+  handleUpload = e => {
+    let file = e.target.files[0]
+    let data = new FormData()
+    data.append
+    console.log(file)
+  }
+
   render() {
     const {inputHandler, clickHandler, message} = this.props;
     return (
@@ -23,6 +30,12 @@ class NewIssue extends Component {
             <p>ex. https://github.com/username/project</p>
           </div>
           <input name="repositoryLink" onChange={inputHandler}/>
+        </div>
+        <div className="input-container">
+          <div className="helper">
+            <h3>File</h3>
+          </div>
+          <input type="file" name="repositoryLink" onChange={this.handleUpload}/>
         </div>
         <div className="fullWidth">
           <p className="message">{message}</p>

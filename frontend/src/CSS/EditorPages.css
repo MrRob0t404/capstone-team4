@@ -1,5 +1,5 @@
 .ace-container {
-  width: 60vw;
+  width: 40vw;
   height: 80vh;
 }
 
@@ -131,4 +131,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+#switch-solution-buttons {
+  display: flex;
+  justify-content: center;
 }
