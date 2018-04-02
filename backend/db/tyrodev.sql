@@ -13,7 +13,8 @@ CREATE TABLE users (
     password_digest VARCHAR,
     email VARCHAR,
     profile_Pic VARCHAR DEFAULT 'https://image.flaticon.com/icons/svg/16/16480.svg',
-    stack VARCHAR
+    stack VARCHAR,
+    links VARCHAR
 );
 
 CREATE TABLE tickets (
@@ -61,12 +62,12 @@ CREATE TABLE comments (
 
 
 
-INSERT INTO users (username, fullName, password_digest, email, profile_pic, stack)
-  VALUES('MoMo','Monique Mojica', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'momo@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQH4BiE3sUUIWQ/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=T_1KJr52ctP68HOtsmfnTMkfsVcLWXoInOGkTp3SzSQ', 'HTML, Python'),
-         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'si-mon@tyrodev.com', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522648800&v=alpha&t=mU5_5Bo9Lb8LBy5OxCmV-XCKThg2Nc08zVaA_-GDdy4', 'Basic, Assembly, ASCII'),
-         ('Newton21', 'Newton Brooks', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'newton21@tyrodev.com','https://media.licdn.com/dms/image/C4E03AQFb_xBYxIBS3Q/profile-displayphoto-shrink_200_200/0?e=1527746400&v=alpha&t=c2C4u-ogTjALQ_5Ad7Uyjb40OW1Wsqw1s8RNkcJZua4', 'JS, React, Pug, HTML, CSS'),
-         ('Edje-C', 'Elon Jefferson','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'edje-c@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQEYfXhxT_WETA/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=sdz-WQUsI62007v4nAFwMdNm_bl6jrUEitIVaE1E5PI', 'Python, C++, Machine Learning'),
-         ('C-Low', 'Carlo Valenti','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'c-low@tyrodev.com', 'https://image.flaticon.com/icons/svg/16/16480.svg', 'Python, C++, Machine Learning');
+INSERT INTO users (username, fullName, password_digest, email, profile_pic, stack, links)
+  VALUES('MoMo','Monique Mojica', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'momo@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQH4BiE3sUUIWQ/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=T_1KJr52ctP68HOtsmfnTMkfsVcLWXoInOGkTp3SzSQ', 'HTML, Python', 'https://github.com/mon33k, https://www.linkedin.com/in/moniquemojica/'),
+         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'si-mon@tyrodev.com', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522648800&v=alpha&t=mU5_5Bo9Lb8LBy5OxCmV-XCKThg2Nc08zVaA_-GDdy4', 'Basic, Assembly, ASCII', 'https://github.com/simongaviria1, https://www.linkedin.com/in/simon-gaviria/'),
+         ('Newton21', 'Newton Brooks', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'newton21@tyrodev.com','https://media.licdn.com/dms/image/C4E03AQFb_xBYxIBS3Q/profile-displayphoto-shrink_200_200/0?e=1527746400&v=alpha&t=c2C4u-ogTjALQ_5Ad7Uyjb40OW1Wsqw1s8RNkcJZua4', 'JS, React, Pug, HTML, CSS', 'https://github.com/newton-brooks, https://www.linkedin.com/in/newtonbrooks/'),
+         ('Edje-C', 'Elon Jefferson','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'edje-c@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQEYfXhxT_WETA/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=sdz-WQUsI62007v4nAFwMdNm_bl6jrUEitIVaE1E5PI', 'Python, C++, Machine Learning', 'https://github.com/Edje-C, https://www.linkedin.com/in/elonjefferson/'),
+         ('C-Low', 'Carlo Valenti','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'c-low@tyrodev.com', 'https://image.flaticon.com/icons/svg/16/16480.svg', 'Python, C++, Machine Learning', 'https://github.com/cval-c4q, https://www.linkedin.com/in/carlo-valenti-79b892153/');
 
 
 INSERT INTO tickets (ticket_userID, ticketDate, problemStatus, title)
