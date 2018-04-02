@@ -25,7 +25,9 @@ class Profile extends React.Component {
   renderMyProfile = (props) => {
     const { logOut, user } = this.props;
     const { username } = props.match.params;
-    return <Me user={user} logOut={logOut} username={username} setUser={this.setCurrentUserProfile} />
+    console.log("user", this.props.user)
+    console.log("this.state.currentUserProfile", this.state.currentUserProfile)
+    return <Me user={user} logOut={logOut} currentUsername={username} setUser={this.setCurrentUserProfile} />
   };
  
 
