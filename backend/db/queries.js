@@ -84,24 +84,24 @@ function getTicketFeed(req, res, next) {
 // user Profile functions
 
 function editUserProfile(req, res, next) {
-  const hash = authHelpers.createHashPassword(req.body.password);
   db
-    .none(
-    "UPDATE users SET email = ${email}, fullName=${fullName}, password_digest=${password}, profilepic=${profilepic}, stack={stack} WHERE id=${id}",
+    .none("UPDATE users SET email=${email}, fullname=${fullName}, profilepic=${profilepic}, stack=${stack} WHERE users.id=${userID}", 
     {
       email: req.body.email,
       fullName: req.body.fullName,
-      password: hash,
       profilepic: req.body.profilepic,
-      id: req.body.id,
-      stack: req.body.stack
-    }
-    )
+      stack: req.body.stack,
+      userID: req.user.id
+    })
     .then(() => {
       res.status(200).json({
         message: "successfully updated user"
-      });
-    });
+      })
+    })
+    .catch(err => {
+      console.log(`err in editUserProfile`, err)
+      res.status(500).json({ message: `FAILED: editUserProfile` })
+    })
 }
 
 
@@ -437,6 +437,7 @@ module.exports = {
   getTicketFeed,
   getUserTicketFeed,
   getUserProfile,
+  editUserProfile,
   getUserID,
   getUserProfileSolutions,
   submitProblem,
