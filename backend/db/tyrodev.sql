@@ -49,17 +49,24 @@ CREATE TABLE solutions (
     postDate VARCHAR
 );
 
+CREATE TABLE comments (
+    ID SERIAL PRIMARY KEY,
+    ticketID INTEGER REFERENCES tickets(ID),
+    commenter_id INTEGER REFERENCES users(ID),
+    comment VARCHAR,
+    commentDate VARCHAR
+);
 
 
 
 
 
-INSERT INTO users (username, fullName, password_digest, email, stack)
-  VALUES('MoMo','Monique Mojica', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'momo@tyrodev.com', 'HTML, Python'),
-         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'si-mon@tyrodev.com', 'Basic, Assembly, ASCII'),
-         ('Newton21', 'Newton Brooks', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'newton21@tyrodev.com', 'JS, React, Pug, HTML, CSS'),
-         ('Edje-C', 'Elon Jefferson','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'edje-c@tyrodev.com', 'Python, C++, Machine Learning'),
-         ('C-Low', 'Carlo Valenti','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'c-low@tyrodev.com', 'Python, C++, Machine Learning');
+INSERT INTO users (username, fullName, password_digest, email, profile_pic, stack)
+  VALUES('MoMo','Monique Mojica', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'momo@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQH4BiE3sUUIWQ/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=T_1KJr52ctP68HOtsmfnTMkfsVcLWXoInOGkTp3SzSQ', 'HTML, Python'),
+         ('Si-Mon', 'Simon Gaviria', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'si-mon@tyrodev.com', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522648800&v=alpha&t=mU5_5Bo9Lb8LBy5OxCmV-XCKThg2Nc08zVaA_-GDdy4', 'Basic, Assembly, ASCII'),
+         ('Newton21', 'Newton Brooks', '$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'newton21@tyrodev.com','https://media.licdn.com/dms/image/C4E03AQFb_xBYxIBS3Q/profile-displayphoto-shrink_200_200/0?e=1527746400&v=alpha&t=c2C4u-ogTjALQ_5Ad7Uyjb40OW1Wsqw1s8RNkcJZua4', 'JS, React, Pug, HTML, CSS'),
+         ('Edje-C', 'Elon Jefferson','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'edje-c@tyrodev.com', 'https://media.licdn.com/dms/image/C5603AQEYfXhxT_WETA/profile-displayphoto-shrink_800_800/0?e=1527746400&v=alpha&t=sdz-WQUsI62007v4nAFwMdNm_bl6jrUEitIVaE1E5PI', 'Python, C++, Machine Learning'),
+         ('C-Low', 'Carlo Valenti','$2a$10$noryJFgByFccCS/F6XILSeqM.3TqBhmRJ0QtAMPHtlzriqk6rsY8S', 'c-low@tyrodev.com', 'https://image.flaticon.com/icons/svg/16/16480.svg', 'Python, C++, Machine Learning');
 
 
 INSERT INTO tickets (ticket_userID, ticketDate, problemStatus, title)
@@ -115,6 +122,11 @@ INSERT INTO solutions (ticketID, solution_userID,  solution_description, postDat
            (1, 4, 'First, youre not dumb, this is just a challenge for you. Second, when changing the img to the back of the card you want to save the scr of the front of the card.', '3/23/18'),
            (6, 5, 'you better do this correctly now', '3/26/18'),
            (7, 5, 'i just want to know if this works', '3/30/18');
+
+INSERT INTO comments (ticketID, commenter_id, comment, commentDate)
+VALUES (1, 2, 'this is common problem among new devs, recursion is hard', '12/10/2018'),
+        (4, 3, 'loops are very difficult', '12/05/2019'),
+        (3, 4, 'next time phrase your question like this', '09/20/2018');
 
 
 
