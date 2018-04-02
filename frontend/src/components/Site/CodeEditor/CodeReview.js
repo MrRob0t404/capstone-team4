@@ -13,47 +13,6 @@ var disqus_config = function () {
   this.page.identifier = window.location.pathname;
 }
 
-const solutions = [
-  {
-    name: 'simon',
-    code: `var aceDiffer = new AceDiff({
-          mode: null,
-          theme: null,
-          element: ".acediff",
-          diffGranularity: 'broad',
-          showDiffs: true,
-          showConnectors: true,
-          maxDiffs: 5000,
-          left: {
-              content: this.state.originalCode,
-              mode: 'null',
-              theme: null,
-              editable: false,
-              copyLinkEnabled: true
-          },
-          right: {
-              content: this.state.editedCode,
-              mode: null,
-              theme: null,
-              editable: true,
-              copyLinkEnabled: true
-          },
-          classes: {
-              diff: 'acediff__diffLine',
-              connector: 'acediff__connector',
-              newCodeConnectorLinkContent: '&#8594;',
-              deletedCodeConnectorLinkContent: '&#8592;'
-          }
-      });`
-  }, {
-    name: 'newton',
-    code: 'No new code'
-  }, {
-    name: 'monique',
-    code: 'I just wanna talk to my toaster :( '
-  }
-]
-
 class AceEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -147,6 +106,10 @@ class AceEditor extends React.Component {
             .getValue()
         })
       })
+<<<<<<< HEAD
+=======
+    })
+>>>>>>> 1ba49278348f813dfec748d4390c8a7efc356ad8
   }
 
   renderDescription = () => (
@@ -205,6 +168,7 @@ class AceEditor extends React.Component {
             <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
           </div>
     	    <div className="acediff"></div>
+
         </div>
         <div id="right-pane">
           <div id="pane-nav">

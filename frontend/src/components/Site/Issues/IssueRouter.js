@@ -165,10 +165,6 @@ class IssueRouter extends Component {
 
 
   render() {
-
-    // console.log('decoded obj :', this.state.decodedCodeArr)
-
-
     return (
       <div id="issue-router">
         <Switch>
