@@ -58,7 +58,6 @@ class AceEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
       files: [],
       title: '',
       description: '',
@@ -66,21 +65,16 @@ class AceEditor extends React.Component {
       solutionCode: {},
       currentFile: '',
       date: '',
-=======
-      files: [
-        code[0], code[1], code[2]
-      ],
->>>>>>> 047bd92153c8c5e8c22e1b14a72387216e999b96
       renderDescription: true,
       renderEditor: true,
     }
     this.aceDiffer = undefined;
   }
 
-<<<<<<< HEAD
   componentWillReceiveProps(nextProps){
 
     if(nextProps.problemData.data){
+      console.log('nextProps', nextProps)
       let title = nextProps.problemData.data[0].title
       let description = nextProps.problemData.data[0].problem_description
       let date = nextProps.problemData.data[0].ticketdate
@@ -110,13 +104,6 @@ class AceEditor extends React.Component {
     this.setState({renderEditor: false})
 
     // This object creates the split editor and imports it in the element with className ".acediff"
-=======
-  componentDidMount() {
-    const {rightEditor} = this.state
-
-    // This object creates the split editor and imports it in the element with
-    // className ".acediff"
->>>>>>> 047bd92153c8c5e8c22e1b14a72387216e999b96
     var aceDiffer = this.aceDiffer = new AceDiff({
       mode: null,
       theme: null,
@@ -160,43 +147,13 @@ class AceEditor extends React.Component {
             .getValue()
         })
       })
-<<<<<<< HEAD
-    })
-=======
-
-    let x = {}
-    code.forEach(v => x[v.name] = v.code)
-    // console.log('X', x)
-  }
-
-  handleCycle = () => {
-    const {count, editedCode, rightEditor} = this.state
-    console.log('count:', count)
-    console.log('edited code:', rightEditor)
-    if (count < solutions.length) {
-      this.setState({
-        count: count + 1,
-        rightEditor: solutions[count].code
-      })
-    } else {
-      this.setState({count: 0})
-    }
->>>>>>> 047bd92153c8c5e8c22e1b14a72387216e999b96
   }
 
   renderDescription = () => (
     <div>
       <div>
         <h3>Description</h3>
-<<<<<<< HEAD
         <p>{this.state.description}</p>
-=======
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
-          adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
-          leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
-          truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
-          tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
->>>>>>> 047bd92153c8c5e8c22e1b14a72387216e999b96
       </div>
       <div>
         <h3>Response</h3>
@@ -227,7 +184,6 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
-<<<<<<< HEAD
 	  let { left, right } = this.aceDiffer.getEditors();
 	  left.setValue(this.state.originalCode[e.target.innerText]);
 	  right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText]);
@@ -249,47 +205,6 @@ class AceEditor extends React.Component {
             <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
           </div>
     	    <div className="acediff"></div>
-=======
-
-    let {left, right} = this
-      .aceDiffer
-      .getEditors();
-    left.setValue(this.state.files[Number(e.target.id)].code);
-    right.setValue(this.state.files[Number(e.target.id)].code);
-    this.setState({
-      currentFile: Number(e.target.id)
-    });
-  }
-
-  render() {
-    const {rightEditor} = this.state
-
-    return (
-      <div id="solution">
-        <div id="file-tabs">
-          {this
-            .state
-            .files
-            .map((v, idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
-        </div>
-        <div id="editor-container">
-          <h2>Why doesn{"'"}t my for loop work?</h2>
-          <div className="acediff"></div>
-          <button
-            id="submit-solution-btn"
-            style={{
-            float: "right",
-            margin: ".25em 0",
-            fontSize: "2rem",
-            fontWeight: "900",
-            width: "20rem",
-            height: "4rem",
-            backgroundColor: "green",
-            color: "orange",
-            disabled: false
-          }}>Submit Solution</button>
-
->>>>>>> 047bd92153c8c5e8c22e1b14a72387216e999b96
         </div>
         <div id="right-pane">
           <div id="pane-nav">
