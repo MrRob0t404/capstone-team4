@@ -377,20 +377,55 @@ function markSolution(req, res, next) {
     })
 }
 
-function markSolution(req, res, next) {
+function getComments(req, res, next) {
   db
-    .none("UPDATE tickets SET problemStatus='1' WHERE ticketid={ticketid}", {ticketid: req.body.id})
-    .then(() => {
-      res
-        .status(200)
-        .json({status: 'success'})
+  .any("SELECT comment, comments.ticketid, users.username, users.profile_pic, comments.commenter_id, commentDate " +   
+  "FROM comments JOIN users ON comments.commenter_id=users.id JOIN tickets ON tickets.id = comments.ticketid " + 
+  "WHERE tickets.id=${ticketid}", 
+  {ticketid: Number(req.params.ticketid)})
+  .then(data => {
+    res.status(200)
+    .json({
+      data: data,
+      status: `success`
     })
-    .catch(err => {
-      res
-        .status(500)
-        .json({status: 'message'})
+  })
+  .catch(err => {
+    console.log(`err`, err)
+    res.status(500)
+    .json({
+      status: `failed${err}`
     })
+  })
 }
+
+
+function addComments(req, res, next) {
+  db
+  .none("INSERT INTO comments (ticketid, commenter_id, comment, commentDate) " +
+  "VALUES(${ticketid}, ${userid}, ${comment}, ${commentDate})", {
+    ticketid: req.body.ticketid,
+    userid: req.user.id,
+    comment: req.body.comment,
+    commentDate: req.body.commentDate
+  })
+  .then(data => {
+    res.status(200)
+    .json({
+      status: `success`
+    })
+  })
+  .catch(err => {
+    res.status(500)
+    .json({
+      status: `failed${err}`
+    })
+  })
+}
+
+
+
+
 
 module.exports = {
   createUser,
@@ -405,29 +440,8 @@ module.exports = {
   submitSolution,
   getAllTicketSolutions,
   getProblem,
-  getSolutions
+  getSolutions,
+  getComments,
+  addComments
 };
 
-// function submitProblem(req, res, next) {   db     .one("INSERT INTO
-// tickets(ticket_userid, ticketDate, problemStatus, title) " +
-// "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
-//    id: req.user.id, ticketDate: req.body.ticketDate,       problemStatus:
-// req.body.problemStatus, title: req.body.title     })     .then(data => {
-//  console.log(`bodyfiles`, req.body.files)       let parsedFiles =
-// JSON.parse(req.body.files)       console.log(`parsedFiles`, parsedFiles)
-//  for (var i = 0; i < parsedFiles.length; i++) {         console.log(`i got
-// here`, parsedFiles)         newFile(req, res, next, data.id, parsedFiles[i])
-//      }     }) } function newProblems(req, res, next, fileid, ticketid, file)
-// {   db     .none("INSERT INTO problems (ticketid, problem_description,
-// lines)" +     "VALUES(${ticketid}, ${problem_desc}, ${lines})", {
-// ticketid: ticketid,       problem_desc: req.body.problem_desc, lines:
-// file.lines     })     .then(() => {       res.status(200)         .json({
-//       status: 'success'         })     })     .catch(err => {
-// res.status(500)         .json({           status: 'failed'         })     })
-// }; function newFile(req, res, next, ticketid, file) {   db     .one("INSERT
-// INTO files (code, filename, ticketid, language)" +     "VALUES(${code},
-// ${filename}, ${ticketid}, ${language}) RETURNING id", {       code:
-// file.code, filename: file.filename,       ticketid: ticketid, language:
-// file.language     })     .then((data) => {       newProblems(req, res, next,
-// data.id, ticketid, file)     })     .catch(err => {       res.status(500)
-//     .json({           status: `failed${err}`         })     }) }

@@ -105,7 +105,6 @@ class IssueRouter extends Component {
         responses.forEach(responseObj => {
           decodedCodeObj[responseObj.data.path] = this.decode(responseObj.data.content)
         }) //An array of axios calls (obj)
-
         this.setState({decodedCodeObj: decodedCodeObj}) //sets state with array of responses
       })
       .catch(err => {
@@ -154,11 +153,7 @@ class IssueRouter extends Component {
 
   renderSolutionsRouter = (props) => {
     console.log(this.props)
-    return(
-      <SolutionRouter
-        props={props}
-      />
-    )
+    return (<SolutionRouter props={props}/>)
   }
 
   render() {
