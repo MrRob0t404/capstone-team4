@@ -10,25 +10,34 @@ class Me extends React.Component {
       user: '',
       visiting: [],
       message: '',
-      submitted: false,
+      editing: false,
       fullname: '',
       username: '',
       email: '',
       stack: '',
+      links: '',
       profilepic: ''
     }
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  fetchProfile = (username) => {
-    const { user } = this.state
+  fetchProfile = (currentUsername) => {
     axios
-      .get(`/users/profile/${username}`)
+      .get(`/users/profile/${currentUsername}`)
       .then(res => {
+        const user = res.data.data[0]
         this.setState({
-          visiting: res.data.data[0]
+          visiting: user,
+          username: user.username,
+          fullname: user.fullname,
+          email: user.email,
+          profilepic: user.profile_pic,
+          stack: user.stack,
+          links: user.links
         })
-        this.props.setUser(this.props.username)
+        console.log("visiting", res.data.data[0])
+        this.props.setUser(this.props.currentUsername)
       })
       .catch(err => {
         console.log(`err fetching user profile`, err)
@@ -36,86 +45,85 @@ class Me extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchProfile(this.props.username);
+    this.fetchProfile(this.props.currentUsername);
   }
 
   //this.state.user => {user: null, logOut: ƒ, username: "MoMo", setUser: ƒ}
   //this.state.visiting 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.username !== this.props.username) {
-      this.fetchProfile(nextProps.username)
+    if (nextProps.currentUsername !== this.props.currentUsername) {
+      this.fetchProfile(nextProps.currentUsername)
     }
     this.setState({
       user: nextProps,
-      submitted: false
+      editing: false
     })
-    console.log("componentwillreceiveprops user", this.state.visiting)
+    console.log("componentwillreceiveprops user", this.state.user)
   }
 
   handleInputChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      visiting: { ...this.state.visiting, [e.target.name]: e.target.value }
     });
   };
 
   handleSubmit(event) {
+    const { user, email, fullname, profilepic, stack, username, links } = this.state
     event.preventDefault();
+    console.log("DID THE THING")
     axios
       .patch('/users/profile/edit', {
-        "email": 'random@email.com',
-        "fullName": 'newName',
-        "profilepic": 'https://pmcvariety.files.wordpress.com/2016/05/spongebob-nickelodeon.jpg?w=1000&h=563&crop=1',
-        "stack": 'randomstuff',
-        "username": 'spongebob',
+        email: email,
+        fullName: fullname,
+        profilepic: profilepic,
+        username: username,
+        stack: stack,
+        links: links
       })
       .then(() => {
-          this.setState({
-            message: "YEAH"
-          })
+        this.setState({
+          message: "YEAH",
+          editing: false
+        })
+        // this.props.setUser(this.props.currentUsername)
       })
       .catch(err => {
         console.log(`err fetching user profile`, err)
       })
-    this.setState({
-      submitted: true
-    })
+    console.log("message", this.state.message)
   }
 
   handleClick = () => {
     const { user } = this.state
-    console.log("user", user.user.profilepic)
+    // console.log("momo", test)
+    // let test = user.user.username + "XXXXXXXXX"
     this.setState({
-      submitted: true,
-      username: user.user.username,
-      fullname: user.user.fullname, 
-      email: user.user.email,
-      profilepic: user.user.profilepic
+      editing: true
     })
   }
 
 
-
   renderEditProfile = () => {
-    const { user, visiting, username, fullname, email, stack, profilepic } = this.state
+    const { user, visiting, username, fullname, email, stack, profilepic, links } = this.state
     const { logOut } = this.props
     // console.log("handleClick user", user.user)
-      // console.log("this.state", this.state)
-      console.log("profilePic", user)
-
-
+    // console.log("this.state", this.state)
+    let userLoggedInLinks = links ? links.split(', ') : ['']
+console.log("userLinks", userLoggedInLinks)
     // return(<EditProfile user={user}/>)
     return (
       <div>
-        <div id="profile">
-        <form>
-          <div id="profile-info">
-            <img id="profile-pic" src={profilepic} />
-              <h2>
-                Username: {" "}
+        <form onSubmit={this.handleSubmit}>
+          <div id="profile">
+            <div id="profile-info">
+              <img id="profile-pic" src={profilepic} />
+              <h2>username: {username} </h2>
+              <h2>fullname: {" "}
                 <input
-                  name="username"
-                  type="username"
-                  value={username}
+                  name="fullname"
+                  type="fullname"
+                  value={fullname}
                   onChange={this.handleInputChange}
                 />
               </h2>
@@ -130,41 +138,43 @@ class Me extends React.Component {
                 />
               </h3>
               {user ? user.id === visiting.id ? <Link to='/home'><button onClick={logOut}>Logout</button></Link> : <div></div> : <div></div>}
-            <div id="language-container">
-              <h3>
-                Stack: {" "}
-                <input
-                  type="stack"
-                  name="stack"
-                  value={stack}
-                  onChange={this.handleInputChange}
-                />
-              </h3>
-            </div>
-            <div id="links-container">
-              <h3>Links</h3>
-              <Link to={`link`}>{`link`}</Link>
-              <Link to={`link`}>{`link`}</Link>
-            </div>
-            <div>
-              <button onSubmit={this.handleSubmit}>Submit Changes</button>
+              <div id="language-container">
+                <h3>
+                  Stack: {" "}
+                  <input
+                    type="stack"
+                    name="stack"
+                    value={stack}
+                    onChange={this.handleInputChange}
+                  />
+                </h3>
+              </div>
+              <div id="links-container">
+                <h3>Links</h3>
+                <a href={userLoggedInLinks[0]}>GitHub</a>
+                <a href={userLoggedInLinks[1]}>LinkedIn</a>
+              </div>
+              <div>
+                <button type="submit">Submit Changes</button>
+              </div>
             </div>
           </div>
-          </form>
-        </div>
+        </form>
       </div>
     )
   }
 
   renderUserProfile = () => {
     const { user, logOut, setUser } = this.props;
-    const { visiting, submitted } = this.state;
+    const { visiting, editing } = this.state;
+    // console.log("visiting links", visiting.links ? visiting.links.split(', ') : '')
+    let userLinks = visiting.links ? visiting.links.split(', ') : ['']
 
     return (
       <div id="profile">
         <div id="profile-info">
           <img id="profile-pic" src={visiting.profile_pic} />
-          <h2>{visiting.username}</h2>
+          <h2>username: {visiting.username}</h2>
           <h2>fullname: {visiting.fullname}</h2>
           <h3>{`level`}</h3>
           <h3>{visiting.email}</h3>
@@ -176,11 +186,11 @@ class Me extends React.Component {
         </div>
         <div id="links-container">
           <h3>Links</h3>
-          <Link to={`link`}>{`link`}</Link>
-          <Link to={`link`}>{`link`}</Link>
+          <a href={userLinks[0]}>GitHub</a>
+          <a href={userLinks[1]}>LinkedIn</a>
         </div>
         <div>
-          <button onClick={this.handleClick}>Edit Profile</button>
+          {user && user.id === visiting.id ? <button onClick={this.handleClick}>Edit Profile</button> : ''}
         </div>
       </div>
     )
@@ -188,11 +198,10 @@ class Me extends React.Component {
 
   render() {
     const { user, logOut, setUser } = this.props;
-    const { visiting, submitted } = this.state;
-    // console.log("user", user)
-    // console.log("visiting", visiting)
+    const { visiting, editing } = this.state;
+    // console.log("this.state !!!!!!!!", this.state)
 
-    if (!submitted) {
+    if (!editing) {
       return (
         this.renderUserProfile()
       )
