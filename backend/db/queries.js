@@ -46,9 +46,9 @@ function getUser(req, res, next) {
 
 function getTicketFeed(req, res, next) {
   db
-    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
+    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
     FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id JOIN problems ON problems.ticketid = tickets.id
-    GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, problems.problem_description
+    GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, problems.problem_description
     ORDER BY tickets.id DESC`)
     .then(function (data) {
       res.status(200).json({
@@ -124,7 +124,7 @@ function getUserProfile(req, res, next) {
 
 function getUserTicketFeed(req, res, next) {
   db
-    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profilepic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
+    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
     .then(function (data) {
       res.status(200).json({
         status: 'Success',
@@ -210,13 +210,16 @@ function newTicket(req, res, next) {
 
 function newFile(req, res, next, ticketid, file) {
   db
-    .one("INSERT INTO files (code, filename, ticketid, language)" +
-    "VALUES(${code}, ${filename}, ${ticketid}, ${language}) RETURNING id", {
+    .none("INSERT INTO files (code, filename, ticketid, language, file_userid)" +
+    "VALUES(${code}, ${filename}, ${ticketid}, ${language}, ${userid})", {
       code: file.code, filename: file.filename,
-      ticketid: ticketid, language: file.language
+      ticketid: ticketid, language: file.language, userid: req.user.id
     })
-    .then((data) => {
-      newProblems(req, res, next, data.id, ticketid, file)
+    .then(() => {
+      res.status(200)
+      .json({
+        status: `success`
+      })
     })
     .catch(err => {
 
@@ -228,12 +231,12 @@ function newFile(req, res, next, ticketid, file) {
 }
 
 
-function newProblems(req, res, next, fileid, ticketid, file) {
+function newProblems(req, res, next, ticketid, file) {
   db
     .none("INSERT INTO problems (ticketid, problem_description, lines)" +
     "VALUES(${ticketid}, ${problem_desc}, ${lines})", {
       ticketid: ticketid,
-      problem_desc: req.body.problem_desc, lines: file.lines
+      problem_desc: req.body.problem_desc, lines: req.body.lines
     })
     .then(() => {
       res.status(200)
@@ -242,6 +245,7 @@ function newProblems(req, res, next, fileid, ticketid, file) {
         })
     })
     .catch(err => {
+      console.log(`checkerrnewProblems`,err)
       res.status(500)
         .json({
           status: 'failed'
@@ -257,9 +261,9 @@ function newProblems(req, res, next, fileid, ticketid, file) {
 
 function newSolution(req, res, next, ticketid, file) {
   db
-    .none("INSERT INTO solutions(ticketID, solution_userid, solution_description) " +
-    "VALUES(${ticketid}, ${userid}, ${solution_desc})", {
-      ticketid: Number(ticketid), userid: req.user.id, solution_desc: req.body.solution_desc
+    .none("INSERT INTO solutions(ticketID, solution_userid, solution_description, postDate) " +
+    "VALUES(${ticketid}, ${userid}, ${solution_desc}, ${postDate})", {
+      ticketid: Number(ticketid), userid: req.user.id, solution_desc: req.body.solution_desc, postDate: req.body.postDate
     })
     .then(data => {
       res.status(200)
@@ -279,13 +283,16 @@ function newSolution(req, res, next, ticketid, file) {
 
 function newFileSolution(req, res, next, ticketid, file) {
   db
-    .one("INSERT INTO files (code, filename, ticketid, language)" +
-    "VALUES(${code}, ${filename}, ${ticketid}, ${language}) RETURNING id", {
+    .one("INSERT INTO files (code, filename, ticketid, language, file_userid)" +
+    "VALUES(${code}, ${filename}, ${ticketid}, ${language}, ${userid}) RETURNING id", {
       code: file.code, filename: file.filename,
-      ticketid: Number(ticketid), language: file.language
+      ticketid: Number(ticketid), language: file.language, userid: req.user.id
     })
     .then((data) => {
-      newSolution(req, res, next, ticketid, file)
+        res.status(200)
+        .json({
+          status: `success`
+        })
     })
     .catch(err => {
 
@@ -303,6 +310,7 @@ function newFileSolution(req, res, next, ticketid, file) {
 
 function submitSolution(req, res, next) {
   let parsedFiles = JSON.parse(req.body.files)
+  newSolution(req, res, next, req.body.ticketid, parsedFiles)
   for (var i = 0; i < parsedFiles.length; i++) {
     console.log(`submitSolution`)
     newFileSolution(req, res, next, Number(req.body.ticketid), parsedFiles[i])
@@ -319,11 +327,9 @@ function submitProblem(req, res, next) {
       problemStatus: req.body.problemStatus, title: req.body.title
     })
     .then(data => {
-      console.log(`bodyfiles`, req.body.files)
       let parsedFiles = JSON.parse(req.body.files)
-      console.log(`parsedFiles`, parsedFiles)
+      newProblems(req, res, next, data.id, parsedFiles)
       for (var i = 0; i < parsedFiles.length; i++) {
-        console.log(`i got here`, parsedFiles)
         newFile(req, res, next, data.id, parsedFiles[i])
       }
     })
@@ -361,7 +367,7 @@ function getAllTicketSolutions(req, res, next) {
 function getProblem(req, res, next) {
   db
     .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " +
-    "ticketdate, problemstatus, tickets.title, users.username, users.profilepic " +
+    "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic " +
     "FROM problems JOIN files ON problems.ticketid=files.ticketid " +
     "JOIN tickets ON tickets.id = problems.ticketid " +
     "JOIN users ON users.id=tickets.ticket_userid " +
@@ -383,10 +389,13 @@ function getProblem(req, res, next) {
     })
 }
 
+
+
+
 function getSolutions(req, res, next) {
   db
     .any("SELECT solutions.ticketid, solutions.solution_userid, solution_description, code, files.filename, " +
-    "users.username, users.profilepic, users.id, solutions.id " +
+    "users.username, users.profile_pic, users.id, solutions.id, solutions.postDate " +
     "FROM solutions JOIN files ON solutions.ticketid = files.ticketid JOIN users ON " +
     "users.id = solutions.solution_userid " +
     "WHERE solutions.ticketid=${ticketid}", {
@@ -429,6 +438,55 @@ function markSolution(req, res, next) {
     })
 }
 
+function getComments(req, res, next) {
+  db
+  .any("SELECT comment, comments.ticketid, users.username, users.profile_pic, comments.commenter_id, commentDate " +   
+  "FROM comments JOIN users ON comments.commenter_id=users.id JOIN tickets ON tickets.id = comments.ticketid " + 
+  "WHERE tickets.id=${ticketid}", 
+  {ticketid: Number(req.params.ticketid)})
+  .then(data => {
+    res.status(200)
+    .json({
+      data: data,
+      status: `success`
+    })
+  })
+  .catch(err => {
+    console.log(`err`, err)
+    res.status(500)
+    .json({
+      status: `failed${err}`
+    })
+  })
+}
+
+
+function addComments(req, res, next) {
+  db
+  .none("INSERT INTO comments (ticketid, commenter_id, comment, commentDate) " +
+  "VALUES(${ticketid}, ${userid}, ${comment}, ${commentDate})", {
+    ticketid: req.body.ticketid,
+    userid: req.user.id,
+    comment: req.body.comment,
+    commentDate: req.body.commentDate
+  })
+  .then(data => {
+    res.status(200)
+    .json({
+      status: `success`
+    })
+  })
+  .catch(err => {
+    res.status(500)
+    .json({
+      status: `failed${err}`
+    })
+  })
+}
+
+
+
+
 
 module.exports = {
   createUser,
@@ -444,8 +502,73 @@ module.exports = {
   submitSolution,
   getAllTicketSolutions,
   getProblem,
-  getSolutions
+  getSolutions,
+  getComments,
+  addComments
 };
 
 
 
+
+
+
+
+
+
+// function submitProblem(req, res, next) {
+//   db
+//     .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
+//     "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
+//       id: req.user.id, ticketDate: req.body.ticketDate,
+//       problemStatus: req.body.problemStatus, title: req.body.title
+//     })
+//     .then(data => {
+//       console.log(`bodyfiles`, req.body.files)
+//       let parsedFiles = JSON.parse(req.body.files)
+//       console.log(`parsedFiles`, parsedFiles)
+//       for (var i = 0; i < parsedFiles.length; i++) {
+//         console.log(`i got here`, parsedFiles)
+//         newFile(req, res, next, data.id, parsedFiles[i])
+//       }
+//     })
+// }
+
+// function newProblems(req, res, next, fileid, ticketid, file) {
+//   db
+//     .none("INSERT INTO problems (ticketid, problem_description, lines)" +
+//     "VALUES(${ticketid}, ${problem_desc}, ${lines})", {
+//       ticketid: ticketid,
+//       problem_desc: req.body.problem_desc, lines: file.lines
+//     })
+//     .then(() => {
+//       res.status(200)
+//         .json({
+//           status: 'success'
+//         })
+//     })
+//     .catch(err => {
+//       res.status(500)
+//         .json({
+//           status: 'failed'
+//         })
+//     })
+// };
+
+// function newFile(req, res, next, ticketid, file) {
+//   db
+//     .one("INSERT INTO files (code, filename, ticketid, language)" +
+//     "VALUES(${code}, ${filename}, ${ticketid}, ${language}) RETURNING id", {
+//       code: file.code, filename: file.filename,
+//       ticketid: ticketid, language: file.language
+//     })
+//     .then((data) => {
+//       newProblems(req, res, next, data.id, ticketid, file)
+//     })
+//     .catch(err => {
+
+//       res.status(500)
+//         .json({
+//           status: `failed${err}`
+//         })
+//     })
+// }

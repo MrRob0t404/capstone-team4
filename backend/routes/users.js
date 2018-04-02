@@ -29,6 +29,8 @@ router.post('/profile/edit', db.editUserProfile);
 router.get('/getAllTicketSolutions/ticket/:ticketid/solution/:solutionid', db.getAllTicketSolutions)
 router.get('/getProblem/:ticketid', db.getProblem);
 router.get('/getSolutions/:ticketid', db.getSolutions);
+router.post('/addComments', loginRequired, db.addComments);
+router.get('/getComments/:ticketid', db.getComments);
 
 
 

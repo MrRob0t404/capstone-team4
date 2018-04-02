@@ -163,7 +163,7 @@ class Me extends React.Component {
     return (
       <div id="profile">
         <div id="profile-info">
-          <img id="profile-pic" src={visiting.profilepic} />
+          <img id="profile-pic" src={visiting.profile_pic} />
           <h2>{visiting.username}</h2>
           <h2>fullname: {visiting.fullname}</h2>
           <h3>{`level`}</h3>

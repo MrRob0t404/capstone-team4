@@ -3,27 +3,64 @@ import {Link} from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
-import code from './SeedCode'
 
+import brace from 'brace';
+import './Import/import'
+import 'brace/theme/solarized_dark';
 
-var disqus_config = function() {
-    this.page.url = "https://test.tyrodev.com/issues";
-    this.page.identifier = window.location.pathname;
+var disqus_config = function () {
+  this.page.url = "https://test.tyrodev.com/issues";
+  this.page.identifier = window.location.pathname;
 }
 
 class AceEditor extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      files: [code[0], code[1], code[2]],
+      files: [],
+      title: '',
+      description: '',
+      originalCode: {},
+      solutionCode: {},
+      currentFile: '',
+      date: '',
       renderDescription: true,
-      currentFile: 0
+      renderEditor: true,
     }
     this.aceDiffer = undefined;
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps){
+
+    if(nextProps.problemData.data){
+      console.log('nextProps', nextProps)
+      let title = nextProps.problemData.data[0].title
+      let description = nextProps.problemData.data[0].problem_description
+      let date = nextProps.problemData.data[0].ticketdate
+      let currentFile = nextProps.problemData.data[0].filename
+      let originalCode = {}
+
+      nextProps.problemData.data.forEach((v,i) => {
+        originalCode[v.filename] = (v.code)
+      })
+
+      this.setState({
+        files: nextProps.problemData.data,
+        originalCode,
+        currentFile,
+        date,
+        description,
+        title
+      })
+
+    }
+  }
+
+  renderAceEditor = () => {
+
     const { rightEditor } = this.state
+
+    this.setState({renderEditor: false})
 
     // This object creates the split editor and imports it in the element with className ".acediff"
     var aceDiffer = this.aceDiffer = new AceDiff({
@@ -35,98 +72,99 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.state.files[this.state.currentFile].code,
+        content: this.state.originalCode[this.state.currentFile] || '' ,
         mode: 'null',
         theme: null,
         editable: false,
-        copyLinkEnabled: true,
+        copyLinkEnabled: true
       },
       right: {
-        content: this.state.files[this.state.currentFile].code,
+        content: this.state.solutionCode[this.state.currentFile] || this.state.originalCode[this.state.currentFile] || '',
         mode: null,
         theme: null,
         editable: true,
-        copyLinkEnabled: true,
+        copyLinkEnabled: true
       },
       classes: {
         diff: 'acediff__diffLine',
         connector: 'acediff__connector',
         newCodeConnectorLinkContent: '&#8594;',
-        deletedCodeConnectorLinkContent: '&#8592;',
-      },
+        deletedCodeConnectorLinkContent: '&#8592;'
+      }
     });
 
-    // This function tracks the changes made to the right side of the editor and updates the state
-    aceDiffer.getEditors().right.on("change", () => {
-      this.setState({
-        rightEditor: aceDiffer.getEditors().right.getValue()
+    // This function tracks the changes made to the right side of the editor and
+    // updates the state
+    aceDiffer
+      .getEditors()
+      .right
+      .on("change", () => {
+        this.setState({
+          rightEditor: aceDiffer
+            .getEditors()
+            .right
+            .getValue()
+        })
       })
-    })
-
-    let x = {}
-    code.forEach(v => x[v.name] = v.code)
-    console.log('X', x)
-
   }
 
   renderDescription = () => (
     <div>
       <div>
         <h3>Description</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
+        <p>{this.state.description}</p>
       </div>
       <div>
         <h3>Response</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr adaptogen fingerstache,
-        paleo bitters beard. Knausgaard bitters try-hard leggings,
-        lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat truffaut distillery tacos.
-        Ennui pop-up hell of, mustache skateboard vaporware tattooed chillwave actually etsy.
-        Intelligentsia godard williamsburg quinoa.</p>
+        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
+          adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
+          leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
+          truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
+          tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
       </div>
     </div>
   )
 
   renderComments = () => {
-    (function() {
-	    let s = document.createElement("script");
-	    s.src = "https://tyrodev.disqus.com/embed.js";
-	    s.setAttribute("data-timestamp", +new Date());
-	    (document.head || document.body).appendChild(s);
+    (function () {
+      let s = document.createElement("script");
+      s.src = "https://tyrodev.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", + new Date());
+      (document.head || document.body).appendChild(s);
     })();
 
     return <div id="disqus_thread"></div>
   }
 
   togglePane = e => {
-    e.target.innerText === "Description" ?
-      this.setState({ renderDescription: true }) :
-      this.setState({ renderDescription: false })
+    e.target.innerText === "Description"
+      ? this.setState({renderDescription: true})
+      : this.setState({renderDescription: false})
   }
 
   handleTabClick = e => {
-	let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.files[Number(e.target.id)].code);
-	  right.setValue(this.state.files[Number(e.target.id)].code);
-	  this.setState( { currentFile: Number(e.target.id) } );
+	  let { left, right } = this.aceDiffer.getEditors();
+	  left.setValue(this.state.originalCode[e.target.innerText]);
+	  right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText]);
+	  this.setState( { currentFile: e.target.innerText } );
  }
 
   render() {
-    const { rightEditor } = this.state
+    const {rightEditor} = this.state
+
+    this.state.description ? this.state.renderEditor ? this.renderAceEditor() : '' : ''
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v,idx) => <div className="tab" id={idx} onClick={this.handleTabClick}>{v.name}</div>)}
+          {this.state.files.map((v,i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
-            <h2>Why doesn{"'"}t my for loop work?</h2>
+            <h2>{this.state.title}</h2>
             <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
           </div>
     	    <div className="acediff"></div>
+
         </div>
         <div id="right-pane">
           <div id="pane-nav">
@@ -134,8 +172,11 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            <div className={this.state.renderDescription? "": "hidden"}>{this.renderDescription()}</div>
-            <div className={this.state.renderDescription? "hidden": "fullWidth"}>{this.renderComments()}</div>
+
+            {this.state.renderDescription
+              ? this.renderDescription()
+              : this.renderComments()
+}
           </div>
         </div>
       </div>

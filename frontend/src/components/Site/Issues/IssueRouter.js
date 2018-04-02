@@ -43,7 +43,8 @@ class IssueRouter extends Component {
       message: 'Please fill all input feilds',
       selectedFileNames: [],
       encodedContent: '',
-      decodedCodeArr: []
+      decodedCodeArr: [],
+      count: 1
     }
   }
 
@@ -57,6 +58,7 @@ class IssueRouter extends Component {
   })
 
   renderNextPage = e => {
+    e.preventDefault()
     let {title, repositoryLink, language} = this.state
     if (!title || !repositoryLink) {
       this.setState({message: 'Please fill all input feilds'})
@@ -119,7 +121,7 @@ class IssueRouter extends Component {
 
   openIssue = () => {
     const {user, loading} = this.props;
-    const {selectedFileNames, repoOwner, repositoryLink, repositoryName} = this.state;
+    const {selectedFileNames, repoOwner, repositoryLink, repositoryName, count} = this.state;
     if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
@@ -140,8 +142,15 @@ class IssueRouter extends Component {
     }
   }
 
+
+  renderSolutions = () => {
+    return (<CodeEditor count ={this.state.count}/>)
+  }
+
+
   renderSoloEditor = () => {
     return (<SoloEditor
+      title={this.state.title}
       selectedFilesNames={this.state.selectedFileNames}
       decodedContentObj={this.state.decodedCodeObj}/>)
   }
@@ -149,16 +158,15 @@ class IssueRouter extends Component {
   renderSolutionsRouter = (props) => {
     console.log(this.props)
     return(
-      <SolutionRouter />
+      <SolutionRouter
+        props={props}
+      />
     )
   }
 
 
   render() {
-    console.log('issuesRouter State decoded name:', this.state.repoOwner)
-    // console.log('selectedFiles:', this.state.selectedFileNames)
     return (
-      
       <div id="issue-router">
         <Switch>
           <Route exact path="/issues" component={this.renderIssuesFeed}/>
