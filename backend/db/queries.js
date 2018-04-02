@@ -398,7 +398,7 @@ function getSolutions(req, res, next) {
   db
     .any("SELECT code, filename, files.ticketid, files.filename, files.language, " + 
     "files.file_userid, users.username, solutions.solution_description, solutions.postdate, " + 
-    "users.profile_pic, solutions.solution_userid " + 
+    "users.profile_pic, solutions.solution_userid, users.username " + 
     "FROM files JOIN users ON users.id = files.file_userid JOIN solutions ON solutions.solution_userid = files.file_userid " + 
     "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
       ticketid: req.params.ticketid
