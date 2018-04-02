@@ -272,6 +272,7 @@ function newSolution(req, res, next, ticketid, file) {
         })
     })
     .catch(err => {
+      console.log(`newSolutionerr${err}`)
       res.status(500)
         .json({
           status: `NewSolutionfailed${err} `
@@ -295,7 +296,7 @@ function newFileSolution(req, res, next, ticketid, file) {
         })
     })
     .catch(err => {
-
+      console.log(`newFileSolution${err}`)
       res.status(500)
         .json({
           status: `NewFIleSolutionfailed${err}`
@@ -366,12 +367,12 @@ function getAllTicketSolutions(req, res, next) {
 
 function getProblem(req, res, next) {
   db
-    .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " +
-    "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic " +
-    "FROM problems JOIN files ON problems.ticketid=files.ticketid " +
+    .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " + 
+    "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic " + 
+    "FROM problems JOIN files ON problems.ticketid=files.ticketid " +  
     "JOIN tickets ON tickets.id = problems.ticketid " +
     "JOIN users ON users.id=tickets.ticket_userid " +
-    "WHERE problems.ticketid = ${ticketid}", {
+    "WHERE problems.ticketid = ${ticketid} AND files.file_userid = (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
       ticketid: Number(req.params.ticketid)
     })
     .then(data => {
@@ -394,11 +395,11 @@ function getProblem(req, res, next) {
 
 function getSolutions(req, res, next) {
   db
-    .any("SELECT solutions.ticketid, solutions.solution_userid, solution_description, code, files.filename, " +
-    "users.username, users.profile_pic, users.id, solutions.id, solutions.postDate " +
-    "FROM solutions JOIN files ON solutions.ticketid = files.ticketid JOIN users ON " +
-    "users.id = solutions.solution_userid " +
-    "WHERE solutions.ticketid=${ticketid}", {
+    .any("SELECT code, filename, files.ticketid, files.filename, files.language, " + 
+    "files.file_userid, users.username, solutions.solution_description, solutions.postdate, " + 
+    "users.profile_pic, solutions.solution_userid " + 
+    "FROM files JOIN users ON users.id = files.file_userid JOIN solutions ON solutions.solution_userid = files.file_userid " + 
+    "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
       ticketid: req.params.ticketid
     })
     .then(data => {
