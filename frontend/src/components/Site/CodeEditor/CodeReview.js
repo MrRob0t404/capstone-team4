@@ -25,14 +25,14 @@ class AceEditor extends React.Component {
       currentFile: '',
       date: '',
       renderDescription: true,
-      renderEditor: true,
+      renderEditor: true
     }
     this.aceDiffer = undefined;
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
 
-    if(nextProps.problemData.data){
+    if (nextProps.problemData.data) {
       console.log('nextProps', nextProps)
       let title = nextProps.problemData.data[0].title
       let description = nextProps.problemData.data[0].problem_description
@@ -40,9 +40,12 @@ class AceEditor extends React.Component {
       let currentFile = nextProps.problemData.data[0].filename
       let originalCode = {}
 
-      nextProps.problemData.data.forEach((v,i) => {
-        originalCode[v.filename] = (v.code)
-      })
+      nextProps
+        .problemData
+        .data
+        .forEach((v, i) => {
+          originalCode[v.filename] = (v.code)
+        })
 
       this.setState({
         files: nextProps.problemData.data,
@@ -58,11 +61,12 @@ class AceEditor extends React.Component {
 
   renderAceEditor = () => {
 
-    const { rightEditor } = this.state
+    const {rightEditor} = this.state
 
     this.setState({renderEditor: false})
 
-    // This object creates the split editor and imports it in the element with className ".acediff"
+    // This object creates the split editor and imports it in the element with
+    // className ".acediff"
     var aceDiffer = this.aceDiffer = new AceDiff({
       mode: null,
       theme: null,
@@ -72,7 +76,7 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.state.originalCode[this.state.currentFile] || '' ,
+        content: this.state.originalCode[this.state.currentFile] || '',
         mode: 'null',
         theme: null,
         editable: false,
@@ -143,27 +147,38 @@ class AceEditor extends React.Component {
   }
 
   handleTabClick = e => {
-	  let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.originalCode[e.target.innerText]);
-	  right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText]);
-	  this.setState( { currentFile: e.target.innerText } );
- }
+    let {left, right} = this
+      .aceDiffer
+      .getEditors();
+    left.setValue(this.state.originalCode[e.target.innerText]);
+    right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText]);
+    this.setState({currentFile: e.target.innerText});
+  }
 
   render() {
     const {rightEditor} = this.state
 
-    this.state.description ? this.state.renderEditor ? this.renderAceEditor() : '' : ''
+    this.state.description
+      ? this.state.renderEditor
+        ? this.renderAceEditor()
+        : ''
+      : ''
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v,i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
+          {this
+            .state
+            .files
+            .map((v, i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
             <h2>{this.state.title}</h2>
-            <Link  to="/issues/:issuesID/solution/new" id="submit-solution-button"><button>Submit Solution</button></Link>
+            <Link to="/issues/:issuesID/solution/new" id="submit-solution-button">
+              <button>Submit Solution</button>
+            </Link>
           </div>
-    	    <div className="acediff"></div>
+          <div className="acediff"></div>
 
         </div>
         <div id="right-pane">
