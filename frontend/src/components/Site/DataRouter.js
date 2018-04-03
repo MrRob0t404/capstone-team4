@@ -45,7 +45,7 @@ class DataRouter extends Component {
                 <span class="icon-bar"></span>
               </button>
               <div>
-                <img src={fulllogo} /><a class="navbar-brand" href="/home">TyroDev</a>
+              <a class="navbar-brand" href="/home"><img src={fulllogo} /></a>
               </div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
