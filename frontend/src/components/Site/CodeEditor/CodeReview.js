@@ -23,12 +23,14 @@ class AceEditor extends React.Component {
       files: [],
       title: '',
       description: '',
+      solutionData: [],
       originalCode: {},
-      solutionCode: {},
+      solutionCode: [],
       currentFile: '',
+      currentSolver: 0,
       date: '',
       renderDescription: true,
-      renderEditor: true,
+      renderEditor: false,
     }
     this.aceDiffer = undefined;
   }
@@ -55,8 +57,40 @@ class AceEditor extends React.Component {
           description,
           title
         })
-        console.log('RESPONSE', res.data.data)
       })
+
+      axios
+        .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
+        .then(res => {
+
+          let obj = {}
+          let data = {}
+          res.data.data.forEach(v => {
+            console.log("OBJ", obj, data)
+            console.log("res.data", res.data.data)
+            if(obj[v.username]) {
+              let userFiles = obj[v.username]
+              userFiles[v.filename] = Base64.decode(v.code)
+              obj[v.username] = userFiles
+            } else {
+              obj[v.username] = {
+                [v.filename]: Base64.decode(v.code),
+              }
+              data[v.username] = {
+                description: v.solution_description,
+                pic: v.profile_pic,
+                username: v.username
+              }
+            }
+          })
+          let keys = Object.keys(obj)
+          console.log('KEYS', keys)
+          this.setState({
+            solutionCode: keys.map(v => v = obj[v]),
+            solutionData: keys.map(v => data[v]),
+            renderEditor: true
+          })
+        })
 
   }
 
@@ -66,6 +100,7 @@ class AceEditor extends React.Component {
     const { rightEditor } = this.state
 
     this.setState({renderEditor: false})
+
 
     // This object creates the split editor and imports it in the element with className ".acediff"
     var aceDiffer = this.aceDiffer = new AceDiff({
@@ -77,14 +112,14 @@ class AceEditor extends React.Component {
       showConnectors: true,
       maxDiffs: 5000,
       left: {
-        content: this.state.originalCode[this.state.currentFile] || '' ,
+        content: this.state.originalCode[this.state.currentFile],
         mode: 'null',
         theme: null,
         editable: false,
         copyLinkEnabled: true
       },
       right: {
-        content: this.state.solutionCode[this.state.currentFile] || this.state.originalCode[this.state.currentFile] || '',
+        content: this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][this.state.currentFile] : this.state.originalCode[this.state.currentFile],
         mode: null,
         theme: null,
         editable: true,
@@ -121,11 +156,11 @@ class AceEditor extends React.Component {
       </div>
       <div>
         <h3>Response</h3>
-        <p>Lorem ipsum dolor amet mixtape coloring book subway tile roof party yr
-          adaptogen fingerstache, paleo bitters beard. Knausgaard bitters try-hard
-          leggings, lumbersexual kogi +1 meggings pinterest pour-over fixie waistcoat
-          truffaut distillery tacos. Ennui pop-up hell of, mustache skateboard vaporware
-          tattooed chillwave actually etsy. Intelligentsia godard williamsburg quinoa.</p>
+        <p>
+          {
+            this.state.solutionData[this.state.currentSolver] ? this.state.solutionData[this.state.currentSolver].description ||
+            `There's no solution for this ticket. Be the first!`: ``}
+        </p>
       </div>
     </div>
   )
@@ -151,16 +186,29 @@ class AceEditor extends React.Component {
 	  let { left, right } = this.aceDiffer.getEditors();
 	  left.setValue(this.state.originalCode[e.target.innerText], -1);
     left.clearSelection()
-	  right.setValue(this.state.solutionCode[e.target.innerText] || this.state.originalCode[e.target.innerText], -1);
+	  right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][e.target.innerText] || this.state.originalCode[e.target.innerText] : this.state.originalCode[e.target.innerText], -1);
     right.clearSelection()
 	  this.setState( { currentFile: e.target.innerText } );
  }
 
+ changeSolution = e => {
+ 	 let { right } = this.aceDiffer.getEditors();
+   let currentSolver = this.state.currentSolver
+   if(e.target.innerText === "Next") {
+     currentSolver+=1
+   } else {
+     currentSolver-=1
+   }
+   this.setState({currentSolver})
+   right.setValue(this.state.solutionCode[currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile], -1);
+   right.clearSelection()
+ }
+
   render() {
     const {rightEditor} = this.state
-    console.log('PROPs', this.props.props.match.params.issuesID)
+    console.log('state', this.state)
 
-    this.state.description ? this.state.renderEditor ? this.renderAceEditor() : console.log('render', this.state.renderEditor) : console.log('WAITING')
+    this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     return (
       <div id="solution">
         <div id="file-tabs">
@@ -173,8 +221,8 @@ class AceEditor extends React.Component {
           </div>
     	    <div className="acediff"></div>
           <div id="switch-solution-buttons">
-            <button onClick={''}>Previous</button>
-            <button onClick={''}>Next</button>
+            <button onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}>Previous</button>
+            <button onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length-1}>Next</button>
           </div>
         </div>
         <div id="right-pane">
