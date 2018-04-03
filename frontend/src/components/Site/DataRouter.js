@@ -3,6 +3,7 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './LandingPage/LandingPage';
 import IssueRouter from './Issues/IssueRouter';
 import Profile from './Profile/Profile';
+import fulllogo from "../../Logos/full-logo.svg";
 
 
 class DataRouter extends Component {
@@ -26,7 +27,7 @@ class DataRouter extends Component {
 
   handleProfile = () => {
     const { user, logOut, loading } = this.props
-      return <Profile user={user} logOut={logOut} />
+    return <Profile user={user} logOut={logOut} />
   }
 
   render() {
@@ -43,7 +44,9 @@ class DataRouter extends Component {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/home">TyroDev</a>
+              <div>
+                <img src={fulllogo} /><a class="navbar-brand" href="/home">TyroDev</a>
+              </div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-left">
