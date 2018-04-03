@@ -23,6 +23,28 @@ function createUser(req, res, next) {
     });
 }
 
+
+// function createUser(req, res, next) {
+//   return authHelpers
+//     .createUser(req)
+//     .then(response => {
+//       passport.authenticate("local", (err, user, info) => {
+//         if (user) {
+//           res.status(200).json({
+//             status: "success",
+//             data: user,
+//             message: "Registered one user"
+//           });
+//         }
+//       })(req, res, next);
+//     })
+//     .catch(err => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// } 
+
 function logoutUser(req, res, next) {
   req.logout();
   res.status(200).send("log out success");
@@ -125,7 +147,7 @@ function getUserProfile(req, res, next) {
 
 function getUserTicketFeed(req, res, next) {
   db
-    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
+    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
     .then(function (data) {
       res.status(200).json({
         status: 'Success',
@@ -398,9 +420,9 @@ function getSolutions(req, res, next) {
   db
     .any("SELECT code, filename, files.ticketid, files.filename, files.language, " + 
     "files.file_userid, users.username, solutions.solution_description, solutions.postdate, " + 
-    "users.profile_pic, solutions.solution_userid, users.username " + 
+    "users.profile_pic, solutions.solution_userid " + 
     "FROM files JOIN users ON users.id = files.file_userid JOIN solutions ON solutions.solution_userid = files.file_userid " + 
-    "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
+    "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid}) ORDER BY solutions.id DESC", {
       ticketid: req.params.ticketid
     })
     .then(data => {

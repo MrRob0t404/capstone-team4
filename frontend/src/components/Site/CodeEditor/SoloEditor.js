@@ -74,7 +74,7 @@ class SoloEditor extends Component {
 
     console.log('arrOfCodes', JSON.stringify(arrOfCodes))
     axios.post(`/users/submitProblem`, {
-      "ticketDate": d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear(),
+      "ticketDate": (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,
       "problemStatus": "0",
       "lines": "",
