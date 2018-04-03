@@ -98,6 +98,10 @@ button, input, textarea {
   border: none;
 }
 
+button:disabled {
+  color: #ccc;
+}
+
 input {
   padding: 10px 20px;
   color: #272633;
