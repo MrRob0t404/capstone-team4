@@ -79,7 +79,8 @@ class AceEditor extends React.Component {
               data[v.username] = {
                 description: v.solution_description,
                 pic: v.profile_pic,
-                username: v.username
+                username: v.username,
+                date: v.postdate
               }
             }
           })
@@ -122,7 +123,7 @@ class AceEditor extends React.Component {
         content: this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][this.state.currentFile] : this.state.originalCode[this.state.currentFile],
         mode: null,
         theme: null,
-        editable: true,
+        editable: false,
         copyLinkEnabled: true
       },
       classes: {
@@ -150,16 +151,33 @@ class AceEditor extends React.Component {
 
   renderDescription = () => (
     <div>
-      <div>
+      <div className="description">
         <h3>Description</h3>
+        {this.state.files[0] ?
+          <div className="user-info">
+            <div>
+              <img src={this.state.files[0].profile_pic} />
+              <p>{this.state.files[0].username}</p>
+            </div>
+            <p>{this.state.files[0].ticketdate}</p>
+          </div> :
+          ''}
         <p>{this.state.description}</p>
       </div>
-      <div>
+      <div className="description">
         <h3>Response</h3>
+        {this.state.solutionData[0] ?
+          <div className="user-info">
+            <div>
+              <img src={this.state.solutionData[this.state.currentSolver].pic} />
+              <p>{this.state.solutionData[this.state.currentSolver].username}</p>
+            </div>
+            <p>{this.state.solutionData[this.state.currentSolver].date}</p>
+          </div> :
+          ''}
         <p>
-          {
-            this.state.solutionData[this.state.currentSolver] ? this.state.solutionData[this.state.currentSolver].description ||
-            `There's no solution for this ticket. Be the first!`: ``}
+          {this.state.solutionData[this.state.currentSolver] ? this.state.solutionData[this.state.currentSolver].description ||
+            `There's no solution for this ticket. Be the first!` : `There's no solution for this ticket. Be the first!`}
         </p>
       </div>
     </div>
