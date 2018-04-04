@@ -23,6 +23,28 @@ function createUser(req, res, next) {
     });
 }
 
+
+// function createUser(req, res, next) {
+//   return authHelpers
+//     .createUser(req)
+//     .then(response => {
+//       passport.authenticate("local", (err, user, info) => {
+//         if (user) {
+//           res.status(200).json({
+//             status: "success",
+//             data: user,
+//             message: "Registered one user"
+//           });
+//         }
+//       })(req, res, next);
+//     })
+//     .catch(err => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// } 
+
 function logoutUser(req, res, next) {
   req.logout();
   res.status(200).send("log out success");
@@ -85,7 +107,7 @@ function getTicketFeed(req, res, next) {
 
 function editUserProfile(req, res, next) {
   db
-    .none("UPDATE users SET email=${email}, fullname=${fullName}, stack=${stack}, username=${username} WHERE users.id=${userID}", 
+    .none("UPDATE users SET email=${email}, fullname=${fullName}, stack=${stack}, username=${username} WHERE users.id=${userID}",
     {
       email: req.body.email,
       fullName: req.body.fullName,
@@ -125,7 +147,7 @@ function getUserProfile(req, res, next) {
 
 function getUserTicketFeed(req, res, next) {
   db
-    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
+    .any("SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, COUNT(users.id=solutions.solution_userid) AS responses FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id WHERE users.username=${username} GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid ORDER BY tickets.id DESC", { username: req.params.username })
     .then(function (data) {
       res.status(200).json({
         status: 'Success',
@@ -160,7 +182,8 @@ function getUserProfileSolutions(req, res, next) {
     .one("SELECT id FROM users WHERE username=${username}", { username: req.params.username })
     .then(data => {
       db
-        .any("SELECT *, COUNT(users.id=solutions.solution_userid) AS RESPONSES FROM tickets JOIN users ON " +
+        .any("SELECT username, tickets.ticketdate, tickets.title, tickets.id, users.profile_pic, tickets.problemstatus, COUNT(users.id=solutions.solution_userid) AS RESPONSES " +
+        "FROM tickets JOIN users ON " +
         "tickets.ticket_userid = users.id JOIN solutions ON solutions.ticketid = tickets.id WHERE solutions.solution_userid = ${id} " +
         "GROUP BY tickets.id, users.id, solutions.id ORDER BY tickets.id DESC", { id: data.id })
         .then(data => {
@@ -218,9 +241,9 @@ function newFile(req, res, next, ticketid, file) {
     })
     .then(() => {
       res.status(200)
-      .json({
-        status: `success`
-      })
+        .json({
+          status: `success`
+        })
     })
     .catch(err => {
 
@@ -246,7 +269,7 @@ function newProblems(req, res, next, ticketid, file) {
         })
     })
     .catch(err => {
-      console.log(`checkerrnewProblems`,err)
+      console.log(`checkerrnewProblems`, err)
       res.status(500)
         .json({
           status: 'failed'
@@ -291,7 +314,7 @@ function newFileSolution(req, res, next, ticketid, file) {
       ticketid: Number(ticketid), language: file.language, userid: req.user.id
     })
     .then((data) => {
-        res.status(200)
+      res.status(200)
         .json({
           status: `success`
         })
@@ -368,9 +391,9 @@ function getAllTicketSolutions(req, res, next) {
 
 function getProblem(req, res, next) {
   db
-    .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " + 
-    "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic " + 
-    "FROM problems JOIN files ON problems.ticketid=files.ticketid " +  
+    .any("SELECT tickets.id, problem_description, problems.lines, files.id, code, files.filename, tickets.ticket_userid, " +
+    "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic " +
+    "FROM problems JOIN files ON problems.ticketid=files.ticketid " +
     "JOIN tickets ON tickets.id = problems.ticketid " +
     "JOIN users ON users.id=tickets.ticket_userid " +
     "WHERE problems.ticketid = ${ticketid} AND files.file_userid = (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
@@ -396,11 +419,11 @@ function getProblem(req, res, next) {
 
 function getSolutions(req, res, next) {
   db
-    .any("SELECT code, filename, files.ticketid, files.filename, files.language, " + 
-    "files.file_userid, users.username, solutions.solution_description, solutions.postdate, " + 
-    "users.profile_pic, solutions.solution_userid " + 
-    "FROM files JOIN users ON users.id = files.file_userid JOIN solutions ON solutions.solution_userid = files.file_userid " + 
-    "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid})", {
+    .any("SELECT code, filename, files.ticketid, files.filename, files.language, " +
+    "files.file_userid, users.username, solutions.solution_description, solutions.postdate, " +
+    "users.profile_pic, solutions.solution_userid " +
+    "FROM files JOIN users ON users.id = files.file_userid JOIN solutions ON solutions.solution_userid = files.file_userid " +
+    "WHERE files.ticketid = ${ticketid} AND solutions.ticketid = ${ticketid} AND files.file_userid != (SELECT ticket_userid FROM tickets WHERE tickets.id = ${ticketid}) ORDER BY solutions.id DESC", {
       ticketid: req.params.ticketid
     })
     .then(data => {
@@ -442,48 +465,48 @@ function markSolution(req, res, next) {
 
 function getComments(req, res, next) {
   db
-  .any("SELECT comment, comments.ticketid, users.username, users.profile_pic, comments.commenter_id, commentDate " +   
-  "FROM comments JOIN users ON comments.commenter_id=users.id JOIN tickets ON tickets.id = comments.ticketid " + 
-  "WHERE tickets.id=${ticketid}", 
-  {ticketid: Number(req.params.ticketid)})
-  .then(data => {
-    res.status(200)
-    .json({
-      data: data,
-      status: `success`
+    .any("SELECT comment, comments.ticketid, users.username, users.profile_pic, comments.commenter_id, commentDate " +
+    "FROM comments JOIN users ON comments.commenter_id=users.id JOIN tickets ON tickets.id = comments.ticketid " +
+    "WHERE tickets.id=${ticketid}",
+    { ticketid: Number(req.params.ticketid) })
+    .then(data => {
+      res.status(200)
+        .json({
+          data: data,
+          status: `success`
+        })
     })
-  })
-  .catch(err => {
-    console.log(`err`, err)
-    res.status(500)
-    .json({
-      status: `failed${err}`
+    .catch(err => {
+      console.log(`err`, err)
+      res.status(500)
+        .json({
+          status: `failed${err}`
+        })
     })
-  })
 }
 
 
 function addComments(req, res, next) {
   db
-  .none("INSERT INTO comments (ticketid, commenter_id, comment, commentDate) " +
-  "VALUES(${ticketid}, ${userid}, ${comment}, ${commentDate})", {
-    ticketid: req.body.ticketid,
-    userid: req.user.id,
-    comment: req.body.comment,
-    commentDate: req.body.commentDate
-  })
-  .then(data => {
-    res.status(200)
-    .json({
-      status: `success`
+    .none("INSERT INTO comments (ticketid, commenter_id, comment, commentDate) " +
+    "VALUES(${ticketid}, ${userid}, ${comment}, ${commentDate})", {
+      ticketid: req.body.ticketid,
+      userid: req.user.id,
+      comment: req.body.comment,
+      commentDate: req.body.commentDate
     })
-  })
-  .catch(err => {
-    res.status(500)
-    .json({
-      status: `failed${err}`
+    .then(data => {
+      res.status(200)
+        .json({
+          status: `success`
+        })
     })
-  })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed${err}`
+        })
+    })
 }
 
 

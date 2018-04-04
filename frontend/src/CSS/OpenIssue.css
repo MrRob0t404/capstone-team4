@@ -26,12 +26,16 @@
 }
 
 .helper {
-  width: 30vw;
+  width: 100%;
 }
 
 .helper > p {
   margin-left: -1.5em;
   opacity: .6;
+}
+
+.input-container {
+  width: 40%;
 }
 
 .input-container > input {
@@ -72,16 +76,31 @@
   align-items: center;
 }
 
-#choose-files > .fullWidth > button {
-  margin-left: 80vw;
+#choose-files > .fullWidth > div {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#choose-files > .fullWidth > a > button {
-  margin-left: 80vw;
+#newIssue > .fullWidth {
+  justify-content: flex-end;
 }
 
-#choose-files > .fullWidth > a > button, #newIssue > .fullWidth > input[type="submit"] {
-  width: 10vw;
+#newIssue > .fullWidth > div {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+/* #choose-files > .fullWidth > a > button {
+  margin-left: 80vw;
+} */
+
+.fullWidth > a > button, .fullWidth > input[type="submit"] {
+  width: 5em;
   height: 6vh;
   display: flex;
   background-color: #00C1AB;
@@ -91,10 +110,6 @@
   flex-direction: column;
   font-size: 1.25em;
   float: right;
-}
-
-#choose-files > .fullWidth, #newIssue > .fullWidth {
-  margin-top: 5vh;
 }
 
 #embed-list {
@@ -136,4 +151,12 @@
   min-height: 75vh;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 975px) {
+
+  .input-container {
+    width: 70%;
+  }
+
 }

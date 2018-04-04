@@ -3,6 +3,7 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import LandingPage from './LandingPage/LandingPage';
 import IssueRouter from './Issues/IssueRouter';
 import Profile from './Profile/Profile';
+import fulllogo from "../../Logos/full-logo.svg";
 
 
 class DataRouter extends Component {
@@ -26,7 +27,7 @@ class DataRouter extends Component {
 
   handleProfile = () => {
     const { user, logOut, loading } = this.props
-      return <Profile user={user} logOut={logOut} />
+    return <Profile user={user} logOut={logOut} />
   }
 
   render() {
@@ -43,7 +44,9 @@ class DataRouter extends Component {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/home">TyroDev</a>
+              <div>
+              <a class="navbar-brand" href="/home"><img src={fulllogo} /></a>
+              </div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-left">
@@ -65,7 +68,7 @@ class DataRouter extends Component {
         </Switch>
         <div id="footer">
           <i class="fa fa-github" aria-hidden="true"></i>
-          <p><Link to="">Monique</Link> - <Link to="">Simon</Link> - <Link to="">Newton</Link> - <Link to="">Elon</Link> - <Link to="">Carlo</Link></p>
+          <p><a href="https://github.com/mon33k" target="_blank">Monique</a> - <a href="https://github.com/simongaviria1" target="_blank">Simon</a> - <a href="https://newton-brooks.github.io/newtonweb/" target="_blank">Newton</a> - <a href="https://github.com/Edje-C" target="_blank">Elon</a> - <a href="https://github.com/cval-c4q" target="_blank">Carlo</a></p>
         </div>
       </div>
     )
@@ -74,16 +77,3 @@ class DataRouter extends Component {
 
 export default DataRouter
 
-
-
-// if (loading) {
-//   return <div>Loading User...</div>
-// } else if (!user) {
-//   return <Redirect to='/login' />
-// } else {
-//   return <Profile user={user} logOut={logOut} />
-// }
-
-
-
-// {user ? <Redirect to={`profile/${user.username}`}/><i class="fas fa-user"></i> : <Redirect to='/login'/><i class="fas fa-user"></i>}

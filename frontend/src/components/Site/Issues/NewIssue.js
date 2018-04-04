@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link, Route} from 'react-router-dom';
+const fs = require('fs');
+
 
 class NewIssue extends Component {
   constructor() {
@@ -9,8 +11,20 @@ class NewIssue extends Component {
   handleUpload = e => {
     let file = e.target.files[0]
     let data = new FormData()
-    data.append
-    console.log(file)
+    // data.append
+    console.log(`i asked for this`,file)
+    // fs.readFile(req.files.path, function (err, data) {
+    //   if (err) throw err;
+    //   // data will contain your file contents
+    //   console.log(data)
+    
+    //   // delete file
+    //   fs.unlink(req.files.path, function (err) {
+    //     if (err) throw err;
+    //     console.log('successfully deleted ' + req.files.path);
+    //   });      
+    // });
+    
   }
 
   render() {
@@ -37,8 +51,8 @@ class NewIssue extends Component {
           </div>
           <input type="file" name="repositoryLink" onChange={this.handleUpload}/>
         </div>
+        <p className="message">{message}</p>
         <div className="fullWidth">
-          <p className="message">{message}</p>
           <input type="submit" onClick={clickHandler} value="Next" />
         </div>
       </form>
@@ -47,3 +61,18 @@ class NewIssue extends Component {
 }
 
 export default NewIssue
+
+
+// fs = require('fs');
+
+// fs.readFile(req.files.path, function (err, data) {
+//   if (err) throw err;
+//   // data will contain your file contents
+//   console.log(data)
+
+//   // delete file
+//   fs.unlink(req.files.path, function (err) {
+//     if (err) throw err;
+//     console.log('successfully deleted ' + req.files.path);
+//   });      
+// });

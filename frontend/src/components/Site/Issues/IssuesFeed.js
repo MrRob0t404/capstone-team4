@@ -100,7 +100,7 @@ class IssuesFeed extends React.Component {
           <Link to="/issues/new">New</Link>
         </nav>
         <div id="issues-container">
-          <input id="search" placeholder="enter an issue or description" onChange={this.filterInput} />
+        <input id="search" placeholder="enter an issue or description" onChange={this.filterInput} />
           {this.renderIssues()}
         </div>
       </div>

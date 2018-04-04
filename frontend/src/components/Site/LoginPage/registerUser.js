@@ -13,6 +13,7 @@ class RegisterUser extends React.Component {
             verifyPassword: '',
             email: '',
             message: '   ',
+            loggedIn: false
         }
     }
 
@@ -46,14 +47,16 @@ class RegisterUser extends React.Component {
                   fullName: fullName
               })
               .then(res => {
-                  console.log(`res.data`, res.data)
+                  console.log(`res.data`, res.data.user)
+                  this.props.setUser(res.data.user)
                   this.setState({
                       username: '',
                       fullName: '',
                       email: '',
                       password: '',
                       verifyPassword: '',
-                      message: 'Registration Successful'
+                      message: 'Registration Successful',
+                      loggedIn: true
                   })
               })
               .catch(err => {
@@ -70,6 +73,7 @@ class RegisterUser extends React.Component {
 
     render() {
         const { message, fullName, email, password, verifyPassword, username, loggedIn } = this.state
+     
         return (
             <div className="auth" id="register">
                 <div className="auth-container" id="register-container">

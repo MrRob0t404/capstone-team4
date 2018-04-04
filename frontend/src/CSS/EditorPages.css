@@ -7,6 +7,10 @@
   width: 95%;
 }
 
+.description > p {
+  word-break: break-word;
+}
+
 .description > textarea {
   width: 100%;
   height: 30vh;
@@ -47,11 +51,16 @@
   font-size: 1.2em;
 }
 
+.pane-section > div {
+  width: 100%;
+}
+
 .selected-cell {
   background-color: #8FCCB8;
 }
 
 .solution-header {
+  width: 100%;
   height: 15%;
   display: flex;
   justify-content: space-between;
@@ -88,6 +97,28 @@
   transform: rotate(90deg);
 }
 
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.user-info > div > img {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+}
+
+.user-info > p,  .user-info > div > p{
+  margin: 0;
+}
+
 #brace-editor {
   width: 50%;
   height: 90%;
@@ -98,6 +129,7 @@
 }
 
 #editor-container {
+  width: 65vw;
   height: 100%;
 }
 
