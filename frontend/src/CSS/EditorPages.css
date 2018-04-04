@@ -60,6 +60,7 @@
 }
 
 .solution-header {
+  width: 100%;
   height: 15%;
   display: flex;
   justify-content: space-between;
@@ -128,6 +129,7 @@
 }
 
 #editor-container {
+  width: 65vw;
   height: 100%;
 }
 

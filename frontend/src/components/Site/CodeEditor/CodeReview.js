@@ -120,7 +120,7 @@ class AceEditor extends React.Component {
         copyLinkEnabled: true
       },
       right: {
-        content: this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][this.state.currentFile] : this.state.originalCode[this.state.currentFile],
+        content: this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile] : this.state.originalCode[this.state.currentFile],
         mode: null,
         theme: null,
         editable: false,
