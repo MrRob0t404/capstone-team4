@@ -9,22 +9,24 @@ class SolutionRouter extends Component {
     super();
     this.state = {
       problemData: [],
-      solutionData: []
+      solutionData: [],
+      user: null,
     }
   }
 
-
   renderSolutions = (props) => {
+    const { user, loading } = this.props;
     return (
       <CodeEditor
         props={props}
+        user={user}
+        loading={loading}
       />
     )
   }
 
   renderAddSolution = (props) => {
     const { user } = this.props;
-    console.log(`userinrenderaddsolution`,user)
     if(!user) {
       return <Redirect to='/login' />
     } 
@@ -37,7 +39,6 @@ class SolutionRouter extends Component {
 
 
   render() {
-    console.log(this.state.data)
     return (
       <div id="solution-router">
         <Switch>
