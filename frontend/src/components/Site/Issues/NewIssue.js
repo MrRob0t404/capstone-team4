@@ -6,8 +6,8 @@ class NewIssue extends Component {
   constructor() {
     super();
     this.state = {
-      file: null,
-      fileName: ''
+      fileObj: null,
+      fileNames: []
     }
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -16,31 +16,35 @@ class NewIssue extends Component {
   //here send to backend as post request
   onFormSubmit = (e) => {
     const { clickHandler, renderNextPageFileUpload } = this.props
-    const {file, fileName} = this.state
+    const {fileObj, fileNames} = this.state
     e.preventDefault() // Stop form submit
-    if(file){
-      renderNextPageFileUpload(file, fileName)
+    if(fileObj){
+      renderNextPageFileUpload(fileObj, fileNames)
     } else {
       clickHandler()
     }
+    console.log("this.state.file onFormSubmit", this.state.file)
   }
 
   onChange(e) {
     const file = e.target.files[0]
+    console.log("e.target.files onChange", e.target.files)
 
     var reader = new FileReader();
     reader.onload = (e) => {
       this.setState({
-        file: {[file.name] : e.target.result},
-        fileName: file.name
+        fileObj: {...this.state.fileObj, [file.name] : e.target.result},
+        fileNames: [...this.state.fileNames, file.name]
       })
     }
     reader.readAsText(file)
+    console.log("this.state.file onChange", this.state.file)
   }
 
   render() {
     console.log("this.state", this.state)
     const {inputHandler, clickHandler, message} = this.props;
+    const {fileObj} = this.state;
     return (
       <form id="newIssue">
         <div className="input-container">
@@ -59,10 +63,12 @@ class NewIssue extends Component {
         </div>
         <div className="input-container">
           <div className="helper">
-            <h3>File</h3>
+            <h3>File Upload</h3>
           </div>
           <input type="file" onChange={this.onChange}/>
+          <p>{fileObj && Object.keys(fileObj).map(fileName => <div key={fileName}> {fileName}</div>)}</p>
         </div>
+
         <p className="message">{message}</p>
         <div className="fullWidth">
           <p className="message">{message}</p>
