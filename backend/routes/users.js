@@ -33,5 +33,4 @@ router.post('/addComments', loginRequired, db.addComments);
 router.get('/getComments/:ticketid', db.getComments);
 
 
-
 module.exports = router;
