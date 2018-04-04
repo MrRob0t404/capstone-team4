@@ -20,7 +20,6 @@ class SoloEditor extends Component {
       renderDescription: true,
       originalCode: code,
       lines: [],
-      selectedFileNames: this.props.selectedFilesNames,
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {},
       decodedContentObj: this.props.decodedContentObj,
@@ -89,9 +88,10 @@ class SoloEditor extends Component {
   }
 
   render() {
-    console.log('STATE', this.state)
+    console.log('SOLO EDITOR STATE', this.state)
     console.log('props soloEditor', this.props)
     console.log('mode:', this.state.mode)
+    console.log("selectedFile", this.state.selectedFile)
     const {rightEditor, selectedFile} = this.state
     const {decodedContentObj, title} = this.props
 
@@ -105,7 +105,9 @@ class SoloEditor extends Component {
       this.addOnClick()
     }
     // console.log('mode: ', mode.name)
-
+    if (!this.state.mode) {
+      return <div>Loading</div>
+    }
     var highlight = new Range(1, 1, 10, 10)
     if (this.state.submitted) {
       return <Redirect to='/issues'/>
