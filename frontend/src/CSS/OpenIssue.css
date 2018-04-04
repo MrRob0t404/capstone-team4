@@ -68,6 +68,10 @@
   color: #8AD42C;
 }
 
+#choose-files > .container {
+  width: 100%;
+}
+
 #choose-files, #newIssue {
   padding: 5%;
   display: flex;
@@ -157,6 +161,14 @@
 
   .input-container {
     width: 70%;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .path-container {
+    width: 100%;
   }
 
 }

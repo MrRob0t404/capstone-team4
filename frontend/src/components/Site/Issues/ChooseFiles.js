@@ -49,6 +49,65 @@ class ChooseFiles extends Component {
       <div id="choose-files">
         <h2>Choose up to 5 files that relate to your issue</h2>
 
+        <div class="container">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Directories</a>
+                </h4>
+              </div>
+              <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                {this
+                  .state
+                  .allPaths
+                  .map(v => {if(v.dirs[0]){
+                    return(
+                      <div className="path-container">
+                        <h3>{v.name}</h3>
+                        {v.dirs.map((v, i) => <button data-path={v.path} onClick={this.selectDirs}>{v.name}</button>)}
+                      </div>
+                    )
+                  }})}</div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Files</a>
+                </h4>
+              </div>
+              <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">
+                {this
+                  .state
+                  .allPaths
+                  .map(v => {if(v.files[0]){
+                    return(
+                      <div className="path-container">
+                        <h3>{v.name}</h3>
+                        {v.files.map((v, i) => <p data-path={v.path} onClick={this.props.selectFile}>{v.name}</p>)}
+                      </div>
+                    )
+                  }})}</div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Embedding</a>
+                </h4>
+              </div>
+              <div id="collapse3" class="panel-collapse collapse">
+                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div id="select-files-container">
 
           <div className="column">

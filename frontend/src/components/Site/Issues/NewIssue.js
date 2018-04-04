@@ -65,7 +65,6 @@ class NewIssue extends Component {
         </div>
         <p className="message">{message}</p>
         <div className="fullWidth">
-          <p className="message">{message}</p>
           <input type="submit" onClick={this.onFormSubmit} value="Next" />
         </div>
       </form>
@@ -87,5 +86,5 @@ export default NewIssue
 //   fs.unlink(req.files.path, function (err) {
 //     if (err) throw err;
 //     console.log('successfully deleted ' + req.files.path);
-//   });      
+//   });
 // });
