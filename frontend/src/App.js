@@ -72,7 +72,7 @@ class App extends Component {
   handleRegisterUser = () => {
     const { user } = this.state;
     if (user) {
-      return <Redirect to={`/profile/${user.username}`} />
+      return <Redirect to='/home' />
     } else {
       return (
         <RegisterUser setUser={this.UserFound}  />
