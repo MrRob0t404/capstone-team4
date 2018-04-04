@@ -159,15 +159,29 @@ class IssueRouter extends Component {
     }
   }
 
+  // Need to pass to soloEditor to fix bug (when user presses the back buttton and
+  // then goes forward in history)
+  setFormBoolean = () => {
+    this.setState({formComplete: false})
+  }
+
   renderSolutions = () => {
     return (<CodeEditor count ={this.state.count}/>)
   }
 
   renderSoloEditor = () => {
-    return (<SoloEditor
-      selectedFilesNames={this.state.selectedFileNames}
-      title={this.state.title}
-      decodedContentObj={this.state.decodedCodeObj}/>)
+    if (this.state.selectedFileNames.length === 0) {
+      this.setState({formComplete: false})
+      return <Redirect to='/home'/>
+    } else {
+      return (<SoloEditor
+        title={this.state.title}
+        selectedFilesNames={this.state.selectedFileNames}
+        title={this.state.title}
+        decodedContentObj={this.state.decodedCodeObj}
+        formCompleteToFalse={this.setFormBoolean}/>)
+    }
+
   }
 
   renderSolutionsRouter = (props) => {
