@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, Route } from 'react-router-dom';
-import EditProfile from './EditProfile';
 
 class Me extends React.Component {
   constructor(props) {

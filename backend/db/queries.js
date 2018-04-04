@@ -345,6 +345,7 @@ function submitSolution(req, res, next) {
 
 
 function submitProblem(req, res, next) {
+  console.log("req", req.body)
   db
     .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
     "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {

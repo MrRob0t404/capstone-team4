@@ -34,5 +34,4 @@ router.get('/getComments/:ticketid', db.getComments);
 router.patch('/updateTicketProblemStatus/:ticketid', db.UpdateTicketProblemStatus);
 
 
-
 module.exports = router;
