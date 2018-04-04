@@ -154,8 +154,9 @@ class IssueRouter extends Component {
   }
 
   renderSolutionsRouter = (props) => {
-    console.log(this.props)
-    return (<SolutionRouter props={props}/>)
+    const { user } = this.props;
+    console.log(`user`,this.props)
+    return (<SolutionRouter props={props} user={user}/>)
   }
 
   render() {

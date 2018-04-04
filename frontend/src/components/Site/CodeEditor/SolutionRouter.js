@@ -23,6 +23,11 @@ class SolutionRouter extends Component {
   }
 
   renderAddSolution = (props) => {
+    const { user } = this.props;
+    console.log(`userinrenderaddsolution`,user)
+    if(!user) {
+      return <Redirect to='/login' />
+    } 
     return(
       <AddSolution
         props={props}

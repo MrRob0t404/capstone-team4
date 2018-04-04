@@ -86,7 +86,7 @@ class AceEditor extends React.Component {
           let keys = Object.keys(obj)
           console.log('KEYS', keys)
           this.setState({
-            solutionCode: keys.map(v => v = obj[v]),
+            solutionCode: keys.map(v => obj[v]),
             solutionData: keys.map(v => data[v]),
             renderEditor: true
           })
@@ -122,7 +122,7 @@ class AceEditor extends React.Component {
         content: this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][this.state.currentFile] : this.state.originalCode[this.state.currentFile],
         mode: null,
         theme: null,
-        editable: true,
+        editable: false,
         copyLinkEnabled: true
       },
       classes: {
