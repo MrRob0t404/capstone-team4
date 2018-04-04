@@ -24,7 +24,8 @@ class SoloEditor extends Component {
       selectedFile: this.props.selectedFilesNames[0],
       allDescriptions: {},
       decodedContentObj: this.props.decodedContentObj,
-      submitted: false
+      submitted: false,
+      mode: null
     }
     this.cells = [];
   }
@@ -71,8 +72,7 @@ class SoloEditor extends Component {
           "language": getModeForPath(key).name
         }
       })
-
-    console.log('arrOfCodes', JSON.stringify(arrOfCodes))
+    // console.log('arrOfCodes', JSON.stringify(arrOfCodes))
     axios.post(`/users/submitProblem`, {
       "ticketDate": (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear(),
       "title": `${this.state.title}`,
@@ -91,9 +91,8 @@ class SoloEditor extends Component {
   render() {
     console.log('STATE', this.state)
     console.log('props soloEditor', this.props)
-    console.log('mode:', this.state.mode)
-    const {rightEditor, selectedFile} = this.state
-    const {decodedContentObj, title} = this.props
+    const {rightEditor, selectedFile, mode} = this.state
+    const {decodedContentObj, title, formCompleteToFalse} = this.props
 
     if (!decodedContentObj) {
       return <div>
@@ -101,13 +100,12 @@ class SoloEditor extends Component {
       </div>
     }
     if (this.cells[0]) {
-      // console.log(` Solo Editor State `, this.state)
       this.addOnClick()
     }
-    // console.log('mode: ', mode.name)
-
-    var highlight = new Range(1, 1, 10, 10)
     if (this.state.submitted) {
+      return <Redirect to='/issues/'/>
+    } else if (mode === null) {
+      formCompleteToFalse();
       return <Redirect to='/issues'/>
     } else {
       return (
