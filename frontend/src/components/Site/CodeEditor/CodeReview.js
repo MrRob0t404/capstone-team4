@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import AceDiff from "ace-diff";
 import "../../../CSS/AceEditor.css";
 import "../../../CSS/EditorPages.css";
@@ -31,21 +31,26 @@ class AceEditor extends React.Component {
       date: '',
       renderDescription: true,
       renderEditor: false,
+      problemPosterID: null,
+      problemStatus: null
     }
     this.aceDiffer = undefined;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     axios
       .get(`/users/getProblem/${this.props.props.match.params.issuesID}`)
       .then(res => {
+        this.setState({
+          problemPosterID: res.data.data[0].ticket_userid,
+          problemStatus: res.data.data[0].problemstatus
+        })
         let title = res.data.data[0].title
         let description = res.data.data[0].problem_description
         let date = res.data.data[0].ticketdate
         let currentFile = res.data.data[0].filename
         let originalCode = {}
-
-        res.data.data.forEach((v,i) => {
+        res.data.data.forEach((v, i) => {
           originalCode[v.filename] = Base64.decode(v.code)
         })
 
@@ -59,39 +64,37 @@ class AceEditor extends React.Component {
         })
       })
 
-      axios
-        .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
-        .then(res => {
+    axios
+      .get(`/users/getSolutions/${this.props.props.match.params.issuesID}`)
+      .then(res => {
 
-          let obj = {}
-          let data = {}
-          res.data.data.forEach(v => {
-            console.log("OBJ", obj, data)
-            console.log("res.data", res.data.data)
-            if(obj[v.username]) {
-              let userFiles = obj[v.username]
-              userFiles[v.filename] = Base64.decode(v.code)
-              obj[v.username] = userFiles
-            } else {
-              obj[v.username] = {
-                [v.filename]: Base64.decode(v.code),
-              }
-              data[v.username] = {
-                description: v.solution_description,
-                pic: v.profile_pic,
-                username: v.username,
-                date: v.postdate
-              }
+        let obj = {}
+        let data = {}
+        res.data.data.forEach(v => {
+          if (obj[v.username]) {
+            let userFiles = obj[v.username]
+            userFiles[v.filename] = Base64.decode(v.code)
+            obj[v.username] = userFiles
+          } else {
+            obj[v.username] = {
+              [v.filename]: Base64.decode(v.code),
             }
-          })
-          let keys = Object.keys(obj)
-          console.log('KEYS', keys)
-          this.setState({
-            solutionCode: keys.map(v => obj[v]),
-            solutionData: keys.map(v => data[v]),
-            renderEditor: true
-          })
+            data[v.username] = {
+              description: v.solution_description,
+              pic: v.profile_pic,
+              username: v.username,
+              date: v.postdate
+            }
+          }
         })
+        let keys = Object.keys(obj)
+        console.log('KEYS', keys)
+        this.setState({
+          solutionCode: keys.map(v => obj[v]),
+          solutionData: keys.map(v => data[v]),
+          renderEditor: true
+        })
+      })
 
   }
 
@@ -100,7 +103,7 @@ class AceEditor extends React.Component {
 
     const { rightEditor } = this.state
 
-    this.setState({renderEditor: false})
+    this.setState({ renderEditor: false })
 
 
     // This object creates the split editor and imports it in the element with className ".acediff"
@@ -196,51 +199,81 @@ class AceEditor extends React.Component {
 
   togglePane = e => {
     e.target.innerText === "Description"
-      ? this.setState({renderDescription: true})
-      : this.setState({renderDescription: false})
+      ? this.setState({ renderDescription: true })
+      : this.setState({ renderDescription: false })
   }
 
   handleTabClick = e => {
-	  let { left, right } = this.aceDiffer.getEditors();
-	  left.setValue(this.state.originalCode[e.target.innerText], -1);
+    let { left, right } = this.aceDiffer.getEditors();
+    left.setValue(this.state.originalCode[e.target.innerText], -1);
     left.clearSelection()
-	  right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][e.target.innerText] || this.state.originalCode[e.target.innerText] : this.state.originalCode[e.target.innerText], -1);
+    right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][e.target.innerText] || this.state.originalCode[e.target.innerText] : this.state.originalCode[e.target.innerText], -1);
     right.clearSelection()
-	  this.setState( { currentFile: e.target.innerText } );
- }
+    this.setState({ currentFile: e.target.innerText });
+  }
 
- changeSolution = e => {
- 	 let { right } = this.aceDiffer.getEditors();
-   let currentSolver = this.state.currentSolver
-   if(e.target.innerText === "Next") {
-     currentSolver+=1
-   } else {
-     currentSolver-=1
-   }
-   this.setState({currentSolver})
-   right.setValue(this.state.solutionCode[currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile], -1);
-   right.clearSelection()
- }
+  changeSolution = e => {
+    let { right } = this.aceDiffer.getEditors();
+    let currentSolver = this.state.currentSolver
+    if (e.target.innerText === "Next") {
+      currentSolver += 1
+    } else {
+      currentSolver -= 1
+    }
+    this.setState({ currentSolver })
+    right.setValue(this.state.solutionCode[currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile], -1);
+    right.clearSelection()
+  }
+  
+  handleProblemStatus = () => {
+    const { problemStatus } = this.state;
+    axios 
+    .patch(`/users/getTicketProblemStatus/${this.props.props.match.params.issuesID}`)
+    .then(res => {
+      this.setState({
+        problemStatus: true
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    
+  }
 
   render() {
-    const {rightEditor} = this.state
-    console.log('state', this.state)
-
+    const { rightEditor, problemPosterID, problemStatus } = this.state;
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
+    let submitSolutionButton;
+      if(this.props.user) {  
+        if(this.props.user.id !== problemPosterID) {
+          submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
+        } else if(this.props.user.id === problemPosterID) {
+          if(this.state.solutionData.length === 0) {
+            submitSolutionButton = <div>
+            Looks like you posted this problem, let's let someone else solve it!
+            </div> 
+          } else {
+            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}><i class="fas fa-thumbs-up"></i></button></div>
+          }
+        }
+      } else {
+        submitSolutionButton = <Link to='/login'>Sign in here! to submit a solution</Link>
+      }
+  
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v,i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
+          {this.state.files.map((v, i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
             <h2>{this.state.title}</h2>
-            <Link  to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
+             {submitSolutionButton}
           </div>
-    	    <div className="acediff"></div>
+          <div className="acediff"></div>
           <div id="switch-solution-buttons">
             <button onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}>Previous</button>
-            <button onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length-1}>Next</button>
+            <button onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}>Next</button>
           </div>
         </div>
         <div id="right-pane">
@@ -261,3 +294,10 @@ class AceEditor extends React.Component {
 }
 
 export default AceEditor;
+
+
+// if (loading) {
+//   return <div>Loading User...</div>
+// } else if (!user) {
+//   return <Redirect to='/login'/>
+// }
