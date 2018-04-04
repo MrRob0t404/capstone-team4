@@ -44,7 +44,8 @@ class IssueRouter extends Component {
       selectedFileNames: [],
       encodedContent: '',
       decodedCodeArr: [],
-      count: 1
+      count: 1, 
+      formCompleteFile: false
     }
   }
 
@@ -56,8 +57,7 @@ class IssueRouter extends Component {
     [e.target.name]: e.target.value
   })
 
-  renderNextPage = e => {
-    e.preventDefault()
+  renderNextPage = () => {
     let {title, repositoryLink, language} = this.state
     if (!title || !repositoryLink) {
       this.setState({message: 'Please fill all input feilds'})
@@ -69,6 +69,20 @@ class IssueRouter extends Component {
       repoOwner: urlSplitHelper(this.state.repositoryLink, URL_COMPONENT_USER)
     })
     this.decode;
+  }
+
+  //tied to onFormSubmit in NewIssue.js
+  renderNextPageFileUpload = (file, fileName) => {
+    let {title, language} = this.state
+    if (!title) {
+      this.setState({message: 'Please fill all input feilds'})
+      return
+    }
+    this.setState({
+      formCompleteFile: true,
+      selectedFileNames: [fileName],
+      decodedCodeObj: file
+    })
   }
 
   selectFile = e => {
@@ -95,6 +109,7 @@ class IssueRouter extends Component {
     const {selectedFileNames} = this.state //an arr of file paths
 
     const getEncodedContent = selectedFileNames.map(filePath => {
+      console.log("this.getDecodedData(filePath)", this.getDecodedData(filePath))
       return (this.getDecodedData(filePath))
     })
 
@@ -119,8 +134,8 @@ class IssueRouter extends Component {
   }
 
   openIssue = () => {
-    const {user, loading} = this.props;
-    const {selectedFileNames, repoOwner, repositoryLink, repositoryName, count} = this.state;
+    const {user, loading, renderNextPageFileUpload } = this.props;
+    const {selectedFileNames, repoOwner, repositoryLink, repositoryName, count, formCompleteFile} = this.state;
     if (loading) {
       return <div>Loading User...</div>
     } else if (!user) {
@@ -133,11 +148,14 @@ class IssueRouter extends Component {
         handleClick={this.handleClick}
         selectFile={this.selectFile}
         selectedFileNames={selectedFileNames}/>)
+    } else if (formCompleteFile) {
+        return this.renderSoloEditor()
     } else {
       return (<NewIssue
         inputHandler={this.inputHandler}
         clickHandler={this.renderNextPage}
-        message={this.state.message}/>)
+        message={this.state.message}
+        renderNextPageFileUpload={this.renderNextPageFileUpload}/>)
     }
   }
 
@@ -163,6 +181,7 @@ class IssueRouter extends Component {
         decodedContentObj={this.state.decodedCodeObj}
         formCompleteToFalse={this.setFormBoolean}/>)
     }
+
   }
 
   renderSolutionsRouter = (props) => {
