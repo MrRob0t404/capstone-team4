@@ -227,23 +227,36 @@ class AceEditor extends React.Component {
   
   handleProblemStatus = () => {
     const { problemStatus } = this.state;
-    axios 
-    .patch(`/users/getTicketProblemStatus/${this.props.props.match.params.issuesID}`)
-    .then(res => {
-      this.setState({
-        problemStatus: true
+    if(problemStatus === '0') {
+      axios 
+      .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/1`)
+      .then(res => {
+        this.setState({
+          problemStatus: '1'
+        })
       })
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    
+      .catch(err => {
+        console.log(err)
+      })  
+    } else {
+      axios 
+      .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/0`)
+      .then(res => {
+        this.setState({
+          problemStatus: '0'
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      }) 
+    }
   }
 
   render() {
     const { rightEditor, problemPosterID, problemStatus } = this.state;
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     let submitSolutionButton;
+    console.log(`problemstatus`, problemStatus)
       if(this.props.user) {  
         if(this.props.user.id !== problemPosterID) {
           submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
@@ -252,8 +265,11 @@ class AceEditor extends React.Component {
             submitSolutionButton = <div>
             Looks like you posted this problem, let's let someone else solve it!
             </div> 
+          } 
+          if(problemStatus === '0') {
+            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>            
           } else {
-            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}><i class="fas fa-thumbs-up"></i></button></div>
+            submitSolutionButton = <div>We're glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
           }
         }
       } else {

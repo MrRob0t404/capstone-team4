@@ -513,8 +513,9 @@ function addComments(req, res, next) {
 
 function UpdateTicketProblemStatus(req, res, next) {
   db 
-  .none("UPDATE tickets SET problemStatus = '1' WHERE tickets.id=${ticketid}", {
-    ticketid: req.params.ticketid
+  .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
+    ticketid: Number(req.params.ticketid),
+    status: req.params.status
   })
   .then(() => {
     res.status(200)
