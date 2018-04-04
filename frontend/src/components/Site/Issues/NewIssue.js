@@ -51,8 +51,8 @@ class NewIssue extends Component {
           </div>
           <input type="file" name="repositoryLink" onChange={this.handleUpload}/>
         </div>
+        <p className="message">{message}</p>
         <div className="fullWidth">
-          <p className="message">{message}</p>
           <input type="submit" onClick={clickHandler} value="Next" />
         </div>
       </form>
