@@ -148,10 +148,12 @@ class SoloEditor extends Component {
               <div className="description">
                 <h3>Description</h3>
                 <p>
-                  ex. My issue is on lines 20-27. I printed all my values and they{"'"}re correc but
-                  I keep getting the error 'cannot read value of undefined.'
+
                 </p>
-                <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
+                <textarea onChange={this.handleDescription} value={this.state.description}
+                  placeholder={`ex. My issue is on lines 20-27. I printed all my values and they{"'"}re correc but
+                  I keep getting the error 'cannot read value of undefined.'`}
+                ></textarea>
               </div>
               <button onClick={this.submit}>Done</button>
             </div>
