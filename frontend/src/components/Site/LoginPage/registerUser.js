@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
-
+import logo from "../../../Logos/logo.svg";
 
 class RegisterUser extends React.Component {
     constructor() {
@@ -77,7 +77,7 @@ class RegisterUser extends React.Component {
         return (
             <div className="auth" id="register">
                 <div className="auth-container" id="register-container">
-                    <h2><Link to="/home"><i className="fas fa-code"></i></Link></h2>
+                <h2><a class="navbar-brand" href="/home"><img src={logo} /></a></h2>
                     <h2>TyroDev</h2>
                     <form>
                       <input name="fullName" placeholder="Full Name" type="text" onChange={this.handleInput} value={fullName} />
