@@ -24,12 +24,6 @@ class NewIssue extends Component {
     } else {
       clickHandler()
     }
-    console.log("this.state.file onFormSubmit", this.state.file)
-    var size = Object.keys(fileObj).length;
-    console.log("size", size)
-    // } else if (this.state.fileNames.length >= 5) {
-    //   return console.log("exceeded file amount")
-    // (Object.keys(fileObj).length <= 5)
   }
 
   onChange(e) {

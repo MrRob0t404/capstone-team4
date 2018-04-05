@@ -1,6 +1,50 @@
 const db = require("./index");
 const authHelpers = require("../auth/helpers");
 const passport = require("../auth/local");
+const nodemailer = require('nodemailer');
+const notifications = require('./Email/email')
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'TyroDevTeam@gmail.com',
+    pass: 'pusheenthelimits'
+  }
+})
+
+function welcomeNotification(user) {
+  const Mail = {
+    from: 'TyroDevTeam@gmail.com',
+  }
+  Mail.to = user.email
+  Mail.html = notifications.welcome(user)
+  Mail.subject = 'Welcome to Tyro Dev!'
+  transporter.sendMail(Mail, (err, info) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(`email has been sent`)
+    }
+  })
+}
+
+function solutionNotification(problemPoster, problemSolver) {
+  const Mail = {
+    from: 'TyroDevTeam@gmail.com',
+  }
+  Mail.to = problemPoster.email
+  Mail.html = notifications.solutionNotification(problemPoster, problemSolver)
+  Mail.subject = `${problemSolver.username} solved your problem!`
+  transporter.sendMail(Mail, (err, info) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(`email has been sent`)
+    }
+  })
+}
+
 
 
 
@@ -8,19 +52,25 @@ function createUser(req, res, next) {
   const hash = authHelpers.createHash(req.body.password);
   console.log("create user hash:", hash);
   db
-    .none(
-    `INSERT INTO users (username, password_digest, email) 
-      VALUES ($1, $2, $3)`,
-    [req.body.username, hash, req.body.email]
+    .any(
+    `INSERT INTO users (username, password_digest, email, fullName) 
+      VALUES ($1, $2, $3, $4) RETURNING users.username, users.email, users.fullName`,
+    [req.body.username, hash, req.body.email, req.body.fullName]
     )
-    .then(() => {
-      console.log("req.body.username", req.body.username)
-      res.send(`created user: ${req.body.username}`);
+    .then((data) => {
+      res.status(200)
+        .json({
+          data: data[0]
+        })
+      welcomeNotification(data[0])
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send("error creating user");
-    });
+      res.status(500)
+        .json({
+          message: `failed${err}`
+        })
+    })
 }
 
 
@@ -289,10 +339,18 @@ function newSolution(req, res, next, ticketid, file) {
     "VALUES(${ticketid}, ${userid}, ${solution_desc}, ${postDate})", {
       ticketid: Number(ticketid), userid: req.user.id, solution_desc: req.body.solution_desc, postDate: req.body.postDate
     })
-    .then(data => {
-      res.status(200)
-        .json({
-          status: 'success'
+    .then(() => {
+      db
+        .one("SELECT tickets.id, problem_description, problems.lines, tickets.ticket_userid, " +
+        "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic, users.fullName, users.email " +
+        "FROM problems JOIN tickets ON tickets.id = problems.ticketid " +
+        "JOIN users ON users.id=tickets.ticket_userid " +
+        "WHERE problems.ticketid = ${ticketid}", { ticketid: Number(ticketid) })
+        .then(data => {
+          solutionNotification(data, req.user)
+        })
+        .catch(err => {
+          console.log(err)
         })
     })
     .catch(err => {
@@ -318,6 +376,7 @@ function newFileSolution(req, res, next, ticketid, file) {
         .json({
           status: `success`
         })
+
     })
     .catch(err => {
       console.log(`newFileSolution${err}`)
@@ -339,13 +398,13 @@ function submitSolution(req, res, next) {
   for (var i = 0; i < parsedFiles.length; i++) {
     console.log(`submitSolution`)
     newFileSolution(req, res, next, Number(req.body.ticketid), parsedFiles[i])
+
   }
 }
 
 
 
 function submitProblem(req, res, next) {
-  console.log("req", req.body)
   db
     .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
     "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
@@ -512,23 +571,23 @@ function addComments(req, res, next) {
 
 
 function UpdateTicketProblemStatus(req, res, next) {
-  db 
-  .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
-    ticketid: Number(req.params.ticketid),
-    status: req.params.status
-  })
-  .then(() => {
-    res.status(200)
-    .json({
-      status: `success`
+  db
+    .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
+      ticketid: Number(req.params.ticketid),
+      status: req.params.status
     })
-  })
-  .catch(err => {
-    res.status(500)
-    .json({
-      status: `failed`
+    .then(() => {
+      res.status(200)
+        .json({
+          status: `success`
+        })
     })
-  })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed`
+        })
+    })
 }
 
 

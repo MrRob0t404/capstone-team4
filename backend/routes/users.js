@@ -16,21 +16,20 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
 router.get("/getLoggedinUser", loginRequired, db.getUser);
 router.post("/new", db.createUser);
 router.get("/logout", loginRequired, db.logoutUser);
-
-
 router.get("/getUserID/:username", db.getUserID);
 router.get("/getUserProfileSolutions/:username", db.getUserProfileSolutions);
 router.get("/profile/:username", db.getUserProfile);
 router.get("/getTicketFeed", db.getTicketFeed);
 router.get("/getUserTicketFeed/:username", db.getUserTicketFeed);
-router.post('/submitProblem', loginRequired, db.submitProblem )
-router.post('/submitSolution', loginRequired, db.submitSolution)
-router.patch('/profile/edit', db.editUserProfile);
 router.get('/getAllTicketSolutions/ticket/:ticketid/solution/:solutionid', db.getAllTicketSolutions)
 router.get('/getProblem/:ticketid', db.getProblem);
 router.get('/getSolutions/:ticketid', db.getSolutions);
-router.post('/addComments', loginRequired, db.addComments);
 router.get('/getComments/:ticketid', db.getComments);
+
+router.post('/submitProblem', loginRequired, db.submitProblem )
+router.post('/submitSolution', loginRequired, db.submitSolution)
+router.patch('/profile/edit', db.editUserProfile);
+router.post('/addComments', loginRequired, db.addComments);
 router.patch('/updateTicketProblemStatus/:ticketid/:status', db.UpdateTicketProblemStatus);
 
 
