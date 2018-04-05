@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
 import '../../../CSS/Auth.css';
+import logo from "../../../Logos/logo.svg";
 
 
 class LoginUser extends Component {
@@ -54,7 +55,7 @@ class LoginUser extends Component {
     return (
       <div className="auth" id="login">
         <div className="auth-container" id="login-container">
-          <h2><Link to="/home"><i class="fas fa-code"></i></Link></h2>
+          <h2><a class="navbar-brand" href="/home"><img src={logo} /></a></h2>
           <h2>TyroDev</h2>
           <form>
             <input name="username" placeholder="username" type="text" onChange={this.handleInput} value={username}/>
