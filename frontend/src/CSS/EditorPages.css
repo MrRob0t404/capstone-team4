@@ -1,6 +1,6 @@
 .ace-container {
-  width: 40vw;
-  height: 80vh;
+  width: 100%;
+  height: 75vh;
 }
 
 .description {
@@ -120,8 +120,8 @@
 }
 
 #brace-editor {
-  width: 50%;
-  height: 90%;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 #disqus_thread {
@@ -129,7 +129,7 @@
 }
 
 #editor-container {
-  width: 65vw;
+  width: 600px;
   height: 100%;
 }
 

@@ -10,7 +10,7 @@ import {Base64} from 'js-base64';
 import {Redirect} from 'react-router'
 
 import './Import/import';
-import 'brace/theme/solarized_dark';
+import 'brace/theme/textmate';
 
 class SoloEditor extends Component {
   constructor(props) {
@@ -126,7 +126,7 @@ class SoloEditor extends Component {
             <div className="ace-container">
               <AceEditor
                 mode={this.state.mode.name}
-                theme="solarized_dark"
+                theme="textmate"
                 highlightActiveLine={true}
                 value={decodedContentObj[selectedFile]}
                 setOptions={{
@@ -142,6 +142,9 @@ class SoloEditor extends Component {
             <div className="pane-section">
               <div className="description">
                 <h3>Description</h3>
+                <p>ex. My issues is on lines ... </p>
+                <p>I{"'"}ve tried to ...</p>
+                <p>I get the error</p>
                 <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
               </div>
               <button onClick={this.submit}>Done</button>

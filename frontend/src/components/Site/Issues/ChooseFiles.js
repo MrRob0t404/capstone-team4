@@ -64,7 +64,7 @@ class ChooseFiles extends Component {
                   .allPaths
                   .map(v => {if(v.dirs[0]){
                     return(
-                      <div className="path-container">
+                      <div className="mobile-path-container">
                         <h3>{v.name}</h3>
                         {v.dirs.map((v, i) => <button data-path={v.path} onClick={this.selectDirs}>{v.name}</button>)}
                       </div>
@@ -85,7 +85,7 @@ class ChooseFiles extends Component {
                   .allPaths
                   .map(v => {if(v.files[0]){
                     return(
-                      <div className="path-container">
+                      <div className="mobile-path-container">
                         <h3>{v.name}</h3>
                         {v.files.map((v, i) => <p data-path={v.path} onClick={this.props.selectFile}>{v.name}</p>)}
                       </div>
@@ -100,9 +100,11 @@ class ChooseFiles extends Component {
                 </h4>
               </div>
               <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                <div class="panel-body">
+                  {this
+                    .props
+                    .selectedFileNames
+                    .map(v => <p data-path={v} onClick={this.props.selectFile}>{v}</p>)}</div>
               </div>
             </div>
           </div>

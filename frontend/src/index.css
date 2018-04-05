@@ -1,6 +1,6 @@
 .container-fluid {
   margin: 1vh;
-  padding: 0 10% 0 8%;
+  padding: 0 8%;
   font-size: 1.2em;
 }
 
@@ -116,7 +116,7 @@ li {
 }
 
 p{
-  word-break: break-all;
+  word-break: break-word;
 }
 
 ul {
@@ -160,6 +160,30 @@ ul {
   font-size: 2.5em;
   color: #00C1AB;
   margin-left: 47.5%;
+}
+
+.green {
+  color: #7FD017;
+}
+
+.blue{
+  color: #00C1AB;
+}
+
+.light-blue {
+  color: #8FCCB8;
+}
+
+.white {
+  color: white;
+}
+
+.blue-gray {
+  color: #4E4D58;
+}
+
+.gray {
+  color: #555;
 }
 
 @media (max-width: 768px) {
