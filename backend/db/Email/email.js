@@ -1,5 +1,6 @@
 const welcome = (user) => {
     return (`<!doctype html>
+
     <html>
        <head>
            <meta charset="utf-8">
@@ -37,6 +38,7 @@ const welcome = (user) => {
 }
 
 const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, problemDesc, solutionDesc) => {
+
     return (`<!doctype html>
     <html>
        <head>
@@ -47,6 +49,7 @@ const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, pr
            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    
            <style>
+
            #container{text-align: center; width: 700px;}
            .logo{ background-color: #272633; width: 100%; margin: 0; padding: 0; padding-top: 20px; padding-bottom: 20px;}
            #welcomeMessage{ background-color: grey; padding-top: 20px; padding-bottom: 20px; margin:0; width: 100%;}

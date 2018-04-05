@@ -4,6 +4,9 @@ const passport = require("../auth/local");
 const nodemailer = require('nodemailer');
 const notifications = require('./Email/email')
 
+
+
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -12,24 +15,100 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-function welcomeNotification() {
+function welcomeNotification(user) {
   const Mail = {
-      from: 'TyroDevTeam@gmail.com',
-      // to: simongaviria1@gmail.com, subject: 'Someone answered your question!', txt:
-      // `${txt}`
-    }
-
-    Mail.to = `simongaviria@ac.c4q.nyc`
-    Mail.html = notifications.solutionNotification('Simon', 'https://media.licdn.com/dms/image/C4E00AQFMBuHG5_gS8w/profile-displayphoto-shrink_800_800/0?e=1522648800&v=alpha&t=mU5_5Bo9Lb8LBy5OxCmV-XCKThg2Nc08zVaA_-GDdy4', 'Newton', 'https://media.licdn.com/dms/image/C4E03AQFb_xBYxIBS3Q/profile-displayphoto-shrink_200_200/0?e=1527746400&v=alpha&t=c2C4u-ogTjALQ_5Ad7Uyjb40OW1Wsqw1s8RNkcJZua4', 'desc of problem', 'desc of solution')
-    Mail.subject = 'Welcome to Tyro Dev!'
-    transporter.sendMail(Mail, (err, info) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(`email has been sent`)
-      }
-    }).catch(err => {
+    from: 'TyroDevTeam@gmail.com',
+  }
+  Mail.to = user.email
+  Mail.html = notifications.welcome(user)
+  Mail.subject = 'Welcome to Tyro Dev!'
+  transporter.sendMail(Mail, (err, info) => {
+    if (err) {
       console.log(err)
+    } else {
+      console.log(`email has been sent`)
+    }
+  })
+}
+
+function solutionNotification(problemPoster, problemSolver) {
+  const Mail = {
+    from: 'TyroDevTeam@gmail.com',
+  }
+  Mail.to = problemPoster.email
+  Mail.html = notifications.solutionNotification(problemPoster, problemSolver)
+  Mail.subject = `${problemSolver.username} solved your problem!`
+  transporter.sendMail(Mail, (err, info) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(`email has been sent`)
+    }
+  })
+}
+
+
+
+
+function createUser(req, res, next) {
+  const hash = authHelpers.createHash(req.body.password);
+  console.log("create user hash:", hash);
+  db
+    .any(
+    `INSERT INTO users (username, password_digest, email, fullName) 
+      VALUES ($1, $2, $3, $4) RETURNING users.username, users.email, users.fullName`,
+    [req.body.username, hash, req.body.email, req.body.fullName]
+    )
+    .then((data) => {
+      res.status(200)
+        .json({
+          data: data[0]
+        })
+      welcomeNotification(data[0])
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500)
+        .json({
+          message: `failed${err}`
+        })
+    })
+}
+
+
+// function createUser(req, res, next) {
+//   return authHelpers
+//     .createUser(req)
+//     .then(response => {
+//       passport.authenticate("local", (err, user, info) => {
+//         if (user) {
+//           res.status(200).json({
+//             status: "success",
+//             data: user,
+//             message: "Registered one user"
+//           });
+//         }
+//       })(req, res, next);
+//     })
+//     .catch(err => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// } 
+
+function logoutUser(req, res, next) {
+  req.logout();
+  res.status(200).send("log out success");
+};
+
+function getUser(req, res, next) {
+  db
+    .one("SELECT * FROM users WHERE username=${username}", {
+      username: req.user.username
+    })
+    .then(data => {
+      res.status(200).json({ user: data });
     })
 
   }
@@ -260,18 +339,27 @@ function welcomeNotification() {
       })
   };
 
-  function newSolution(req, res, next, ticketid, file) {
-    db.none("INSERT INTO solutions(ticketID, solution_userid, solution_description, postDate)" +
-        " VALUES(${ticketid}, ${userid}, ${solution_desc}, ${postDate})", {
-      ticketid: Number(ticketid),
-      userid: req.user.id,
-      solution_desc: req.body.solution_desc,
-      postDate: req.body.postDate
-    }).then(data => {
-      res
-        .status(200)
-        .json({status: 'success'})
-    }).catch(err => {
+function newSolution(req, res, next, ticketid, file) {
+  db
+    .none("INSERT INTO solutions(ticketID, solution_userid, solution_description, postDate) " +
+    "VALUES(${ticketid}, ${userid}, ${solution_desc}, ${postDate})", {
+      ticketid: Number(ticketid), userid: req.user.id, solution_desc: req.body.solution_desc, postDate: req.body.postDate
+    })
+    .then(() => {
+      db
+        .one("SELECT tickets.id, problem_description, problems.lines, tickets.ticket_userid, " +
+        "ticketdate, problemstatus, tickets.title, users.username, users.profile_pic, users.fullName, users.email " +
+        "FROM problems JOIN tickets ON tickets.id = problems.ticketid " +
+        "JOIN users ON users.id=tickets.ticket_userid " +
+        "WHERE problems.ticketid = ${ticketid}", { ticketid: Number(ticketid) })
+        .then(data => {
+          solutionNotification(data, req.user)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    })
+    .catch(err => {
       console.log(`newSolutionerr${err}`)
       res
         .status(500)
@@ -279,24 +367,29 @@ function welcomeNotification() {
     })
   }
 
-  function newFileSolution(req, res, next, ticketid, file) {
-    db.one("INSERT INTO files (code, filename, ticketid, language, file_userid)VALUES(${code" +
-        "}, ${filename}, ${ticketid}, ${language}, ${userid}) RETURNING id", {
-      code: file.code,
-      filename: file.filename,
-      ticketid: Number(ticketid),
-      language: file.language,
-      userid: req.user.id
-    }).then((data) => {
-      res
-        .status(200)
-        .json({status: `success`})
-    }).catch(err => {
+
+function newFileSolution(req, res, next, ticketid, file) {
+  db
+    .one("INSERT INTO files (code, filename, ticketid, language, file_userid)" +
+    "VALUES(${code}, ${filename}, ${ticketid}, ${language}, ${userid}) RETURNING id", {
+      code: file.code, filename: file.filename,
+      ticketid: Number(ticketid), language: file.language, userid: req.user.id
+    })
+    .then((data) => {
+      res.status(200)
+        .json({
+          status: `success`
+        })
+
+    })
+    .catch(err => {
+
       console.log(`newFileSolution${err}`)
       res
         .status(500)
         .json({status: `NewFIleSolutionfailed${err}`})
     })
+
   }
 
 }
@@ -304,7 +397,6 @@ function welcomeNotification() {
 
 
 function submitProblem(req, res, next) {
-  console.log("req", req.body)
   db
     .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
     "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
@@ -474,23 +566,23 @@ function submitProblem(req, res, next) {
 
 
 function UpdateTicketProblemStatus(req, res, next) {
-  db 
-  .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
-    ticketid: Number(req.params.ticketid),
-    status: req.params.status
-  })
-  .then(() => {
-    res.status(200)
-    .json({
-      status: `success`
+  db
+    .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
+      ticketid: Number(req.params.ticketid),
+      status: req.params.status
     })
-  })
-  .catch(err => {
-    res.status(500)
-    .json({
-      status: `failed`
+    .then(() => {
+      res.status(200)
+        .json({
+          status: `success`
+        })
     })
-  })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed`
+        })
+    })
 }
 
 
