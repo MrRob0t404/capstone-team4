@@ -72,7 +72,7 @@ class IssueRouter extends Component {
   }
 
   //tied to onFormSubmit in NewIssue.js
-  renderNextPageFileUpload = (file, fileName) => {
+  renderNextPageFileUpload = (file, fileNames) => {
     let {title, language} = this.state
     if (!title) {
       this.setState({message: 'Please fill all input feilds'})
@@ -80,7 +80,7 @@ class IssueRouter extends Component {
     }
     this.setState({
       formCompleteFile: true,
-      selectedFileNames: [fileName],
+      selectedFileNames: fileNames,
       decodedCodeObj: file
     })
   }
@@ -177,11 +177,9 @@ class IssueRouter extends Component {
       return (<SoloEditor
         title={this.state.title}
         selectedFilesNames={this.state.selectedFileNames}
-        title={this.state.title}
         decodedContentObj={this.state.decodedCodeObj}
         formCompleteToFalse={this.setFormBoolean}/>)
     }
-
   }
 
   renderSolutionsRouter = (props) => {
