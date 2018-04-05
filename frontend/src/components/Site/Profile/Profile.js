@@ -29,7 +29,7 @@ class Profile extends React.Component {
     console.log("this.state.currentUserProfile", this.state.currentUserProfile)
     return <Me user={user} logOut={logOut} currentUsername={username} setUser={this.setCurrentUserProfile} />
   };
- 
+
 
  renderIssuesPage = (props) => {
   const { user } = this.props;
@@ -51,9 +51,9 @@ class Profile extends React.Component {
     const { user } = this.props;
     const { currentUserProfile } = this.state;
 
-   
+
     return (
-      <div id="profile">
+      <div id="profile-router">
         <nav id="profile-nav">
           <Link to={`/profile/${currentUserProfile}`}>Me</Link>
           <Link to={`/profile/issues/${currentUserProfile}`}>Issues</Link>

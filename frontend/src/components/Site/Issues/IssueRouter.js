@@ -44,7 +44,7 @@ class IssueRouter extends Component {
       selectedFileNames: [],
       encodedContent: '',
       decodedCodeArr: [],
-      count: 1, 
+      count: 1,
       formCompleteFile: false
     }
   }
@@ -87,12 +87,15 @@ class IssueRouter extends Component {
 
   selectFile = e => {
     let target = e.target
+    console.log(target)
     let path = e.target.dataset.path
     let selectedFileNames = this.state.selectedFileNames;
     if (selectedFileNames.indexOf(path) >= 0) {
+      e.target.className = ''
       selectedFileNames.splice(selectedFileNames.indexOf(path), 1)
       this.setState({selectedFileNames: selectedFileNames})
     } else {
+      e.target.className = "mobile-select"
       selectedFileNames.push(path)
       this.setState({selectedFileNames: selectedFileNames})
     }

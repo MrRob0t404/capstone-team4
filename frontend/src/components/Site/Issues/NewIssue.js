@@ -73,7 +73,6 @@ class NewIssue extends Component {
 
         <p className="message">{message}</p>
         <div className="fullWidth">
-          <p className="message">{message}</p>
           <input type="submit" onClick={this.onFormSubmit} value="Next" />
         </div>
       </form>
@@ -82,24 +81,3 @@ class NewIssue extends Component {
 }
 
 export default NewIssue
-
-
-// fs = require('fs');
-
-// fs.readFile(req.files.path, function (err, data) {
-//   if (err) throw err;
-//   // data will contain your file contents
-//   console.log(data)
-
-//   // delete file
-//   fs.unlink(req.files.path, function (err) {
-//     if (err) throw err;
-//     console.log('successfully deleted ' + req.files.path);
-//   });      
-// });
-
-// if (fileName.length <= 5) {
-//   return (<div key={fileName}> {fileName}</div>)
-// } else {
-//   return (<div>You have exceeded the max file upload amount</div>)
-// }
