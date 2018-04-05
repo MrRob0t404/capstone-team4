@@ -42,7 +42,11 @@ class SoloEditor extends Component {
     // console.log('tab:', e.target) console.log('tab props: ',
     // Object.keys(e.target)) console.log('tab name:', e.target.name)
 
-    this.setState({selectedFile: e.target.name})
+    // this.setState({selectedFile: e.target.name})
+    this.setState({
+      selectedFile: e.target.name,
+      mode: getModeForPath(e.target.name)
+    })
   }
 
   handleDescription = e => {
@@ -92,6 +96,7 @@ class SoloEditor extends Component {
     console.log('props soloEditor', this.props)
     const {rightEditor, selectedFile, mode} = this.state
     const {decodedContentObj, title, formCompleteToFalse} = this.props
+    console.log('MODE', this.state.mode ? this.state.mode.name : '')
 
     if (!decodedContentObj) {
       return <div>
@@ -114,7 +119,7 @@ class SoloEditor extends Component {
       return <Redirect to='/issues'/>
     } else {
       return (
-        <div id="solution">
+        <div class="problem" id="solution">
           <div id="file-tabs">
             {this
               .props
@@ -142,9 +147,10 @@ class SoloEditor extends Component {
             <div className="pane-section">
               <div className="description">
                 <h3>Description</h3>
-                <p>ex. My issues is on lines ... </p>
-                <p>I{"'"}ve tried to ...</p>
-                <p>I get the error</p>
+                <p>
+                  ex. My issue is on lines 20-27. I{"'"}ve tried to log all my values but they seem correct.
+                  I get the error 'cannot read value of undefined' but all my values are defined.
+                </p>
                 <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
               </div>
               <button onClick={this.submit}>Done</button>
