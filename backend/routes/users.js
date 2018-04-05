@@ -31,7 +31,7 @@ router.get('/getProblem/:ticketid', db.getProblem);
 router.get('/getSolutions/:ticketid', db.getSolutions);
 router.post('/addComments', loginRequired, db.addComments);
 router.get('/getComments/:ticketid', db.getComments);
-
+router.patch('/updateTicketProblemStatus/:ticketid/:status', db.UpdateTicketProblemStatus);
 
 
 module.exports = router;

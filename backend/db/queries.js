@@ -298,6 +298,26 @@ function welcomeNotification() {
         .json({status: `NewFIleSolutionfailed${err}`})
     })
   }
+}
+
+
+
+function submitProblem(req, res, next) {
+  console.log("req", req.body)
+  db
+    .one("INSERT INTO tickets(ticket_userid, ticketDate, problemStatus, title) " +
+    "VALUES(${id}, ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {
+      id: req.user.id, ticketDate: req.body.ticketDate,
+      problemStatus: req.body.problemStatus, title: req.body.title
+    })
+    .then(data => {
+      let parsedFiles = JSON.parse(req.body.files)
+      newProblems(req, res, next, data.id, parsedFiles)
+      for (var i = 0; i < parsedFiles.length; i++) {
+        newFile(req, res, next, data.id, parsedFiles[i])
+      }
+    })
+}
 
   // submitSolution looking for ticket, get id, use id to create file, create
   // solution loop through files, each will have one solution in the createnewFile
@@ -437,57 +457,67 @@ function welcomeNotification() {
       comment: req.body.comment,
       commentDate: req.body.commentDate
     })
-      .then(data => {
-        res
-          .status(200)
-          .json({status: `success`})
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({status: `failed${err}`})
-      })
-  }
+    .then(data => {
+      res.status(200)
+        .json({
+          status: `success`
+        })
+    })
+    .catch(err => {
+      res.status(500)
+        .json({
+          status: `failed${err}`
+        })
+    })
+}
 
-  module.exports = {
-    createUser,
-    logoutUser,
-    getUser,
-    getTicketFeed,
-    getUserTicketFeed,
-    getUserProfile,
-    editUserProfile,
-    getUserID,
-    getUserProfileSolutions,
-    submitProblem,
-    submitSolution,
-    getAllTicketSolutions,
-    getProblem,
-    getSolutions,
-    getComments,
-    addComments
-  };
 
-  // function submitProblem(req, res, next) {   db     .one("INSERT INTO
-  // tickets(ticket_userid, ticketDate, problemStatus, title) " + "VALUES(${id},
-  // ${ticketDate}, ${problemStatus}, ${title}) RETURNING id", {    id:
-  // req.user.id, ticketDate: req.body.ticketDate,       problemStatus:
-  // req.body.problemStatus, title: req.body.title     })     .then(data => {
-  // console.log(`bodyfiles`, req.body.files)       let parsedFiles =
-  // JSON.parse(req.body.files)       console.log(`parsedFiles`, parsedFiles)  for
-  // (var i = 0; i < parsedFiles.length; i++) {         console.log(`i got here`,
-  // parsedFiles)         newFile(req, res, next, data.id, parsedFiles[i])      }
-  // }) } function newProblems(req, res, next, fileid, ticketid, file) {   db
-  // .none("INSERT INTO problems (ticketid, problem_description, lines)" +
-  // "VALUES(${ticketid}, ${problem_desc}, ${lines})", { ticketid: ticketid,
-  // problem_desc: req.body.problem_desc, lines: file.lines     })     .then(() =>
-  // {       res.status(200)         .json({       status: 'success'         }) })
-  //     .catch(err => { res.status(500)         .json({           status:
-  // 'failed'         })     }) }; function newFile(req, res, next, ticketid,
-  // file) {   db     .one("INSERT INTO files (code, filename, ticketid,
-  // language)" +     "VALUES(${code}, ${filename}, ${ticketid}, ${language})
-  // RETURNING id", {       code: file.code, filename: file.filename, ticketid:
-  // ticketid, language: file.language     })     .then((data) => {
-  // newProblems(req, res, next, data.id, ticketid, file)     })     .catch(err =>
-  // {       res.status(500)     .json({           status: `failed${err}`   }) })
-  // }
+function UpdateTicketProblemStatus(req, res, next) {
+  db 
+  .none("UPDATE tickets SET problemStatus = ${status} WHERE tickets.id=${ticketid}", {
+    ticketid: Number(req.params.ticketid),
+    status: req.params.status
+  })
+  .then(() => {
+    res.status(200)
+    .json({
+      status: `success`
+    })
+  })
+  .catch(err => {
+    res.status(500)
+    .json({
+      status: `failed`
+    })
+  })
+}
+
+
+
+
+module.exports = {
+  createUser,
+  logoutUser,
+  getUser,
+  getTicketFeed,
+  getUserTicketFeed,
+  getUserProfile,
+  editUserProfile,
+  getUserID,
+  getUserProfileSolutions,
+  submitProblem,
+  submitSolution,
+  getAllTicketSolutions,
+  getProblem,
+  getSolutions,
+  getComments,
+  addComments,
+  UpdateTicketProblemStatus
+};
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, Route } from 'react-router-dom';
-import EditProfile from './EditProfile';
 
 class Me extends React.Component {
   constructor(props) {
@@ -48,7 +47,7 @@ class Me extends React.Component {
   }
 
   //this.state.user => {user: null, logOut: ƒ, username: "MoMo", setUser: ƒ}
-  //this.state.visiting 
+  //this.state.visiting
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentUsername !== this.props.currentUsername) {
       this.fetchProfile(nextProps.currentUsername)
@@ -173,23 +172,29 @@ class Me extends React.Component {
       <div id="profile">
         <div id="profile-info">
           <img id="profile-pic" src={visiting.profile_pic} />
-          <h2>username: {visiting.username}</h2>
-          <h2>fullname: {visiting.fullname}</h2>
+          <h2>{visiting.username}</h2>
+          <h2>{visiting.fullname}</h2>
           <h3>{`level`}</h3>
           <h3>{visiting.email}</h3>
-          {user ? user.id === visiting.id ? <Link to='/home'><button onClick={logOut}>Logout</button></Link> : <div></div> : <div></div>}
+          <div>
+            {user && user.id === visiting.id ? <button onClick={this.handleClick}>Edit Profile</button> : ''}
+            {user ? user.id === visiting.id ? <Link to='/home'><button onClick={logOut}>Logout</button></Link> : <div></div> : <div></div>}
+          </div>
         </div>
-        <div id="language-container">
-          <h3>Stack</h3>
-          <p>{visiting.stack}</p>
+        <div id="profile-data">
+          <div id="language-container">
+            <h2>Stack</h2>
+            <div className="profile-list">
+              {visiting.stack ? visiting.stack.split(', ').map(v => <p>{v}</p>): ''}
+            </div>
+          </div>
+          <div id="links-container">
+            <h2>Links</h2>
+            <div className="profile-list">
+              <a href={userLinks[0]}>GitHub</a>
+              <a href={userLinks[1]}>LinkedIn</a>
+            </div>
         </div>
-        <div id="links-container">
-          <h3>Links</h3>
-          <a href={userLinks[0]}>GitHub</a>
-          <a href={userLinks[1]}>LinkedIn</a>
-        </div>
-        <div>
-          {user && user.id === visiting.id ? <button onClick={this.handleClick}>Edit Profile</button> : ''}
         </div>
       </div>
     )

@@ -6,14 +6,6 @@
   border-radius: 100em;
 }
 
-.comment {
-  color: #555;
-}
-
-.function {
-  color: #4E4D58;
-}
-
 .green-focus {
   box-shadow: 0 0 10px #8AD42C;
 }
@@ -41,10 +33,6 @@
   -o-transition: all 0.30s ease-in-out;
 }
 
-.keyword {
-  color: #7FD017;
-}
-
 .laptop, .screen {
   background: #272633;
   display: flex;
@@ -61,14 +49,6 @@
   border-radius: .8em;
 }
 
-.operator {
-  color: #8FCCB8;
-}
-
-.regular {
-  color: white;
-}
-
 .screen {
   width: 500px;
   height: 400px;
@@ -79,10 +59,6 @@
 
 .selected {
   text-shadow: 0 0 10px #00C1AB;
-}
-
-.string{
-  color: #00C1AB;
 }
 
 .text {
@@ -99,6 +75,7 @@
 }
 
 #background, #choose, #dual, #edit, #header{
+  min-height: 525px;
   padding: 4% 6%;
   display: flex;
   justify-content: space-evenly;

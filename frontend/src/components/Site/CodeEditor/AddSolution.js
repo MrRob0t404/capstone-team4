@@ -51,7 +51,7 @@ class AddSolution extends React.Component {
           originalCode[v.filename] = Base64.decode(v.code)
           solutionCode[v.filename] = Base64.decode(v.code)
         })
-
+        
         this.setState({
           files: res.data.data,
           originalCode,
@@ -233,6 +233,7 @@ class AddSolution extends React.Component {
               <h3>Description</h3>
               <p>{this.state.description}</p>
               <h3>Solution</h3>
+              <p>ex. The changes I made were . . .</p>
               <textarea onChange={this.handleTextArea} value={response}></textarea>
             </div>
             <p>{message}</p>
@@ -247,4 +248,3 @@ class AddSolution extends React.Component {
 export default AddSolution;
 
 // "files": JSON.stringify([{"code": Base64.encode(`server.jsCode`), "filename": "server.js", "language": "react.js"}, {"code": Base64.encode(`binding.jsCode`), "filename": "express.js", "language": "react.js"}]),
-
