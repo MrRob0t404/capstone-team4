@@ -205,11 +205,12 @@ class AceEditor extends React.Component {
 
   handleTabClick = e => {
     let { left, right } = this.aceDiffer.getEditors();
-    left.setValue(this.state.originalCode[e.target.innerText], -1);
+    let path = e.target.title
+    left.setValue(this.state.originalCode[path], -1);
     left.clearSelection()
-    right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][e.target.innerText] || this.state.originalCode[e.target.innerText] : this.state.originalCode[e.target.innerText], -1);
+    right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][path] || this.state.originalCode[path] : this.state.originalCode[path], -1);
     right.clearSelection()
-    this.setState({ currentFile: e.target.innerText });
+    this.setState({ currentFile: path});
   }
 
   changeSolution = e => {
@@ -224,11 +225,11 @@ class AceEditor extends React.Component {
     right.setValue(this.state.solutionCode[currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile], -1);
     right.clearSelection()
   }
-  
+
   handleProblemStatus = () => {
     const { problemStatus } = this.state;
     if(problemStatus === '0') {
-      axios 
+      axios
       .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/1`)
       .then(res => {
         this.setState({
@@ -237,9 +238,9 @@ class AceEditor extends React.Component {
       })
       .catch(err => {
         console.log(err)
-      })  
+      })
     } else {
-      axios 
+      axios
       .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/0`)
       .then(res => {
         this.setState({
@@ -248,7 +249,7 @@ class AceEditor extends React.Component {
       })
       .catch(err => {
         console.log(err)
-      }) 
+      })
     }
   }
 
@@ -257,29 +258,29 @@ class AceEditor extends React.Component {
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     let submitSolutionButton;
     console.log(`problemstatus`, problemStatus)
-      if(this.props.user) {  
+      if(this.props.user) {
         if(this.props.user.id !== problemPosterID) {
           submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
         } else if(this.props.user.id === problemPosterID) {
           if(this.state.solutionData.length === 0) {
             submitSolutionButton = <div>
-            Looks like you posted this problem, let's let someone else solve it!
-            </div> 
-          } 
+            Looks like you posted this problem, let{"'"}s let someone else solve it!
+            </div>
+          }
           if(problemStatus === '0') {
-            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>            
+            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>
           } else {
-            submitSolutionButton = <div>We're glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
+            submitSolutionButton = <div>We{"'"}re glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
           }
         }
       } else {
         submitSolutionButton = <Link to='/login'>Sign in here! to submit a solution</Link>
       }
-  
+
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v, i) => <div className="tab" onClick={this.handleTabClick}>{v.filename}</div>)}
+          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className="tab" onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
