@@ -105,10 +105,10 @@ class Me extends React.Component {
   renderEditProfile = () => {
     const { user, visiting, username, fullname, email, stack, profilepic, links } = this.state
     console.log(this.state)
-    const { logOut } = this.props
+    const { logOut } = this.props;
     // console.log("handleClick user", user.user)
     // console.log("this.state", this.state)
-    let userLoggedInLinks = links ? links.split(', ') : ['']
+    let userLoggedInLinks = links ? links.split(', ') : [''];
     // return(<EditProfile user={user}/>)
     return (
       <div>
