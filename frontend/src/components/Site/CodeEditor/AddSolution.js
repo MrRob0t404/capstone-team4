@@ -51,7 +51,7 @@ class AddSolution extends React.Component {
           originalCode[v.filename] = Base64.decode(v.code)
           solutionCode[v.filename] = Base64.decode(v.code)
         })
-
+        
         this.setState({
           files: res.data.data,
           originalCode,
