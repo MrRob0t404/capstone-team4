@@ -14,9 +14,9 @@ class IssuesFeed extends React.Component {
   }
 
   componentDidMount() {
-    this.openIssues();
-    this.solvedIssues();
     this.allIssues();
+    this.solvedIssues();
+    this.openIssues();
   }
 
 

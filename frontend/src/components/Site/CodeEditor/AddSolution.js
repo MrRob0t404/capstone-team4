@@ -51,7 +51,7 @@ class AddSolution extends React.Component {
           originalCode[v.filename] = Base64.decode(v.code)
           solutionCode[v.filename] = Base64.decode(v.code)
         })
-        
+
         this.setState({
           files: res.data.data,
           originalCode,
@@ -185,8 +185,8 @@ class AddSolution extends React.Component {
   handleTabClick = e => {
 
     this.setState({
-      currentFile: e.target.innerText,
-      newTab: e.target.innerText
+      currentFile: e.target.title,
+      newTab: e.target.title
     });
   }
 
@@ -218,7 +218,7 @@ class AddSolution extends React.Component {
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v, i) => <div className="tab" onClick={this.handleTabClick} name={v.filename}>{v.filename}</div>)}
+          {this.state.files.map((v, i) => <div className="tab" onClick={this.handleTabClick}  data-delay='{"show":"200", "hide":"200"}' data-toggle="tooltip" data-placement="right" title={v.filename} >{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">
