@@ -25,6 +25,7 @@ function welcomeNotification() {
     transporter.sendMail(Mail, (err, info) => {
       if (err) {
         console.log(err)
+        
       } else {
         console.log(`email has been sent`)
       }
@@ -298,7 +299,7 @@ function welcomeNotification() {
         .json({status: `NewFIleSolutionfailed${err}`})
     })
   }
-}
+
 
 
 
