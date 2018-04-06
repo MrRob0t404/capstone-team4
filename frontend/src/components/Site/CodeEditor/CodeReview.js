@@ -206,7 +206,6 @@ class AceEditor extends React.Component {
   handleTabClick = e => {
     let { left, right } = this.aceDiffer.getEditors();
     let path = e.target.title
-    console.log(path)
     left.setValue(this.state.originalCode[path], -1);
     left.clearSelection()
     right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][path] || this.state.originalCode[path] : this.state.originalCode[path], -1);
@@ -259,7 +258,6 @@ class AceEditor extends React.Component {
     const { rightEditor, problemPosterID, problemStatus } = this.state;
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     let submitSolutionButton;
-    console.log(`state`, this.state)
       if(this.props.user) {
         if(this.props.user.id !== problemPosterID) {
           submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
