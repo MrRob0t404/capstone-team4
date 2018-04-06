@@ -63,13 +63,15 @@
 .solution-header {
   width: 100%;
   height: 15%;
+  grid-area: header;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-self: center;
 }
 
 .solution-header > a {
   width: 150px;
+  margin-right: 4%;
 }
 
 .solution-header > a > button {
@@ -77,25 +79,36 @@
   background-color: #8AD42C;
   color: white;
   padding: 6% 4%;
-  float: right;
+  /*float: right;*/
 }
 
 .solution-header > h2 {
   margin: 0;
 }
 
+.active-tab {
+	background-color: #888 !important;
+}
+
 .tab {
-  width: 16vh;
-  height: 4vh;
+  width: 4vh;
+  height: 16vh;
   background-color: #eee;
   text-align: center;
-  margin: 30px -6vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /*margin: 30px -6vh;*/
+  display: block;
+  /*justify-content: center;
+  align-items: center;*/
   border: 1px solid #555;
-  border-width: 1px 1px 0 1px;
-  transform: rotate(90deg);
+  border-width: 1px 0px 1px 1px;
+  border-radius: 16px 0px 0px 0px;
+  /*transform: rotate(90deg);*/
+  writing-mode: vertical-rl;
+  /*text-orientation: upright;*/
+  font-weight: 800;
+  font-size: 2rem;
+  /*z-index: 900;*/
+  cursor: pointer;
 }
 
 .user-info {
@@ -135,15 +148,18 @@
 }
 
 #editor-container {
+  grid-area: editor;
   height: 100%;
 }
 
 #file-tabs {
-  width: 1vw;
+  /*width: 1vw;*/
   height: 100%;
+  grid-area: ftabs;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: start;
+  align-items: flex-end;
 }
 
 #pane-nav {
@@ -153,8 +169,9 @@
 }
 
 #right-pane {
-  width: 20vw;
+  /*width: 20%;*/
   height: 100%;
+  grid-area: rpane;
   padding-top: 10px;
   background-color: #eee;
   border-left: 1px solid #ddd;
@@ -164,10 +181,12 @@
 #solution {
   width: 100%;
   height: 90vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 5% auto 20%;
+  grid-template-rows: 10% auto;
+  grid-template-areas:
+  	". header rpane"
+	"ftabs editor rpane";
 }
 
 #switch-solution-buttons {
