@@ -81,19 +81,19 @@ function logoutUser(req, res, next) {
     .send("log out success");
 };
 
-function getUser(req, res, next) {
-  db
-    .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
-    .then(data => {
-      res
-        .status(200)
-        .json({user: data});
-    })
-};
+  function getUser(req, res, next) {
+    db
+      .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
+      .then(data => {
+        res
+          .status(200)
+          .json({user: data});
+      })
+  };
 
-function getTicketFeed(req, res, next) {
-  db
-    .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
+  function getTicketFeed(req, res, next) {
+    db
+      .any(`SELECT tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, problems.problem_description, COUNT(users.id=solutions.solution_userid) AS responses
     FROM tickets JOIN users ON tickets.ticket_userid = users.id LEFT JOIN solutions ON solutions.ticketid = tickets.id JOIN problems ON problems.ticketid = tickets.id
     GROUP BY tickets.title, tickets.problemstatus, tickets.ticketdate, tickets.id, users.username, users.profile_pic, tickets.ticket_userid, problems.problem_description
     ORDER BY tickets.id DESC`)
@@ -195,9 +195,12 @@ function getUserProfileSolutions(req, res, next) {
           "olutions.ticketid = tickets.id WHERE solutions.solution_userid = ${id} GROUP BY " +
           "tickets.id, users.id, solutions.id ORDER BY tickets.id DESC", {id: data.id})
         .then(data => {
-          res
-            .status(200)
-            .json({data: data})
+          console.log(`ProblemPoster`,data)
+          console.log(`ProblemSovler`, req.user)
+          solutionNotification(data, req.user)
+        })
+        .catch(err => {
+          console.log(err)
         })
     })
     .catch(err => {
