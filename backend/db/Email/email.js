@@ -37,7 +37,7 @@ const welcome = (user) => {
    `)
 }
 
-const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, problemDesc, solutionDesc) => {
+const solutionNotification = (user, userImg, problemSolver, problemSolverImg, problemDesc, solutionDesc) => {
 
     return (`<!doctype html>
     <html>

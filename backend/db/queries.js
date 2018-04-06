@@ -4,11 +4,14 @@ const passport = require("../auth/local");
 const nodemailer = require('nodemailer');
 const notifications = require('./Email/email')
 
+const dotenv = require('dotenv')
+dotenv.load(); 
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'TyroDevTeam@gmail.com',
-    pass: 'pusheenthelimits'
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD
   }
 })
 
@@ -64,8 +67,12 @@ function createUser(req, res, next) {
     })
 }
 
-
-
+function logoutUser(req, res, next) {
+  req.logout();
+  res
+    .status(200)
+    .send("log out success");
+};
 
 function logoutUser(req, res, next) {
   req.logout();
@@ -74,25 +81,15 @@ function logoutUser(req, res, next) {
     .send("log out success");
 };
 
-
-
-
-function logoutUser(req, res, next) {
-  req.logout();
-  res
-    .status(200)
-    .send("log out success");
+function getUser(req, res, next) {
+  db
+    .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
+    .then(data => {
+      res
+        .status(200)
+        .json({user: data});
+    })
 };
-
-  function getUser(req, res, next) {
-    db
-      .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
-      .then(data => {
-        res
-          .status(200)
-          .json({user: data});
-      })
-  };
 
 function getTicketFeed(req, res, next) {
   db
@@ -276,7 +273,6 @@ function newProblems(req, res, next, ticketid, file) {
         .json({status: 'failed'})
     })
 };
-
 
 function newFileSolution(req, res, next, ticketid, file) {
   db.one("INSERT INTO files (code, filename, ticketid, language, file_userid)VALUES(${code" +
