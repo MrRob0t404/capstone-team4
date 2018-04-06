@@ -1,0 +1,199 @@
+.container-fluid {
+  margin: 1vh;
+  padding: 0 8%;
+  font-size: 1.2em;
+}
+
+.hidden {
+  display: none;
+}
+
+.icon-bar {
+  background: white;
+}
+
+.navbar {
+  border-radius: 0;
+  background: #272633;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  border: none;
+}
+
+.navbar-brand, .navbar-brand:hover{
+  color: #00C1AB;
+  font-size: 2em;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.navbar-brand {
+  padding: 5px;
+}
+
+.navbar-nav > li, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+  color: white;
+}
+
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    background: none;
+}
+
+.navbar-nav > li > p {
+    position: relative;
+    display: block;
+    padding: 15px 0;
+    color: #8FCCB8;
+    font-weight: bold;
+}
+
+.navbar-left > li:last-of-type {
+  padding: 0;
+  margin-right: 0%;
+}
+
+.navbar-toggle {
+  z-index: 1;
+}
+
+.sign-up-button {
+  background: linear-gradient(to right, #00C1AB, #8FCCB8);
+  color: white;
+  border-radius: 30px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.underline {
+  border-bottom: 1px solid;
+}
+
+/* ////////////////////////////////////// */
+
+body {
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  color: #272633;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  opacity: .6;
+  text-decoration: none;
+  background-color: inherit;
+}
+
+a:focus {
+  background: inherit;
+  text-decoration: none;
+}
+
+button, input, textarea {
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+}
+
+button:disabled {
+  color: #ccc;
+}
+
+input {
+  padding: 10px 20px;
+  color: #272633;
+}
+
+li {
+  list-style: none;
+}
+
+p{
+  word-break: break-word;
+}
+
+ul {
+  padding: 0;
+  text-align: center;
+}
+
+.dull {
+  color: #555;
+}
+
+.fa-code {
+  font-size: 2em;
+  color: #00C1AB;
+}
+
+.fullWidth {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#footer {
+  height: 15vh;
+  padding: 0 5%;
+  border-top: 1px solid #ddd;
+  background: #272633;
+  color: white;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#footer > p > a {
+  color: #8AD42C;
+  font-size: 1.2em;
+}
+
+#footer > .fa-github {
+  font-size: 2.5em;
+  color: #00C1AB;
+  margin-left: 47.5%;
+}
+
+.green {
+  color: #7FD017;
+}
+
+.blue{
+  color: #00C1AB;
+}
+
+.light-blue {
+  color: #8FCCB8;
+}
+
+.white {
+  color: white;
+}
+
+.blue-gray {
+  color: #4E4D58;
+}
+
+.gray {
+  color: #555;
+}
+
+@media (max-width: 768px) {
+
+  #footer > .fa-github {
+    margin-left: 2vw;
+  }
+
+  #footer > p {
+    margin: 0;
+  }
+
+}
