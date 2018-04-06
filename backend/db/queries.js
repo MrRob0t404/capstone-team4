@@ -64,13 +64,8 @@ function createUser(req, res, next) {
     })
 }
 
-// function createUser(req, res, next) {   return authHelpers
-// .createUser(req)     .then(response => {       passport.authenticate("local",
-// (err, user, info) => {         if (user) {           res.status(200).json({
-//           status: "success",             data: user,             message:
-// "Registered one user"           });         }       })(req, res, next);
-// })     .catch(err => {       res.status(500).json({         error: err,
-// });     }); }
+
+
 
 function logoutUser(req, res, next) {
   req.logout();
@@ -79,41 +74,8 @@ function logoutUser(req, res, next) {
     .send("log out success");
 };
 
-function getUser(req, res, next) {
-  db
-    .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
-    .then(data => {
-      res
-        .status(200)
-        .json({user: data});
-    })
 
-}
 
-function createUser(req, res, next) {
-  const hash = authHelpers.createHash(req.body.password);
-  console.log("create user hash:", hash);
-  db
-    .none(`INSERT INTO users (username, password_digest, email) 
-      VALUES ($1, $2, $3)`, [req.body.username, hash, req.body.email])
-    .then(() => {
-      console.log("req.body.username", req.body.username)
-      res.send(`created user: ${req.body.username}`);
-    })
-    .catch(err => {
-      console.log(err);
-      res
-        .status(500)
-        .send("error creating user");
-    });
-}
-
-// function createUser(req, res, next) {   return authHelpers .createUser(req)
-// .then(response => {       passport.authenticate("local", (err, user, info) =>
-// {         if (user) {           res.status(200).json({           status:
-// "success",             data: user,             message: "Registered one user"
-//           });         }       })(req, res, next); })     .catch(err => {
-// res.status(500).json({         error: err, });     }); }
 
 function logoutUser(req, res, next) {
   req.logout();
@@ -122,16 +84,15 @@ function logoutUser(req, res, next) {
     .send("log out success");
 };
 
-function getUser(req, res, next) {
-  db
-    .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
-    .then(data => {
-      res
-        .status(200)
-        .json({user: data});
-    })
-  welcomeNotification();
-};
+  function getUser(req, res, next) {
+    db
+      .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
+      .then(data => {
+        res
+          .status(200)
+          .json({user: data});
+      })
+  };
 
 function getTicketFeed(req, res, next) {
   db
@@ -316,33 +277,6 @@ function newProblems(req, res, next, ticketid, file) {
     })
 };
 
-function newSolution(req, res, next, ticketid, file) {
-  db.none("INSERT INTO solutions(ticketID, solution_userid, solution_description, postDate)" +
-      " VALUES(${ticketid}, ${userid}, ${solution_desc}, ${postDate})", {
-    ticketid: Number(ticketid),
-    userid: req.user.id,
-    solution_desc: req.body.solution_desc,
-    postDate: req.body.postDate
-  }).then(() => {
-    db
-      .one("SELECT tickets.id, problem_description, problems.lines, tickets.ticket_userid, t" +
-        "icketdate, problemstatus, tickets.title, users.username, users.profile_pic, user" +
-        "s.fullName, users.email FROM problems JOIN tickets ON tickets.id = problems.tick" +
-        "etid JOIN users ON users.id=tickets.ticket_userid WHERE problems.ticketid = ${ti" +
-        "cketid}", {ticketid: Number(ticketid)})
-      .then(data => {
-        solutionNotification(data, req.user)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }).catch(err => {
-    console.log(`newSolutionerr${err}`)
-    res
-      .status(500)
-      .json({status: `NewSolutionfailed${err} `})
-  })
-}
 
 function newFileSolution(req, res, next, ticketid, file) {
   db.one("INSERT INTO files (code, filename, ticketid, language, file_userid)VALUES(${code" +
