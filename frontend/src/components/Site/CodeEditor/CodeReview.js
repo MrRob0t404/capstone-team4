@@ -206,6 +206,7 @@ class AceEditor extends React.Component {
   handleTabClick = e => {
     let { left, right } = this.aceDiffer.getEditors();
     let path = e.target.title
+    console.log(path)
     left.setValue(this.state.originalCode[path], -1);
     left.clearSelection()
     right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][path] || this.state.originalCode[path] : this.state.originalCode[path], -1);
@@ -216,7 +217,8 @@ class AceEditor extends React.Component {
   changeSolution = e => {
     let { right } = this.aceDiffer.getEditors();
     let currentSolver = this.state.currentSolver
-    if (e.target.innerText === "Next") {
+    console.log('direction', e.target.dataset.direction)
+    if (e.target.dataset.direction === "Next") {
       currentSolver += 1
     } else {
       currentSolver -= 1
@@ -257,7 +259,7 @@ class AceEditor extends React.Component {
     const { rightEditor, problemPosterID, problemStatus } = this.state;
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     let submitSolutionButton;
-    console.log(`problemstatus`, problemStatus)
+    console.log(`state`, this.state)
       if(this.props.user) {
         if(this.props.user.id !== problemPosterID) {
           submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
@@ -289,8 +291,8 @@ class AceEditor extends React.Component {
           </div>
           <div className="acediff"></div>
           <div id="switch-solution-buttons">
-            <button onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}>Previous</button>
-            <button onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}>Next</button>
+            <button data-direction="Previous" onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}><i data-direction="Previous" class="fas fa-angle-left"></i></button>
+            <button data-direction="Next" onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}><i data-direction="Next" class="fas fa-angle-right"></i></button>
           </div>
         </div>
         <div id="right-pane">
@@ -299,10 +301,8 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            {this.state.renderDescription
-              ? this.renderDescription()
-              : this.renderComments()
-            }
+            <div className={this.state.renderDescription ? '' : 'hidden'} >{this.renderDescription()}</div>
+            <div className={this.state.renderDescription ? 'hidden' : ''} >{this.renderComments()}</div>
           </div>
         </div>
       </div>

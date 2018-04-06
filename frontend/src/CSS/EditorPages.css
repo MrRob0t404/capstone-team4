@@ -135,7 +135,7 @@
 }
 
 #editor-container {
-  width: 60%;
+  width: 65%;
   height: 100%;
 }
 
@@ -174,4 +174,13 @@
 #switch-solution-buttons {
   display: flex;
   justify-content: center;
+}
+
+#switch-solution-buttons > button {
+  color: #00C1AB;
+  font-size: 2.5em;
+}
+
+#switch-solution-buttons > button:disabled {
+  color: #ddd;
 }
