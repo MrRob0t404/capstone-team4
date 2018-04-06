@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS tyrodev;
-CREATE DATABASE tyrodev;
+-- DROP DATABASE IF EXISTS tyrodev;
+-- CREATE DATABASE tyrodev;
 
-\c tyrodev;
+-- \c tyrodev;
 
 
-DROP TABLE IF EXISTS users, tickets, files, problems, problem, solutions, comments, tickets, solution;
+-- DROP TABLE IF EXISTS users, tickets, files, problems, problem, solutions, comments, tickets, solution;
 
 CREATE TABLE users (
     ID SERIAL PRIMARY KEY,

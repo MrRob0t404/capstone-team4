@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "debug": "LOGFILE=`date +%m-%e-%Y-%H%M%S%Z`.txt; mkdir -p logs/ && ln -sf $LOGFILE logs/current.txt && DEBUG='*' nodemon ./bin/www 2>&1 | tee logs/$LOGFILE"
+    "debug": "LOGFILE=`date +%m-%e-%Y-%H%M%S%Z`.txt; mkdir -p logs/ && ln -sf $LOGFILE logs/current.txt && DEBUG='*' nodemon ./bin/www 2>&1 | tee logs/$LOGFILE",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
