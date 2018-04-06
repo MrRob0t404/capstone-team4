@@ -282,7 +282,7 @@ class AceEditor extends React.Component {
     return (
       <div id="solution">
         <div id="file-tabs">
-          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className="tab" onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
+          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className="tab" id={this.state.currentFile===v.filename ? 'selected-tab' : ''} onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
         </div>
         <div id="editor-container">
           <div className="solution-header">

@@ -56,8 +56,9 @@
   width: 100%;
 }
 
-.selected-cell {
-  background-color: #8FCCB8;
+#selected-tab {
+  background-color: #eee;
+  border-color: #555;
 }
 
 .solution-header {
@@ -87,7 +88,6 @@
 .tab {
   width: 16vh;
   height: 4vh;
-  background-color: #eee;
   text-align: center;
   margin: 30px -6vh;
   display: flex;
