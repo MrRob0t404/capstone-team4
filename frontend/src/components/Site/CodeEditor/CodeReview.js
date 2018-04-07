@@ -215,17 +215,19 @@ class AceEditor extends React.Component {
 
   handleTabClick = e => {
     let { left, right } = this.aceDiffer.getEditors();
-    left.setValue(this.state.originalCode[e.target.innerText], -1);
+    let path = e.target.title
+    left.setValue(this.state.originalCode[path], -1);
     left.clearSelection()
-    right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][e.target.innerText] || this.state.originalCode[e.target.innerText] : this.state.originalCode[e.target.innerText], -1);
+    right.setValue(this.state.solutionCode[this.state.currentSolver] ? this.state.solutionCode[this.state.currentSolver][path] || this.state.originalCode[path] : this.state.originalCode[path], -1);
     right.clearSelection()
-    this.setState({ currentFile: e.target.innerText });
+    this.setState({ currentFile: path});
   }
 
   changeSolution = e => {
     let { right } = this.aceDiffer.getEditors();
     let currentSolver = this.state.currentSolver
-    if (e.target.innerText === "Next") {
+    console.log('direction', e.target.dataset.direction)
+    if (e.target.dataset.direction === "Next") {
       currentSolver += 1
     } else {
       currentSolver -= 1
@@ -234,11 +236,11 @@ class AceEditor extends React.Component {
     right.setValue(this.state.solutionCode[currentSolver][this.state.currentFile] || this.state.originalCode[this.state.currentFile], -1);
     right.clearSelection()
   }
-  
+
   handleProblemStatus = () => {
     const { problemStatus } = this.state;
     if(problemStatus === '0') {
-      axios 
+      axios
       .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/1`)
       .then(res => {
         this.setState({
@@ -247,9 +249,9 @@ class AceEditor extends React.Component {
       })
       .catch(err => {
         console.log(err)
-      })  
+      })
     } else {
-      axios 
+      axios
       .patch(`/users/updateTicketProblemStatus/${this.props.props.match.params.issuesID}/0`)
       .then(res => {
         this.setState({
@@ -258,7 +260,7 @@ class AceEditor extends React.Component {
       })
       .catch(err => {
         console.log(err)
-      }) 
+      })
     }
   }
 
@@ -266,26 +268,25 @@ class AceEditor extends React.Component {
     const { rightEditor, problemPosterID, problemStatus } = this.state;
     this.state.description && this.state.renderEditor ? this.renderAceEditor() : ''
     let submitSolutionButton;
-    console.log(`problemstatus`, problemStatus)
-      if(this.props.user) {  
+      if(this.props.user) {
         if(this.props.user.id !== problemPosterID) {
           submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
         } else if(this.props.user.id === problemPosterID) {
           if(this.state.solutionData.length === 0) {
             submitSolutionButton = <div>
-            Looks like you posted this problem, let's let someone else solve it!
-            </div> 
-          } 
+            Looks like you posted this problem, let{"'"}s let someone else solve it!
+            </div>
+          }
           if(problemStatus === '0') {
-            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>            
+            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>
           } else {
-            submitSolutionButton = <div>We're glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
+            submitSolutionButton = <div>We{"'"}re glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
           }
         }
       } else {
         submitSolutionButton = <Link to='/login'>Sign in here! to submit a solution</Link>
       }
-  
+
     return (
      <div id="solution">
 	<div className="solution-header">
@@ -293,13 +294,13 @@ class AceEditor extends React.Component {
              {submitSolutionButton}
         </div>
         <div id="file-tabs">
-          {this.state.files.map((v, i) => <div className={"tab" + (this.state.currentFile === v.filename ? " active-tab" : "")} onClick={this.handleTabClick}>{v.filename}</div>)}
+          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className={"tab" + (this.state.currentFile === v.filename ? " active-tab" : "")} onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
         </div>
         <div id="editor-container">
                     <div className="acediff"></div>
           <div id="switch-solution-buttons">
-            <button onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}>Previous</button>
-            <button onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}>Next</button>
+            <button data-direction="Previous" onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}><i data-direction="Previous" class="fas fa-angle-left"></i></button>
+            <button data-direction="Next" onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}><i data-direction="Next" class="fas fa-angle-right"></i></button>
           </div>
         </div>
         <div id="right-pane">
@@ -311,7 +312,7 @@ class AceEditor extends React.Component {
             {this.state.renderDescription
               ? this.renderDescription()
               : ""}
-	    {this.renderComments()}
+	          {this.renderComments()}
         </div>
       </div>
      </div>

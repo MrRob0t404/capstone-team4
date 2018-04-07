@@ -14,16 +14,16 @@ class IssuesFeed extends React.Component {
   }
 
   componentDidMount() {
-    this.openIssues();
-    this.solvedIssues();
     this.allIssues();
+    this.solvedIssues();
+    this.openIssues();
   }
 
 
   renderIssues = () => {
     const { userdata, filterInput } = this.state;
     return userdata.filter(data => data.title.toLowerCase().includes(filterInput.toLowerCase()) ||
-      data.problem_description.toLowerCase().slice(0,100).includes(filterInput.toLowerCase())).map((v, i) =>
+      data.problem_description.toLowerCase().includes(filterInput.toLowerCase())).map((v, i) =>
         <div class="issue" id={`${i}`}>
           <img src={v.profile_pic} />{" "}
           <div>
@@ -32,7 +32,7 @@ class IssuesFeed extends React.Component {
           </div>
           <Link to={`/issues/${v.id}`}>
             <h3>{v.title}</h3></Link>
-          <p>{v.problem_description}</p>
+          <p>{`${v.problem_description.slice(0,250)}....`}</p>
           <div>
             <p>{v.responses === '0' ? 'No responses, be the first!' : `${v.responses} Responses`}</p>
             <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>

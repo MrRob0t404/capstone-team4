@@ -56,8 +56,9 @@
   width: 100%;
 }
 
-.selected-cell {
-  background-color: #8FCCB8;
+#selected-tab {
+  background-color: #eee;
+  border-color: #555;
 }
 
 .solution-header {
@@ -192,4 +193,13 @@
 #switch-solution-buttons {
   display: flex;
   justify-content: center;
+}
+
+#switch-solution-buttons > button {
+  color: #00C1AB;
+  font-size: 2.5em;
+}
+
+#switch-solution-buttons > button:disabled {
+  color: #ddd;
 }

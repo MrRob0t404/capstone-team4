@@ -84,15 +84,6 @@ function logoutUser(req, res, next) {
 };
 
 
-
-
-  function logoutUser(req, res, next) {
-    req.logout();
-    res
-      .status(200)
-      .send("log out success");
-  };
-
   function getUser(req, res, next) {
     db
       .one("SELECT * FROM users WHERE username=${username}", {username: req.user.username})
@@ -300,6 +291,8 @@ function newSolution(req, res, next, ticketid, file) {
         "JOIN users ON users.id=tickets.ticket_userid " +
         "WHERE problems.ticketid = ${ticketid}", { ticketid: Number(ticketid) })
         .then(data => {
+          console.log(`ProblemPoster`,data)
+          console.log(`ProblemSovler`, req.user)
           solutionNotification(data, req.user)
         })
         .catch(err => {

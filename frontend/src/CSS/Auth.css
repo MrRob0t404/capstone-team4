@@ -41,7 +41,9 @@
 }
 
 .auth-container > h2 {
+  color: #00C1AB;
   margin: 0 auto 4vh auto;
+  font-weight: bold;
 }
 
 #login-container, #register-container {

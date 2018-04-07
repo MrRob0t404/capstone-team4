@@ -44,8 +44,8 @@ class SoloEditor extends Component {
 
     // this.setState({selectedFile: e.target.name})
     this.setState({
-      selectedFile: e.target.name,
-      mode: getModeForPath(e.target.name)
+      selectedFile: e.target.title,
+      mode: getModeForPath(e.target.title)
     })
   }
 
@@ -124,7 +124,7 @@ class SoloEditor extends Component {
             {this
               .props
               .selectedFilesNames
-              .map(v => <button className='tab' key={v} name={v} onClick={this.handleTabClick}>{v}</button>)}
+              .map(v => <button className='tab' key={v} data-toggle="tooltip" data-placement="right" title={v} onClick={this.handleTabClick}>{v.match(/(\w*\b\.\w*)/g)[0]}</button>)}
           </div>
           <div id="editor-container">
             <h2>{title}</h2>
@@ -148,10 +148,12 @@ class SoloEditor extends Component {
               <div className="description">
                 <h3>Description</h3>
                 <p>
-                  ex. My issue is on lines 20-27. I{"'"}ve tried to log all my values but they seem correct.
-                  I get the error 'cannot read value of undefined' but all my values are defined.
+
                 </p>
-                <textarea onChange={this.handleDescription} value={this.state.description}></textarea>
+                <textarea onChange={this.handleDescription} value={this.state.description}
+                  placeholder={`ex. My issue is on lines 20-27. I printed all my values and they{"'"}re correc but
+                  I keep getting the error 'cannot read value of undefined.'`}
+                ></textarea>
               </div>
               <button onClick={this.submit}>Done</button>
             </div>
