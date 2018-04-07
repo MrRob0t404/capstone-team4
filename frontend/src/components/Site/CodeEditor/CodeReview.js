@@ -153,7 +153,7 @@ class AceEditor extends React.Component {
   }
 
   renderDescription = () => (
-    <div>
+    <div id="description">
       <div className="description">
         <h3>Description</h3>
         {this.state.files[0] ?
@@ -187,20 +187,30 @@ class AceEditor extends React.Component {
   )
 
   renderComments = () => {
-    (function () {
-      let s = document.createElement("script");
-      s.src = "https://tyrodev.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", + new Date());
-      (document.head || document.body).appendChild(s);
-    })();
-
-    return <div id="disqus_thread"></div>
+	  if (!window.DISQUS) {
+	    (function () {
+	      let s = document.createElement("script");
+ 	     s.src = "https://tyrodev.disqus.com/embed.js";
+ 	     s.setAttribute("data-timestamp", + new Date());
+ 	     (document.head || document.body).appendChild(s);
+ 	   })();
+	  }
+	  return <div id="disqus_thread" style={{zIndex: this.state.renderDescription ? -1 : 0}}></div>;
   }
 
   togglePane = e => {
-    e.target.innerText === "Description"
-      ? this.setState({ renderDescription: true })
-      : this.setState({ renderDescription: false })
+    //let disqElm = document.getElementById("disqus_thread");
+    if (e.target.innerText === "Description") {
+      /*if (disqElm) {
+	    disqElm.style.display = "none";
+      }*/
+      this.setState({ renderDescription: true });
+    } else {
+      /*if (disqElm) {
+	      disqElm.style.display = "default";
+      }*/
+      this.setState({ renderDescription: false });
+    }
   }
 
   handleTabClick = e => {
@@ -278,16 +288,16 @@ class AceEditor extends React.Component {
       }
 
     return (
-      <div id="solution">
-        <div id="file-tabs">
-          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className="tab" id={this.state.currentFile===v.filename ? 'selected-tab' : ''} onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
-        </div>
-        <div id="editor-container">
-          <div className="solution-header">
+     <div id="solution">
+	<div className="solution-header">
             <h2>{this.state.title}</h2>
              {submitSolutionButton}
-          </div>
-          <div className="acediff"></div>
+        </div>
+        <div id="file-tabs">
+          {this.state.files.map((v, i) => <div data-toggle="tooltip" data-placement="right" title={v.filename} className={"tab" + (this.state.currentFile === v.filename ? " active-tab" : "")} onClick={this.handleTabClick}>{v.filename.match(/(\w*\b\.\w*)/g)[0]}</div>)}
+        </div>
+        <div id="editor-container">
+                    <div className="acediff"></div>
           <div id="switch-solution-buttons">
             <button data-direction="Previous" onClick={this.changeSolution} disabled={this.state.currentSolver <= 0}><i data-direction="Previous" class="fas fa-angle-left"></i></button>
             <button data-direction="Next" onClick={this.changeSolution} disabled={this.state.currentSolver >= this.state.solutionCode.length - 1}><i data-direction="Next" class="fas fa-angle-right"></i></button>
@@ -299,11 +309,13 @@ class AceEditor extends React.Component {
             <p onClick={this.togglePane}>Comments</p>
           </div>
           <div className="pane-section">
-            <div className={this.state.renderDescription ? '' : 'hidden'} >{this.renderDescription()}</div>
-            <div className={this.state.renderDescription ? 'hidden' : ''} >{this.renderComments()}</div>
-          </div>
+            {this.state.renderDescription
+              ? this.renderDescription()
+              : ""}
+	          {this.renderComments()}
         </div>
       </div>
+     </div>
     )
   }
 }
