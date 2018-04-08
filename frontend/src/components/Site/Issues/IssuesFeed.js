@@ -34,7 +34,7 @@ class IssuesFeed extends React.Component {
             <h3>{v.title}</h3></Link>
           <p>{`${v.problem_description.slice(0,250)}....`}</p>
           <div>
-            <p>{v.responses === '0' ? 'No responses, be the first!' : `${v.responses} Responses`}</p>
+            <p>{v.responses === '0' ? 'No responses, be the first!' : `${v.responses} Response(s)`}</p>
             <p>Status: <span className={v.problemstatus === '0' ? 'open' : 'closed'}>{v.problemstatus === '0' ? 'Open' : 'Closed'}</span></p>
           </div>
         </div>)

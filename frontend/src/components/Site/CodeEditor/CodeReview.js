@@ -268,9 +268,9 @@ class AceEditor extends React.Component {
             </div>
           }
           if(problemStatus === '0') {
-            submitSolutionButton = <div>Did you find these solution(s) helpful?<button className="solution-header-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>
+            submitSolutionButton = <div><p>Did you find these solution(s) helpful?</p><button className="solution-header-button closed-button" onClick={this.handleProblemStatus}>OPEN</button></div>
           } else {
-            submitSolutionButton = <div>We{"'"}re glad you found these solutons helpful!<button className="solution-header-button" onClick={this.handleProblemStatus}>SOLVED</button></div>
+            submitSolutionButton = <div><p>We{"'"}re glad you found these solutons helpful!</p><button className="solution-header-button  open-button" onClick={this.handleProblemStatus}>CLOSED</button></div>
           }
         }
       } else {

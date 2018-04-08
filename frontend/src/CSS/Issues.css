@@ -30,6 +30,10 @@
   align-items: center;
 }
 
+.issue > div > a {
+  margin-left: 5px;
+}
+
 .issue > div > p {
   margin: 0;
 }

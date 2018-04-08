@@ -76,12 +76,8 @@
   color: #8AD42C;
 }
 
-#choose-files {
-  min-height: 75vh;
-}
-
 #choose-files > h2 {
-  margin: 0 auto 5% auto;
+  margin: 0 auto 40px auto;
   color: #8AD42C;
 }
 
@@ -91,7 +87,7 @@
 }
 
 #choose-files, #newIssue {
-  padding: 5%;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   background-color: #eee;
@@ -115,11 +111,6 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
-
-/* #choose-files > .fullWidth > a > button {
-  margin-left: 80vw;
-} */
 
 .fullWidth > a > button, .fullWidth > input[type="submit"] {
   width: 5em;
@@ -178,7 +169,7 @@
 
 #select-files-container {
   width: 100%;
-  min-height: 75vh;
+  min-height: 65vh;
   display: flex;
   justify-content: center;
 }
