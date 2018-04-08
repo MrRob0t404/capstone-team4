@@ -73,12 +73,26 @@
   width: 150px;
 }
 
-.solution-header > a > button {
-  width: 100%;
+.solution-header > div {
+  display: flex;
+  align-items: center;
+}
+
+.solution-header > div > p {
+  margin-bottom: 0;
+  margin-right: 20px;
+}
+
+.solution-header-button {
+  width: 10em;
   background-color: #8AD42C;
   color: white;
-  padding: 6% 4%;
+  padding: 10px;
   float: right;
+}
+
+.open-button {
+  background: #00C1AB !important;
 }
 
 .solution-header > h2 {
@@ -86,16 +100,21 @@
 }
 
 .tab {
-  width: 16vh;
+  width: 125px;
   height: 4vh;
   text-align: center;
   margin: 30px -6vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 5px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   border: 1px solid #555;
   border-width: 1px 1px 0 1px;
   transform: rotate(90deg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-info {
@@ -110,6 +129,10 @@
   align-items: center;
 }
 
+.user-info > div > p {
+  margin-left: 5px;
+}
+
 .user-info > div > img {
   width: 35px;
   height: 35px;
@@ -117,7 +140,7 @@
 }
 
 .user-info > p,  .user-info > div > p{
-  margin: 0;
+  margin-bottom: 0;
 }
 
 #brace-editor {

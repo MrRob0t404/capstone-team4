@@ -30,13 +30,17 @@
   align-items: center;
 }
 
+.issue > div > a {
+  margin-left: 5px;
+}
+
 .issue > div > p {
   margin: 0;
 }
 
 .issue > img {
   width: 50px;
-  border-radius: 1000px;
+  border-radius: 100%;
   float: left;
 }
 
