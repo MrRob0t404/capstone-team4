@@ -262,7 +262,7 @@ class AceEditor extends React.Component {
     console.log(`state`, this.state)
       if(this.props.user) {
         if(this.props.user.id !== problemPosterID) {
-          submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`} id="submit-solution-button"><button>Submit Solution</button></Link>
+          submitSolutionButton = <Link to={`/issues/${this.props.props.match.params.issuesID}/solution/new`}><button className="solution-header-button">Submit Solution</button></Link>
         } else if(this.props.user.id === problemPosterID) {
           if(this.state.solutionData.length === 0) {
             submitSolutionButton = <div>
@@ -270,9 +270,9 @@ class AceEditor extends React.Component {
             </div>
           }
           if(problemStatus === '0') {
-            submitSolutionButton = <div>Did you find these solution(s) helpful?<button id="submit-solution-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>
+            submitSolutionButton = <div>Did you find these solution(s) helpful?<button className="solution-header-button" onClick={this.handleProblemStatus}>UNSOLVED</button></div>
           } else {
-            submitSolutionButton = <div>We{"'"}re glad you found these solutons helpful!<button onClick={this.handleProblemStatus}>SOLVED</button></div>
+            submitSolutionButton = <div>We{"'"}re glad you found these solutons helpful!<button className="solution-header-button" onClick={this.handleProblemStatus}>SOLVED</button></div>
           }
         }
       } else {

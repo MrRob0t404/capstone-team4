@@ -73,7 +73,7 @@
   width: 150px;
 }
 
-.solution-header > a > button {
+.solution-header-button {
   width: 100%;
   background-color: #8AD42C;
   color: white;
