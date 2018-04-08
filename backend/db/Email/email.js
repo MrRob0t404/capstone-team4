@@ -23,7 +23,7 @@ const welcome = (user) => {
                 <img src="../../../frontend/src/Logos/full-logo.svg">
             </div>
             <div id="welcomeMessage">
-                <h1>Welcome ${user}! We're so glad you've decided to join us at Tyro Dev</h1>
+                <h1>Welcome ${user.username}! We're so glad you've decided to join us at Tyro Dev</h1>
                 <a href ='#'>Click here to visit Tyro Dev!</a>
             </div>
             <div id="footer">    
@@ -37,7 +37,7 @@ const welcome = (user) => {
    `)
 }
 
-const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, problemDesc, solutionDesc) => {
+const solutionNotification = (problemPoster,problemSolver) => {
 
     return (`<!doctype html>
     <html>
@@ -47,7 +47,6 @@ const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, pr
            <title>Welcome!</title>
            <meta name="welcome" content="">
            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   
            <style>
 
            #container{text-align: center; width: 700px;}
@@ -63,11 +62,10 @@ const solutionNotification = (user, userImg ,problemSolver, problemSolverImg, pr
                 <img src="../../../frontend/src/Logos/full-logo.svg">
             </div>
             <div id="welcomeMessage">
-                <h1>Hey ${user}! ${problemSolver} posted a solution to your ticket!</h1>
-                <a href ='#'>
-                    <img src=${userImg}/> ${problemDesc} 
-                    <img src=${problemSolverImg}/> ${solutionDesc} 
-                </a>
+                <h1>Hey ${problemPoster.username}! ${problemSolver.username} posted a solution to your ticket!</h1>
+                <a href ='http://localhost:3000/issues/${problemPoster.id}'>Link to question</a>
+                    <img src='${problemPoster.profile_pic}' alt="profilepic"/> ${problemPoster.title} 
+                    <img src='${problemSolver.profile_pic}' alt=""/>  
             </div>
             <div id="footer">    
                 <footer>
