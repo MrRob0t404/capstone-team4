@@ -7,7 +7,7 @@
    "npm": "5.6.0"
   },
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "cd backend && nodemon ./bin/www",
     "debug": "LOGFILE=`date +%m-%e-%Y-%H%M%S%Z`.txt; mkdir -p logs/ && ln -sf $LOGFILE logs/current.txt && DEBUG='*' nodemon ./bin/www 2>&1 | tee logs/$LOGFILE",
     "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
   },
