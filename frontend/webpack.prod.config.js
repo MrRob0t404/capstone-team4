@@ -1,50 +1,48 @@
-const path = require('path')
-const webpack = require('webpack')
+var path = require('path');
+var webpack = require("webpack");
+
+var plugins = [];
+var devPlugins = [];
+
+var prodPlugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: true
+    }
+  })
+];
+
+plugins = plugins.concat(
+  process.env.NODE_ENV === 'production' ? prodPlugins : devPlugins
+)
 
 module.exports = {
-  devtool: 'source-map',
-
-  entry: [
-    './src/entry'
-  ],
-
+  context: __dirname,
+  entry: './src/entry.js',
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
+    filename: 'bundle.js'
   },
-  optimization: {
-    minimize: true,
-    runtimeChunk: true,
-    splitChunks: {
-        chunks: "async",
-        minSize: 1000,
-        minChunks: 2,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
-        name: true,
-        cacheGroups: {
-            default: {
-                minChunks: 1,
-                priority: -20,
-                reuseExistingChunk: true,
-            },
-            vendors: {
-                test: /[\\/]node_modules[\\/]/,
-                priority: -10
-            }
-        }
-    }
-},
+  resolve: {
+    extensions: ['.js', '.jsx', '*']
+  },
+  plugins: plugins,
   module: {
-    rules: [
-      { test: /\.js?$/,
-        use: 'babel-loader',
-        exclude: /(node_modules|bower_components)/},
-      { test: /\.css?$/,
-        use: 'css-loader' },
-      { test: /\.svg$/,
-        use: 'img-loader' }
+    loaders: [
+      {
+        test: /\.js?$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['react', 'es2015']
+        }
+      }
     ]
-  }
-}
+  },
+  devtool: 'source-map'
+};
