@@ -42,15 +42,7 @@ module.exports = {
         use: 'babel-loader',
         exclude: /(node_modules|bower_components)/},
       { test: /\.css?$/,
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          }
-        ],
+        use: 'css-loader',
         include: path.join(__dirname, 'src', 'styles') },
       { test: /\.png$/,
         use: 'img-loader' },
