@@ -39,7 +39,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.js?$/,
-        use: 'babel' },
+        use: 'babel-loader' },
       { test: /\.scss?$/,
         use: 'style!css!sass',
         include: path.join(__dirname, 'src', 'styles') },
