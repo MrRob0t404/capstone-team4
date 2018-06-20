@@ -53,9 +53,9 @@ module.exports = {
         ],
         include: path.join(__dirname, 'src', 'styles') },
       { test: /\.png$/,
-        use: 'img' },
+        use: 'img-loader' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        use: 'file'}
+        use: 'file-loader'}
     ]
   }
 }
