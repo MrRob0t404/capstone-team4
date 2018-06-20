@@ -33,7 +33,7 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progresss --colors",
+    "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
     "start": "node ./src/app.js"
   },
   "proxy": "http://localhost:3100/"
