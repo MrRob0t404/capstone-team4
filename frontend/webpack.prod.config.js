@@ -39,12 +39,21 @@ module.exports = {
   module: {
     rules: [
       { test: /\.js?$/,
-        use: 'babel-loader' },
-      { test: /\.scss?$/,
-        use: 'style!css!sass',
+        use: 'babel-loader',
+        exclude: /(node_modules|bower_components)/},
+      { test: /\.css?$/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ],
         include: path.join(__dirname, 'src', 'styles') },
       { test: /\.png$/,
-        use: 'file' },
+        use: 'img' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         use: 'file'}
     ]
