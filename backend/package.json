@@ -7,7 +7,7 @@
     "debug": "LOGFILE=`date +%m-%e-%Y-%H%M%S%Z`.txt; mkdir -p logs/ && ln -sf $LOGFILE logs/current.txt && DEBUG='*' nodemon ./bin/www 2>&1 | tee logs/$LOGFILE"
   },
   "dependencies": {
-    "@hapi/hapi": "^18.3.1",
+    "@hapi/hapi": "^18.4.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
